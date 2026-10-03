@@ -1,3 +1,5 @@
+import { TornEdge } from "./TornEdge";
+
 type Service = {
   code: string;
   name: string;
@@ -46,8 +48,9 @@ const SERVICES: Service[] = [
 
 export function Services() {
   return (
-    <section id="services" className="bg-paper py-24">
-      <div className="mx-auto max-w-[1400px] px-5 sm:px-8">
+    <section id="services" className="bg-paper pb-24">
+      <TornEdge className="-mt-4 text-paper sm:-mt-5" />
+      <div className="mx-auto max-w-[1400px] px-5 pt-24 sm:px-8">
         <div className="flex flex-col gap-4 border-b border-line pb-8 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <p className="font-mono text-[12px] uppercase tracking-wider text-red">

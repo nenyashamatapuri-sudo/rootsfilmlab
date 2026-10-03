@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { ApertureIris } from "./ApertureIris";
 
 export function Hero() {
@@ -46,18 +47,18 @@ export function Hero() {
       </div>
 
       <div className="relative mt-10 flex flex-wrap items-center justify-center gap-4 pb-14">
-        <a
-          href="#start"
+        <Link
+          href="/contact"
           className="bg-paper px-7 py-3.5 font-mono text-[13px] uppercase tracking-wider text-ink transition hover:brightness-95"
         >
           Start an order
-        </a>
-        <a
-          href="#pricing"
+        </Link>
+        <Link
+          href="/pricing"
           className="border border-paper/70 px-7 py-3.5 font-mono text-[13px] uppercase tracking-wider transition hover:bg-paper hover:text-ink"
         >
           See pricing
-        </a>
+        </Link>
       </div>
 
       <ul className="relative mx-auto grid max-w-[1400px] grid-cols-2 gap-x-6 gap-y-3 border-t border-line-on-dark px-5 py-6 font-mono text-[12px] uppercase tracking-wider text-paper/55 sm:grid-cols-4 sm:px-8">

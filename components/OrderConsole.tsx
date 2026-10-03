@@ -1,3 +1,5 @@
+import { TornEdge } from "./TornEdge";
+
 const TIMELINE = [
   { label: "Received", state: "done" as const },
   { label: "Developing", state: "done" as const },
@@ -13,8 +15,9 @@ const TICKET_ITEMS = [
 
 export function OrderConsole() {
   return (
-    <section className="bg-paper-dim py-24">
-      <div className="mx-auto max-w-[1400px] px-5 sm:px-8">
+    <section className="bg-paper-dim pb-24">
+      <TornEdge className="-mt-4 text-paper-dim sm:-mt-5" />
+      <div className="mx-auto max-w-[1400px] px-5 pt-24 sm:px-8">
         <p className="font-mono text-[12px] uppercase tracking-wider text-red">
           Your account
         </p>

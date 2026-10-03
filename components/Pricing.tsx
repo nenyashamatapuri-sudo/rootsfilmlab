@@ -1,3 +1,6 @@
+import Link from "next/link";
+import { TornEdge } from "./TornEdge";
+
 const TIERS = [
   {
     name: "Develop Only",
@@ -26,8 +29,9 @@ const TIERS = [
 
 export function Pricing() {
   return (
-    <section id="pricing" className="bg-paper py-24">
-      <div className="mx-auto max-w-[1400px] px-5 sm:px-8">
+    <section id="pricing" className="bg-paper pb-24">
+      <TornEdge className="-mt-4 text-paper sm:-mt-5" />
+      <div className="mx-auto max-w-[1400px] px-5 pt-24 sm:px-8">
         <p className="font-mono text-[12px] uppercase tracking-wider text-red">Pricing</p>
         <h2 className="stamp-shadow mt-2 font-display text-5xl leading-none sm:text-6xl">
           SIMPLE, PER ROLL.
@@ -65,8 +69,8 @@ export function Pricing() {
                   </li>
                 ))}
               </ul>
-              <a
-                href="#start"
+              <Link
+                href="/contact"
                 className={
                   "mt-2 border px-5 py-3 text-center font-mono text-[12px] uppercase tracking-wider transition " +
                   (tier.featured
@@ -75,7 +79,7 @@ export function Pricing() {
                 }
               >
                 Start an order
-              </a>
+              </Link>
             </div>
           ))}
         </div>
