@@ -7,7 +7,7 @@ const LINKS = [
 
 export function Nav() {
   return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-line-on-dark bg-ink/90 text-paper backdrop-blur">
+    <header className="sticky top-0 z-50 border-b border-line-on-dark bg-ink/95 text-paper">
       <div className="mx-auto flex max-w-[1400px] items-center justify-between px-5 py-4 sm:px-8">
         <a href="#top" className="flex items-center gap-2.5">
           <span className="relative block h-6 w-6 rounded-full border border-paper/70">

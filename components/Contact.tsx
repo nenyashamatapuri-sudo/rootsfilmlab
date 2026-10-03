@@ -6,7 +6,7 @@ export function Contact() {
           <p className="font-mono text-[12px] uppercase tracking-wider text-red">
             Questions
           </p>
-          <h2 className="mt-2 font-display text-5xl leading-none sm:text-6xl">
+          <h2 className="stamp-shadow mt-2 font-display text-5xl leading-none sm:text-6xl">
             WE ANSWER FAST.
           </h2>
           <p className="mt-4 max-w-md font-sans text-[15px] leading-relaxed text-ink/70">

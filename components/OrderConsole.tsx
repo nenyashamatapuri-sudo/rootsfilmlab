@@ -18,7 +18,7 @@ export function OrderConsole() {
         <p className="font-mono text-[12px] uppercase tracking-wider text-red">
           Your account
         </p>
-        <h2 className="mt-2 font-display text-5xl leading-none sm:text-6xl">
+        <h2 className="stamp-shadow mt-2 font-display text-5xl leading-none sm:text-6xl">
           KNOW WHERE YOUR ROLL IS.
         </h2>
         <p className="mt-4 max-w-xl font-sans text-[15px] leading-relaxed text-ink/70">

@@ -34,7 +34,7 @@ export function HowItWorks() {
         <p className="font-mono text-[12px] uppercase tracking-wider text-red">
           How it works
         </p>
-        <h2 className="mt-2 font-display text-5xl leading-none sm:text-6xl">
+        <h2 className="stamp-shadow mt-2 font-display text-5xl leading-none sm:text-6xl">
           ONE BOX, FOUR STEPS.
         </h2>
 

@@ -53,7 +53,7 @@ export function Services() {
             <p className="font-mono text-[12px] uppercase tracking-wider text-red">
               Services
             </p>
-            <h2 className="mt-2 font-display text-5xl leading-none sm:text-6xl">
+            <h2 className="stamp-shadow mt-2 font-display text-5xl leading-none sm:text-6xl">
               WHAT WE DEVELOP
             </h2>
           </div>
