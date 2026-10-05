@@ -1,4 +1,5 @@
-import { TornEdge } from "./TornEdge";
+import Link from "next/link";
+import { ZigzagDivider } from "./ZigzagDivider";
 
 type Service = {
   code: string;
@@ -6,6 +7,8 @@ type Service = {
   description: string;
   specs: string[];
   price: string;
+  accent: string;
+  tilt: number;
 };
 
 const SERVICES: Service[] = [
@@ -15,6 +18,8 @@ const SERVICES: Service[] = [
     description: "The one most people want. In the bag, out the other side as files.",
     specs: ["C-41, B&W or E-6", "Scanned at 2000dpi", "Delivered online + archived"],
     price: "from €9.50 / roll",
+    accent: "bg-red",
+    tilt: -1.5,
   },
   {
     code: "02",
@@ -22,6 +27,8 @@ const SERVICES: Service[] = [
     description: "For the darkroom printers. Negatives, cut and sleeved, nothing else.",
     specs: ["Hand processed", "Cut & sleeved", "Returned by post or pickup"],
     price: "from €6.00 / roll",
+    accent: "bg-blue",
+    tilt: 1,
   },
   {
     code: "03",
@@ -29,6 +36,8 @@ const SERVICES: Service[] = [
     description: "Already developed your own rolls? Send the negatives, get the files.",
     specs: ["Your negatives, our scanner", "High-res TIFF or JPEG", "Dust & scratch pass"],
     price: "from €7.50 / roll",
+    accent: "bg-gold",
+    tilt: -1,
   },
   {
     code: "04",
@@ -36,6 +45,8 @@ const SERVICES: Service[] = [
     description: "From any scan in your library, or straight off a fresh negative.",
     specs: ["4×6 standard, larger on request", "Optical or digital", "Matte or gloss"],
     price: "from €0.35 / print",
+    accent: "bg-cyan",
+    tilt: 1.5,
   },
   {
     code: "05",
@@ -43,18 +54,20 @@ const SERVICES: Service[] = [
     description: "Kodak, Fuji, Ilford — stocked and shipped same day from Amsterdam.",
     specs: ["35mm & 120 formats", "Fridge-kept stock", "Add to any order"],
     price: "from €8.00 / roll",
+    accent: "bg-pink",
+    tilt: -0.5,
   },
 ];
 
 export function Services() {
   return (
     <section id="services" className="bg-paper pb-24">
-      <TornEdge className="-mt-4 text-paper sm:-mt-5" />
+      <ZigzagDivider className="-mt-4 text-paper sm:-mt-5" />
       <div className="mx-auto max-w-[1400px] px-5 pt-24 sm:px-8">
-        <div className="flex flex-col gap-4 border-b border-line pb-8 sm:flex-row sm:items-end sm:justify-between">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <p className="font-mono text-[12px] uppercase tracking-wider text-red">
-              Services
+              Pick an option — click to start it
             </p>
             <h2 className="stamp-shadow mt-2 font-display text-5xl leading-none sm:text-6xl">
               WHAT WE DEVELOP
@@ -66,15 +79,23 @@ export function Services() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 border-l border-line sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {SERVICES.map((service) => (
-            <article
+            <Link
               key={service.code}
-              className="flex flex-col gap-4 border-b border-r border-line p-7"
+              href="#start"
+              style={{ transform: `rotate(${service.tilt}deg)` }}
+              className="group flex flex-col gap-4 border-[3px] border-ink bg-paper p-7 transition hover:-translate-y-1 hover:rotate-0 hover:shadow-[7px_7px_0_var(--color-ink)]"
             >
-              <div className="flex items-start justify-between font-mono text-[12px] uppercase tracking-wider text-ink/50">
-                <span>{service.code}</span>
-                <span>Griot</span>
+              <div className="flex items-center justify-between">
+                <span
+                  className={`flex h-9 w-9 items-center justify-center rounded-full font-mono text-[12px] font-bold text-ink ${service.accent}`}
+                >
+                  {service.code}
+                </span>
+                <span className="font-mono text-[11px] uppercase tracking-wider text-ink/40">
+                  Griot
+                </span>
               </div>
               <h3 className="font-display text-2xl leading-tight">{service.name}</h3>
               <p className="font-sans text-[14px] leading-relaxed text-ink/70">
@@ -85,10 +106,15 @@ export function Services() {
                   <li key={spec}>◆ {spec}</li>
                 ))}
               </ul>
-              <p className="mt-auto pt-4 font-mono text-[13px] uppercase tracking-wider text-red">
-                {service.price}
-              </p>
-            </article>
+              <div className="mt-auto flex items-center justify-between pt-4">
+                <p className="font-mono text-[13px] uppercase tracking-wider text-red">
+                  {service.price}
+                </p>
+                <span className="font-display text-lg transition group-hover:translate-x-1">
+                  →
+                </span>
+              </div>
+            </Link>
           ))}
         </div>
       </div>

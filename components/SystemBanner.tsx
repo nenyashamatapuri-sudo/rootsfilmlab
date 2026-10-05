@@ -1,10 +1,10 @@
 import { FilmRollStack } from "./FilmRollStack";
-import { TornEdge } from "./TornEdge";
+import { ZigzagDivider } from "./ZigzagDivider";
 
 export function SystemBanner() {
   return (
     <section className="grain bg-ink pb-20 text-paper">
-      <TornEdge className="-mt-4 text-ink sm:-mt-5" />
+      <ZigzagDivider className="-mt-4 text-ink sm:-mt-5" />
       <div className="mx-auto max-w-[1400px] px-5 pt-20 sm:px-8">
         <FilmRollStack />
 

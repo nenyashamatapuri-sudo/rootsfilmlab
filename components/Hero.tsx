@@ -1,10 +1,36 @@
 import Link from "next/link";
 import FilmBoxLazy from "./three/FilmBoxLazy";
+import { Confetti } from "./Confetti";
+import { Squiggle } from "./Squiggle";
 
 export function Hero() {
   return (
-    <section id="top" className="ad-glow grain relative overflow-hidden pt-16 pb-0 text-paper">
-      <div className="relative mx-auto max-w-3xl px-5 text-center sm:px-8">
+    <section id="top" className="grain relative overflow-hidden bg-ink pb-0 text-paper">
+      <div className="pointer-events-none absolute -left-24 -top-24 h-72 w-72 rounded-full bg-blue opacity-90 sm:-left-16 sm:-top-32 sm:h-96 sm:w-96" />
+      <div className="pointer-events-none absolute -bottom-16 -right-16 h-0 w-0 border-b-[160px] border-l-[160px] border-b-gold border-l-transparent opacity-90 sm:border-b-[220px] sm:border-l-[220px]" />
+      <Confetti className="opacity-80" />
+
+      {/* The box — first thing on the page, already told to open itself */}
+      <div className="relative h-[46vh] min-h-[320px] pt-6 sm:h-[56vh] sm:pt-10">
+        <FilmBoxLazy />
+      </div>
+
+      <div className="relative mx-auto -mt-4 flex max-w-sm justify-center px-5 sm:-mt-8">
+        <div className="pop-in flex -rotate-3 flex-col items-center gap-2 border-[3px] border-ink bg-gold px-8 py-6 text-center text-ink shadow-[8px_8px_0_var(--color-ink)]">
+          <p className="font-display text-3xl tracking-wide sm:text-4xl">GRIOT</p>
+          <Squiggle className="h-3 w-24 text-ink" />
+          <p className="font-serif-italic text-lg sm:text-xl">every roll, a story.</p>
+          <span className="ink-stamp mt-2 border-ink px-4 py-1 font-mono text-[10px] uppercase tracking-widest">
+            Amsterdam
+          </span>
+        </div>
+      </div>
+
+      <p className="relative mx-auto mt-4 max-w-3xl px-5 text-center font-mono text-[11px] uppercase tracking-widest text-paper/55">
+        ◆ click the box — it opens ◆
+      </p>
+
+      <div className="relative mx-auto mt-10 max-w-3xl px-5 text-center sm:px-8">
         <h1 className="misprint font-display text-[13vw] leading-[0.85] tracking-tight sm:text-[6.4vw]">
           ELKE ROL,
           <br />
@@ -26,44 +52,18 @@ export function Hero() {
             ontwikkeld, gescand en bewaard, zodat niets verloren gaat.
           </p>
         </div>
-
-        <p className="mt-14 font-serif-italic text-[20vw] leading-none text-paper sm:text-[8rem]">
-          2026
-        </p>
-      </div>
-
-      <div className="relative mx-auto -mt-6 flex max-w-3xl justify-center px-5 sm:-mt-10">
-        <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-          <div className="h-56 w-56 rounded-full bg-red opacity-30 blur-[70px] sm:h-72 sm:w-72" />
-        </div>
-        <div className="relative h-[280px] w-full max-w-sm sm:h-[360px]">
-          <FilmBoxLazy />
-        </div>
-      </div>
-      <p className="relative mx-auto -mt-2 max-w-3xl px-5 text-center font-mono text-[11px] uppercase tracking-widest text-paper/45">
-        click the box to open it
-      </p>
-
-      <div className="relative z-10 mx-auto mt-8 flex max-w-xs flex-col items-center bg-ink px-8 py-6 text-center sm:max-w-sm">
-        <p className="font-display text-4xl tracking-wide sm:text-5xl">GRIOT</p>
-        <p className="mt-1 font-display text-2xl tracking-wide text-paper/90 sm:text-3xl">
-          FILM LAB
-        </p>
-        <span className="ink-stamp mt-4 border-paper/70 px-4 py-1.5 font-mono text-[10px] uppercase tracking-widest text-paper/80">
-          Amsterdam
-        </span>
       </div>
 
       <div className="relative mt-10 flex flex-wrap items-center justify-center gap-4 pb-14">
         <Link
-          href="/contact"
+          href="#services"
           className="bg-paper px-7 py-3.5 font-mono text-[13px] uppercase tracking-wider text-ink transition hover:brightness-95"
         >
           Start an order
         </Link>
         <Link
-          href="/pricing"
-          className="border border-paper/70 px-7 py-3.5 font-mono text-[13px] uppercase tracking-wider transition hover:bg-paper hover:text-ink"
+          href="#pricing"
+          className="border-2 border-paper/70 px-7 py-3.5 font-mono text-[13px] uppercase tracking-wider transition hover:bg-paper hover:text-ink"
         >
           See pricing
         </Link>

@@ -1,3 +1,5 @@
+import { ZigzagDivider } from "./ZigzagDivider";
+
 const FAQS = [
   {
     q: "I don't live in Amsterdam — how do I send film?",
@@ -23,8 +25,9 @@ const FAQS = [
 
 export function Faq() {
   return (
-    <section id="faq" className="bg-ink py-24 text-paper">
-      <div className="mx-auto max-w-[1400px] px-5 sm:px-8">
+    <section id="faq" className="bg-ink pb-24 text-paper">
+      <ZigzagDivider className="-mt-4 text-ink sm:-mt-5" />
+      <div className="mx-auto max-w-[1400px] px-5 pt-24 sm:px-8">
         <p className="font-mono text-[12px] uppercase tracking-wider text-red">FAQ</p>
         <h2 className="stamp-shadow mt-2 font-display text-5xl leading-none sm:text-6xl">
           BEFORE YOU ASK.

@@ -1,9 +1,9 @@
-import { TornEdge } from "./TornEdge";
+import { ZigzagDivider } from "./ZigzagDivider";
 
 export function Contact() {
   return (
     <section id="start" className="bg-paper pb-24">
-      <TornEdge className="-mt-4 text-paper sm:-mt-5" />
+      <ZigzagDivider className="-mt-4 text-paper sm:-mt-5" />
       <div className="mx-auto grid max-w-[1400px] grid-cols-1 gap-12 px-5 pt-24 sm:px-8 lg:grid-cols-[1.2fr_1fr]">
         <div>
           <p className="font-mono text-[12px] uppercase tracking-wider text-red">

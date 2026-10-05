@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { TornEdge } from "./TornEdge";
+import { ZigzagDivider } from "./ZigzagDivider";
 
 const TIERS = [
   {
@@ -30,7 +30,7 @@ const TIERS = [
 export function Pricing() {
   return (
     <section id="pricing" className="bg-paper pb-24">
-      <TornEdge className="-mt-4 text-paper sm:-mt-5" />
+      <ZigzagDivider className="-mt-4 text-paper sm:-mt-5" />
       <div className="mx-auto max-w-[1400px] px-5 pt-24 sm:px-8">
         <p className="font-mono text-[12px] uppercase tracking-wider text-red">Pricing</p>
         <h2 className="stamp-shadow mt-2 font-display text-5xl leading-none sm:text-6xl">
@@ -42,14 +42,15 @@ export function Pricing() {
         </p>
 
         <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-3">
-          {TIERS.map((tier) => (
+          {TIERS.map((tier, i) => (
             <div
               key={tier.name}
+              style={{ transform: `rotate(${i === 1 ? 0 : i === 0 ? -1 : 1.2}deg)` }}
               className={
-                "flex flex-col gap-6 border p-8 " +
+                "flex flex-col gap-6 border-[3px] p-8 transition hover:rotate-0 " +
                 (tier.featured
-                  ? "border-ink bg-ink text-paper"
-                  : "border-line bg-paper text-ink")
+                  ? "border-ink bg-blue text-paper shadow-[8px_8px_0_var(--color-ink)]"
+                  : "border-ink bg-paper text-ink hover:shadow-[7px_7px_0_var(--color-ink)]")
               }
             >
               <h3 className="font-mono text-[12px] uppercase tracking-wider opacity-70">
@@ -70,9 +71,9 @@ export function Pricing() {
                 ))}
               </ul>
               <Link
-                href="/contact"
+                href="#start"
                 className={
-                  "mt-2 border px-5 py-3 text-center font-mono text-[12px] uppercase tracking-wider transition " +
+                  "mt-2 border-2 px-5 py-3 text-center font-mono text-[12px] uppercase tracking-wider transition " +
                   (tier.featured
                     ? "border-paper hover:bg-paper hover:text-ink"
                     : "border-ink hover:bg-ink hover:text-paper")
