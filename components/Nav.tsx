@@ -16,7 +16,7 @@ export function Nav() {
           <span className="relative block h-6 w-6 rounded-full border border-paper/70">
             <span className="absolute inset-1 rounded-full bg-red" />
           </span>
-          <span className="font-display text-xl tracking-wide">ZILVER</span>
+          <span className="font-display text-xl tracking-wide">GRIOT</span>
         </Link>
 
         <nav className="hidden items-center gap-7 font-mono text-[12px] uppercase tracking-wider text-paper/70 lg:flex">

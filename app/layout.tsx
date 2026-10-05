@@ -31,9 +31,9 @@ const serifItalic = Instrument_Serif({
 });
 
 export const metadata: Metadata = {
-  title: "Zilver — Film Lab, Amsterdam",
+  title: "Griot — Film Lab, Amsterdam",
   description:
-    "Zilver is a mail-in film lab based in Amsterdam. Develop, scan, and print 35mm, 120 and large format film — order online, track every roll.",
+    "Griot is a mail-in film lab based in Amsterdam. Develop, scan, and print 35mm, 120 and large format film — order online, track every roll.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

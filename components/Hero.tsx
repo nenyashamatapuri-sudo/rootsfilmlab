@@ -1,43 +1,51 @@
 import Link from "next/link";
-import { ApertureIris } from "./ApertureIris";
+import FilmBoxLazy from "./three/FilmBoxLazy";
 
 export function Hero() {
   return (
     <section id="top" className="ad-glow grain relative overflow-hidden pt-16 pb-0 text-paper">
       <div className="relative mx-auto max-w-3xl px-5 text-center sm:px-8">
-        <h1 className="misprint font-display text-[14vw] leading-[0.85] tracking-tight sm:text-[7vw]">
-          DE KRACHT
+        <h1 className="misprint font-display text-[13vw] leading-[0.85] tracking-tight sm:text-[6.4vw]">
+          ELKE ROL,
           <br />
-          VAN ZILVER
+          EEN VERHAAL.
         </h1>
+        <p className="mt-4 font-serif-italic text-2xl text-paper/70 sm:text-3xl">
+          every roll, a story — told, kept, passed down.
+        </p>
 
         <div className="mx-auto mt-10 grid max-w-2xl grid-cols-1 gap-8 text-left font-sans text-[14px] leading-relaxed text-paper/80 sm:grid-cols-2 sm:gap-10">
           <p>
-            Mail us your rolls, or drop them at our Amsterdam point. We develop,
-            scan and archive every frame — then hand it all back to you online,
-            properly labelled and properly cared for.
+            In West African tradition, a griot carries a community&apos;s
+            stories — spoken, remembered, passed on. We do the same for your
+            film: developed, scanned, and kept safe, so nothing gets lost.
           </p>
           <p>
-            Stuur je rolletjes op, of lever ze af op onze plek in Amsterdam. Wij
-            ontwikkelen, scannen en archiveren alles — en zetten het daarna voor
-            je online, roltje voor rolletje.
+            Een griot draagt de verhalen van een gemeenschap — verteld,
+            onthouden, doorgegeven. Wij doen hetzelfde met jouw film:
+            ontwikkeld, gescand en bewaard, zodat niets verloren gaat.
           </p>
         </div>
 
-        <p className="mt-14 font-serif-italic text-[22vw] leading-none text-paper sm:text-[9rem]">
+        <p className="mt-14 font-serif-italic text-[20vw] leading-none text-paper sm:text-[8rem]">
           2026
         </p>
       </div>
 
       <div className="relative mx-auto -mt-6 flex max-w-3xl justify-center px-5 sm:-mt-10">
         <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-          <div className="h-56 w-56 rounded-full bg-red opacity-40 blur-[70px] sm:h-72 sm:w-72" />
+          <div className="h-56 w-56 rounded-full bg-red opacity-30 blur-[70px] sm:h-72 sm:w-72" />
         </div>
-        <ApertureIris size={300} tone="paper" breathe className="relative" />
+        <div className="relative h-[280px] w-full max-w-sm sm:h-[360px]">
+          <FilmBoxLazy />
+        </div>
       </div>
+      <p className="relative mx-auto -mt-2 max-w-3xl px-5 text-center font-mono text-[11px] uppercase tracking-widest text-paper/45">
+        click the box to open it
+      </p>
 
-      <div className="relative z-10 mx-auto -mt-6 flex max-w-xs flex-col items-center bg-ink px-8 py-6 text-center sm:-mt-10 sm:max-w-sm">
-        <p className="font-display text-4xl tracking-wide sm:text-5xl">ZILVER</p>
+      <div className="relative z-10 mx-auto mt-8 flex max-w-xs flex-col items-center bg-ink px-8 py-6 text-center sm:max-w-sm">
+        <p className="font-display text-4xl tracking-wide sm:text-5xl">GRIOT</p>
         <p className="mt-1 font-display text-2xl tracking-wide text-paper/90 sm:text-3xl">
           FILM LAB
         </p>

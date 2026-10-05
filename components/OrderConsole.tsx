@@ -33,7 +33,7 @@ export function OrderConsole() {
           {/* Dashboard mock */}
           <div className="border border-line bg-paper p-7 sm:p-9">
             <div className="flex flex-wrap items-center justify-between gap-4 border-b border-line pb-6 font-mono text-[12px] uppercase tracking-wider text-ink/50">
-              <span>Order ZLV-000482</span>
+              <span>Order GRT-000482</span>
               <span>Placed 28 Sep 2026</span>
             </div>
 
@@ -87,10 +87,10 @@ export function OrderConsole() {
           <div className="flex flex-col border border-dashed border-ink/40 bg-paper p-7">
             <div className="sprockets text-ink" />
             <div className="flex items-center justify-between pt-6 font-mono text-[11px] uppercase tracking-wider text-ink/50">
-              <span>Zilver — Amsterdam</span>
+              <span>Griot — Amsterdam</span>
               <span>Keep this ticket</span>
             </div>
-            <p className="mt-6 font-display text-4xl leading-none">ZLV-000482</p>
+            <p className="mt-6 font-display text-4xl leading-none">GRT-000482</p>
             <p className="mt-2 font-mono text-[12px] uppercase tracking-wide text-ink/60">
               6 rolls — Develop + Scan
             </p>

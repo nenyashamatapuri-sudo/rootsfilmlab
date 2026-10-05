@@ -74,7 +74,7 @@ export function Services() {
             >
               <div className="flex items-start justify-between font-mono text-[12px] uppercase tracking-wider text-ink/50">
                 <span>{service.code}</span>
-                <span>Zilver</span>
+                <span>Griot</span>
               </div>
               <h3 className="font-display text-2xl leading-tight">{service.name}</h3>
               <p className="font-sans text-[14px] leading-relaxed text-ink/70">

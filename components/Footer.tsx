@@ -6,7 +6,7 @@ export function Footer() {
           <span className="relative block h-5 w-5 rounded-full border border-paper/70">
             <span className="absolute inset-1 rounded-full bg-red" />
           </span>
-          <span className="font-display text-lg tracking-wide">ZILVER</span>
+          <span className="font-display text-lg tracking-wide">GRIOT</span>
         </div>
 
         <p className="font-mono text-[11px] uppercase tracking-wider text-paper/50">

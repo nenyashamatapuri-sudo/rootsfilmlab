@@ -19,10 +19,10 @@ export function Contact() {
 
           <div className="mt-8 flex flex-wrap gap-4">
             <a
-              href="mailto:hello@zilverfilmlab.nl"
+              href="mailto:hello@griotfilm.nl"
               className="border border-ink px-6 py-3 font-mono text-[12px] uppercase tracking-wider transition hover:bg-ink hover:text-paper"
             >
-              hello@zilverfilmlab.nl
+              hello@griotfilm.nl
             </a>
             <a
               href="#"
@@ -38,7 +38,7 @@ export function Contact() {
             Amsterdam drop-off
           </p>
           <p className="mt-3 font-display text-2xl leading-snug">
-            Zilver Film Lab
+            Griot Film Lab
             <br />
             c/o Drop-off Point
             <br />

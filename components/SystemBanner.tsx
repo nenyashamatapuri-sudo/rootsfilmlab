@@ -1,4 +1,4 @@
-import { CameraStack } from "./CameraStack";
+import { FilmRollStack } from "./FilmRollStack";
 import { TornEdge } from "./TornEdge";
 
 export function SystemBanner() {
@@ -6,21 +6,21 @@ export function SystemBanner() {
     <section className="grain bg-ink pb-20 text-paper">
       <TornEdge className="-mt-4 text-ink sm:-mt-5" />
       <div className="mx-auto max-w-[1400px] px-5 pt-20 sm:px-8">
-        <CameraStack />
+        <FilmRollStack />
 
         <h2 className="stamp-shadow mt-12 text-center font-display text-4xl leading-none sm:text-6xl">
-          THE ZILVER SYSTEM
+          THE GRIOT ARCHIVE
         </h2>
         <p className="mt-3 text-center font-serif-italic text-xl text-paper/70 sm:text-2xl">
-          one lab, five ways to get your film back.
+          one storyteller, five ways to keep your story.
         </p>
 
         <div className="mx-auto mt-12 grid max-w-3xl grid-cols-1 gap-x-10 gap-y-6 text-left font-sans text-[14px] leading-relaxed text-paper/75 sm:grid-cols-2">
           <p>
-            Every roll that reaches Zilver moves through the same hand-run
+            Every roll that reaches Griot moves through the same hand-run
             process, whatever you send: develop only, develop and scan, scan
             only, prints, or fresh stock by post. One account, one order
-            number, one place to watch it move.
+            number, one story you can follow.
           </p>
           <p>
             We built it around the part people actually worry about — not
@@ -31,9 +31,9 @@ export function SystemBanner() {
         </div>
 
         <div className="mx-auto mt-14 flex max-w-xs flex-col items-center border border-paper/40 px-8 py-6 text-center">
-          <p className="font-display text-3xl tracking-wide">ZILVER</p>
+          <p className="font-display text-3xl tracking-wide">GRIOT</p>
           <p className="mt-1 font-mono text-[11px] uppercase tracking-[0.3em] text-paper/60">
-            Film System
+            Film Archive
           </p>
           <div className="my-4 h-px w-16 bg-paper/30" />
           <p className="font-mono text-[11px] uppercase tracking-wider text-gold">

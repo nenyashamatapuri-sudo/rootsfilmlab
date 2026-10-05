@@ -47,7 +47,7 @@ export function PosterFrame({ children }: { children: React.ReactNode }) {
         <RegMark className="reg-mark--bl" rotate={2} />
         <RegMark className="reg-mark--br" rotate={-4} />
         <p className="spine-text hidden font-mono text-[10px] uppercase lg:block">
-          Zilver Film Lab — Amsterdam — No. 001
+          Griot Film Lab — Amsterdam — No. 001
         </p>
         <div className="poster-scroll">{children}</div>
       </div>
