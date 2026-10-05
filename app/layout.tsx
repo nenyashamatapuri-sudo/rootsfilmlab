@@ -2,8 +2,6 @@ import type { Metadata } from "next";
 import { Anton, Libre_Caslon_Text, IBM_Plex_Mono, Instrument_Serif } from "next/font/google";
 import "./globals.css";
 import { PosterFrame } from "@/components/PosterFrame";
-import { Nav } from "@/components/Nav";
-import { Footer } from "@/components/Footer";
 
 const display = Anton({
   variable: "--font-display",
@@ -43,11 +41,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${display.variable} ${sans.variable} ${mono.variable} ${serifItalic.variable} h-full antialiased`}
     >
       <body className="h-full">
-        <PosterFrame>
-          <Nav />
-          <main>{children}</main>
-          <Footer />
-        </PosterFrame>
+        <PosterFrame>{children}</PosterFrame>
       </body>
     </html>
   );

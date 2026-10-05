@@ -73,11 +73,8 @@ body {
 .poster-scroll {
   position: absolute;
   inset: 0;
-  overflow-y: auto;
-  overflow-x: hidden;
+  overflow: hidden;
   background: var(--color-paper);
-  -webkit-overflow-scrolling: touch;
-  scroll-behavior: smooth;
 }
 
 .reg-mark {
@@ -233,6 +230,38 @@ body {
   width: 100%;
 }
 
+/* Terrazzo speckle — scattered confetti chips as a background texture */
+.terrazzo {
+  background-image:
+    radial-gradient(circle at 10% 20%, var(--color-red) 0 3px, transparent 3px),
+    radial-gradient(circle at 85% 15%, var(--color-blue) 0 4px, transparent 4px),
+    radial-gradient(circle at 60% 60%, var(--color-gold) 0 3px, transparent 3px),
+    radial-gradient(circle at 30% 80%, var(--color-cyan) 0 3.5px, transparent 3.5px),
+    radial-gradient(circle at 92% 70%, var(--color-pink) 0 3px, transparent 3px),
+    radial-gradient(circle at 45% 35%, var(--color-ink) 0 2px, transparent 2px),
+    radial-gradient(circle at 15% 55%, var(--color-gold) 0 2px, transparent 2px),
+    radial-gradient(circle at 70% 90%, var(--color-red) 0 2.5px, transparent 2.5px);
+  background-size: 180px 180px;
+  background-repeat: repeat;
+  opacity: 0.5;
+}
+
+/* App-screen swap transition */
+@keyframes screen-in {
+  from {
+    opacity: 0;
+    transform: scale(0.98) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.screen-in {
+  animation: screen-in 0.32s ease-out both;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .marquee-track {
     animation: none;
@@ -240,5 +269,8 @@ body {
   .pop-in {
     animation: none;
     opacity: 1;
+  }
+  .screen-in {
+    animation: none;
   }
 }
