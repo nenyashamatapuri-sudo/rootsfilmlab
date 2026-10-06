@@ -1,65 +1,62 @@
 "use client";
 
 import FilmBoxLazy from "../three/FilmBoxLazy";
-import { Confetti } from "../Confetti";
-import { Squiggle } from "../Squiggle";
+import { HoloRocks } from "../HoloRocks";
 import { useTab } from "../TabContext";
 
 export function HomePanel() {
   const { go } = useTab();
 
-  return (
-    <div className="grain relative flex h-full min-h-full flex-col overflow-hidden bg-ink p-5 text-paper sm:p-8">
-      <div className="pointer-events-none absolute -left-20 -top-20 h-64 w-64 rounded-full bg-blue opacity-80 sm:h-80 sm:w-80" />
-      <Confetti className="opacity-70" />
+  const band = "DEVELOP · PRESERVE · ".repeat(6);
 
-      <div className="griot-def relative mx-auto text-center sm:mx-0 sm:text-left">
-        <p className="term">
-          Griot <span className="ipa">/ˈɡriːoʊ/</span>
+  return (
+    <div className="cosmos relative flex h-full min-h-full flex-col overflow-hidden text-paper">
+      <div className="starfield" />
+      <HoloRocks />
+
+      <p className="relative z-10 mx-auto mt-4 max-w-sm px-6 text-center font-sans text-[11px] italic leading-snug text-paper/55 sm:mt-6">
+        <span className="font-semibold not-italic text-paper/80">Griot</span>{" "}
+        <span className="not-italic text-paper/40">/ˈɡriːoʊ/</span> — a West African
+        storyteller and oral tradition-bearer. We take the name at its word.
+      </p>
+
+      <div className="relative flex flex-1 items-center justify-center">
+        <p
+          className="misprint pointer-events-none absolute inset-x-0 top-1/2 -translate-y-1/2 select-none overflow-hidden whitespace-nowrap text-center font-display text-[11vw] uppercase leading-none tracking-wide text-paper/90 sm:text-6xl"
+          aria-hidden
+        >
+          {band}
         </p>
-        <p className="pos">noun</p>
-        <p className="def">
-          A West African historian, storyteller, praise singer, and oral
-          tradition-bearer — a community&apos;s living archive, its memory
-          carried by voice.
-        </p>
+
+        <div className="relative z-10 h-[46vh] min-h-[280px] w-full max-w-md">
+          <FilmBoxLazy />
+        </div>
       </div>
 
-      <div className="relative mt-4 flex flex-1 flex-col items-center gap-6 lg:flex-row lg:gap-10">
-        <div className="relative flex min-h-[240px] flex-1 items-center justify-center lg:h-full">
-          <FilmBoxLazy />
-          <div className="pop-in absolute -bottom-2 right-0 flex rotate-3 flex-col items-center gap-1 border-[3px] border-ink bg-gold px-4 py-3 text-center text-ink shadow-[6px_6px_0_var(--color-ink)] sm:right-4">
-            <p className="font-display text-xl tracking-wide">GRIOT</p>
-            <Squiggle className="h-2.5 w-16 text-ink" />
-            <p className="font-serif-italic text-sm">every roll, a story.</p>
-          </div>
-        </div>
+      <div className="relative z-10 mx-auto mb-6 flex flex-wrap items-center justify-center gap-4">
+        <button
+          onClick={() => go("contact")}
+          className="bg-gold px-7 py-3 font-mono text-[12px] uppercase tracking-[0.1em] text-ink transition hover:brightness-110"
+        >
+          Start an order
+        </button>
+        <button
+          onClick={() => go("pricing")}
+          className="border border-paper/30 px-7 py-3 font-mono text-[12px] uppercase tracking-[0.1em] text-paper/80 transition hover:border-paper hover:text-paper"
+        >
+          See pricing
+        </button>
+      </div>
 
-        <div className="relative flex flex-1 flex-col items-center text-center lg:items-start lg:text-left">
-          <h1 className="misprint font-display text-[12vw] leading-[0.85] tracking-tight sm:text-5xl lg:text-6xl">
-            ELKE ROL,
-            <br />
-            EEN VERHAAL.
-          </h1>
-          <p className="mt-3 font-serif-italic text-lg text-paper/75 sm:text-xl">
-            Griot Film Lab takes the name at its word.
-          </p>
-
-          <div className="mt-6 flex flex-wrap items-center justify-center gap-4 lg:justify-start">
-            <button
-              onClick={() => go("contact")}
-              className="bg-paper px-7 py-3.5 font-mono text-[13px] uppercase tracking-wider text-ink transition hover:brightness-95"
-            >
-              Start an order
-            </button>
-            <button
-              onClick={() => go("pricing")}
-              className="border-2 border-paper/70 px-7 py-3.5 font-mono text-[13px] uppercase tracking-wider transition hover:bg-paper hover:text-ink"
-            >
-              See pricing
-            </button>
-          </div>
-        </div>
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 hidden items-center justify-between px-6 pb-5 sm:flex">
+        <span className="pointer-events-auto flex items-center gap-2 rounded-full border border-paper/15 bg-ink/50 px-4 py-2 font-mono text-[10px] uppercase tracking-wider text-paper/60 backdrop-blur-sm">
+          <span className="h-1.5 w-1.5 rounded-full bg-gold" />
+          Click the box
+        </span>
+        <span className="pointer-events-auto flex items-center gap-2 rounded-full border border-paper/15 bg-ink/50 px-4 py-2 font-mono text-[10px] uppercase tracking-wider text-paper/60 backdrop-blur-sm">
+          <span className="h-1.5 w-1.5 rounded-full bg-cyan" />
+          Need film developed: hello@griotfilm.nl
+        </span>
       </div>
     </div>
   );

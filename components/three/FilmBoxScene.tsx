@@ -8,7 +8,7 @@ function Loading() {
   return (
     <mesh rotation={[0, 0.4, 0]}>
       <boxGeometry args={[1.1, 1.4, 0.1]} />
-      <meshStandardMaterial color="#4b3fa0" wireframe opacity={0.5} transparent />
+      <meshStandardMaterial color="#e8a33d" wireframe opacity={0.5} transparent />
     </mesh>
   );
 }
@@ -22,9 +22,10 @@ export default function FilmBoxScene() {
         camera={{ position: [0, 0.2, 4.6], fov: 32 }}
         gl={{ alpha: true }}
       >
-        <ambientLight intensity={0.7} />
-        <directionalLight position={[2, 3, 3]} intensity={1.2} castShadow />
-        <directionalLight position={[-2, 1, -1]} intensity={0.3} color="#8e6fd6" />
+        <ambientLight intensity={0.55} />
+        <directionalLight position={[2, 3, 3]} intensity={1.3} color="#e8a33d" castShadow />
+        <directionalLight position={[-2, 0.5, -1.5]} intensity={0.5} color="#46c2c8" />
+        <pointLight position={[0, 0.3, 2]} intensity={0.6} color="#c2285e" distance={6} />
         <Suspense fallback={<Loading />}>
           <GriotBoxModel />
         </Suspense>

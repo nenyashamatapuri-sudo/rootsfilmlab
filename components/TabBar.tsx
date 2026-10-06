@@ -1,35 +1,28 @@
 "use client";
 
 import { TABS, TAB_LABELS, useTab, type Tab } from "./TabContext";
-import { ZigzagDivider } from "./ZigzagDivider";
 
-const TAB_COLORS: Record<Tab, string> = {
-  home: "bg-red",
-  services: "bg-blue",
-  pricing: "bg-gold",
-  process: "bg-cyan",
-  track: "bg-pink",
-  contact: "bg-paper",
+const TAB_ACCENT: Record<Tab, string> = {
+  home: "text-gold",
+  services: "text-cyan",
+  pricing: "text-gold",
+  process: "text-cyan",
+  track: "text-red",
+  contact: "text-gold",
 };
 
 export function TabBar() {
   const { active, go } = useTab();
 
   return (
-    <header className="relative z-10 shrink-0 bg-ink text-paper">
-      <div className="flex items-center gap-3 overflow-x-auto px-4 py-3 sm:px-6">
-        <button
-          onClick={() => go("home")}
-          className="flex shrink-0 items-center gap-2 pr-3"
-          aria-label="Home"
-        >
-          <span className="relative block h-6 w-6 rounded-full border border-paper/70">
-            <span className="absolute inset-1 rounded-full bg-red" />
-          </span>
-          <span className="font-display text-lg tracking-wide sm:text-xl">GRIOT</span>
+    <header className="relative z-20 shrink-0 border-b border-paper/10 bg-ink/60 backdrop-blur-md">
+      <div className="flex items-center justify-between gap-4 px-4 py-3.5 sm:px-7">
+        <button onClick={() => go("home")} className="flex shrink-0 items-center gap-2" aria-label="Home">
+          <span className="relative block h-2 w-2 rounded-full bg-gold shadow-[0_0_8px_var(--color-gold)]" />
+          <span className="font-display text-sm tracking-[0.2em] text-paper">GRIOT</span>
         </button>
 
-        <nav className="flex shrink-0 items-center gap-2 sm:gap-2.5">
+        <nav className="flex shrink-0 items-center gap-5 overflow-x-auto font-mono text-[10px] uppercase tracking-[0.18em] sm:gap-7 sm:text-[11px]">
           {TABS.map((tab) => {
             const isActive = tab === active;
             return (
@@ -37,10 +30,10 @@ export function TabBar() {
                 key={tab}
                 onClick={() => go(tab)}
                 className={
-                  "shrink-0 border-2 px-3 py-1.5 font-mono text-[11px] uppercase tracking-wider transition sm:text-[12px] " +
+                  "shrink-0 whitespace-nowrap pb-0.5 transition " +
                   (isActive
-                    ? `border-ink text-ink ${TAB_COLORS[tab]}`
-                    : "border-paper/30 text-paper/70 hover:border-paper hover:text-paper")
+                    ? `${TAB_ACCENT[tab]} border-b border-current`
+                    : "border-b border-transparent text-paper/55 hover:text-paper")
                 }
               >
                 {TAB_LABELS[tab]}
@@ -49,7 +42,6 @@ export function TabBar() {
           })}
         </nav>
       </div>
-      <ZigzagDivider className="text-ink" />
     </header>
   );
 }

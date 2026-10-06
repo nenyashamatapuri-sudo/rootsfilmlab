@@ -30,8 +30,8 @@ export function OnePageApp() {
         <div key={active} className="screen-in min-h-0 flex-1">
           <Panel />
         </div>
-        <footer className="shrink-0 border-t-[3px] border-ink bg-ink px-4 py-2 text-center font-mono text-[10px] uppercase tracking-wider text-paper/50 sm:px-6">
-          Griot Film Lab — Amsterdam, NL. Est. 2026. All rolls handled by hand.
+        <footer className="shrink-0 border-t border-paper/10 bg-ink px-4 py-2 text-center font-mono text-[9px] uppercase tracking-[0.15em] text-paper/35 sm:px-6">
+          Griot Film Lab — Amsterdam, NL. Est. 2026.
         </footer>
       </div>
     </TabContext.Provider>

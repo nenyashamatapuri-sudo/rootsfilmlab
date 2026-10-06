@@ -8,7 +8,7 @@
   --color-stage: #0e0818;
   --color-red: #c2285e;
   --color-gold: #e8a33d;
-  --color-cyan: #8e6fd6;
+  --color-cyan: #46c2c8;
   --color-blue: #4b3fa0;
   --color-pink: #e8738a;
   --color-indigo: #241452;
@@ -55,71 +55,6 @@ body {
 ::selection {
   background: var(--color-red);
   color: var(--color-paper);
-}
-
-/* ---- Poster frame: the whole site sits inside a bordered, scrollable
-   print-bleed window on the dark "stage" background. ---- */
-
-.poster-stage {
-  position: fixed;
-  inset: 0;
-  background: var(--color-stage);
-}
-
-.poster-shell {
-  position: fixed;
-  inset: 10px;
-}
-
-@media (min-width: 640px) {
-  .poster-shell {
-    inset: 20px;
-  }
-}
-
-.poster-scroll {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  background: var(--color-paper);
-}
-
-.reg-mark {
-  position: absolute;
-  width: 17px;
-  height: 17px;
-  color: var(--color-paper);
-  pointer-events: none;
-  z-index: 40;
-}
-
-.reg-mark--tl {
-  top: -9px;
-  left: -9px;
-}
-.reg-mark--tr {
-  top: -9px;
-  right: -9px;
-}
-.reg-mark--bl {
-  bottom: -9px;
-  left: -9px;
-}
-.reg-mark--br {
-  bottom: -9px;
-  right: -9px;
-}
-
-.spine-text {
-  position: fixed;
-  top: 50%;
-  right: 4px;
-  z-index: 40;
-  transform: translateY(-50%) rotate(180deg);
-  writing-mode: vertical-rl;
-  color: var(--color-paper);
-  letter-spacing: 0.3em;
-  pointer-events: none;
 }
 
 /* Fine grain overlay, used on dark and light sections alike */
@@ -170,7 +105,7 @@ body {
 .misprint {
   text-shadow:
     2.5px 0 0 rgba(194, 40, 94, 0.6),
-    -2.5px 0 0 rgba(142, 111, 214, 0.55);
+    -2.5px 0 0 rgba(70, 194, 200, 0.55);
 }
 
 .ink-stamp {
@@ -305,6 +240,48 @@ body {
   filter: drop-shadow(3px 4px 3px rgba(0, 0, 0, 0.45));
 }
 
+/* ---- Cinematic hero scene: starfield, nebula wash, floating foil chips ---- */
+
+.cosmos {
+  background:
+    radial-gradient(ellipse 70% 50% at 50% 38%, rgba(232, 163, 61, 0.16), transparent 60%),
+    radial-gradient(ellipse 60% 60% at 15% 85%, rgba(194, 40, 94, 0.1), transparent 65%),
+    radial-gradient(ellipse 50% 50% at 90% 15%, rgba(70, 194, 200, 0.08), transparent 60%),
+    #0a0806;
+}
+
+.starfield {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(1.5px 1.5px at 12% 22%, rgba(243, 230, 200, 0.9), transparent),
+    radial-gradient(1px 1px at 28% 68%, rgba(243, 230, 200, 0.7), transparent),
+    radial-gradient(1.5px 1.5px at 44% 12%, rgba(243, 230, 200, 0.85), transparent),
+    radial-gradient(1px 1px at 58% 78%, rgba(243, 230, 200, 0.6), transparent),
+    radial-gradient(1.5px 1.5px at 72% 32%, rgba(243, 230, 200, 0.9), transparent),
+    radial-gradient(1px 1px at 85% 60%, rgba(243, 230, 200, 0.6), transparent),
+    radial-gradient(1.5px 1.5px at 93% 20%, rgba(243, 230, 200, 0.8), transparent),
+    radial-gradient(1px 1px at 6% 85%, rgba(243, 230, 200, 0.65), transparent),
+    radial-gradient(1.5px 1.5px at 36% 90%, rgba(243, 230, 200, 0.7), transparent),
+    radial-gradient(1px 1px at 65% 50%, rgba(243, 230, 200, 0.55), transparent);
+  background-size: 100% 100%;
+}
+
+@keyframes float-y {
+  0%,
+  100% {
+    transform: translateY(0) rotate(var(--r, 0deg));
+  }
+  50% {
+    transform: translateY(-14px) rotate(var(--r, 0deg));
+  }
+}
+
+.float-shape {
+  animation: float-y 7s ease-in-out infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .marquee-track {
     animation: none;
@@ -314,6 +291,9 @@ body {
     opacity: 1;
   }
   .screen-in {
+    animation: none;
+  }
+  .float-shape {
     animation: none;
   }
 }
