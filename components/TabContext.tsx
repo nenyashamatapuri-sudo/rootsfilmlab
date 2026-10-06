@@ -2,21 +2,23 @@
 
 import { createContext, useContext } from "react";
 
-export const TABS = ["home", "services", "pricing", "process", "track", "contact"] as const;
+export const TABS = ["home", "services", "pricing", "order"] as const;
 export type Tab = (typeof TABS)[number];
 
 export const TAB_LABELS: Record<Tab, string> = {
   home: "Home",
   services: "Services",
   pricing: "Pricing",
-  process: "How it works",
-  track: "Track order",
-  contact: "FAQ & Contact",
+  order: "Order",
 };
 
 type TabContextValue = {
   active: Tab;
   go: (tab: Tab) => void;
+  /** Set when a Services/Pricing card is clicked, so the Order panel can
+   *  arrive with that option already picked. */
+  preselect: string | null;
+  setPreselect: (id: string | null) => void;
 };
 
 export const TabContext = createContext<TabContextValue | null>(null);

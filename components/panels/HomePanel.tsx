@@ -1,7 +1,7 @@
 "use client";
 
 import FilmBoxLazy from "../three/FilmBoxLazy";
-import { HoloRocks } from "../HoloRocks";
+import { CosmicShell } from "../CosmicShell";
 import { useTab } from "../TabContext";
 
 export function HomePanel() {
@@ -10,14 +10,11 @@ export function HomePanel() {
   const band = "DEVELOP · PRESERVE · ".repeat(6);
 
   return (
-    <div className="cosmos relative flex h-full min-h-full flex-col overflow-hidden text-paper">
-      <div className="starfield" />
-      <HoloRocks />
-
-      <p className="relative z-10 mx-auto mt-4 max-w-sm px-6 text-center font-sans text-[11px] italic leading-snug text-paper/55 sm:mt-6">
+    <CosmicShell rocks>
+      <p className="mx-auto mt-4 max-w-xs px-6 text-center font-sans text-[11px] italic leading-snug text-paper/55 sm:mt-6">
         <span className="font-semibold not-italic text-paper/80">Griot</span>{" "}
-        <span className="not-italic text-paper/40">/ˈɡriːoʊ/</span> — a West African
-        storyteller and oral tradition-bearer. We take the name at its word.
+        <span className="not-italic text-paper/40">/ˈɡriːoʊ/</span> — a storyteller who
+        keeps memory alive.
       </p>
 
       <div className="relative flex flex-1 items-center justify-center">
@@ -28,14 +25,14 @@ export function HomePanel() {
           {band}
         </p>
 
-        <div className="relative z-10 h-[46vh] min-h-[280px] w-full max-w-md">
+        <div className="relative z-10 h-[64vh] min-h-[360px] w-full max-w-xl">
           <FilmBoxLazy />
         </div>
       </div>
 
       <div className="relative z-10 mx-auto mb-6 flex flex-wrap items-center justify-center gap-4">
         <button
-          onClick={() => go("contact")}
+          onClick={() => go("order")}
           className="bg-gold px-7 py-3 font-mono text-[12px] uppercase tracking-[0.1em] text-ink transition hover:brightness-110"
         >
           Start an order
@@ -55,9 +52,9 @@ export function HomePanel() {
         </span>
         <span className="pointer-events-auto flex items-center gap-2 rounded-full border border-paper/15 bg-ink/50 px-4 py-2 font-mono text-[10px] uppercase tracking-wider text-paper/60 backdrop-blur-sm">
           <span className="h-1.5 w-1.5 rounded-full bg-cyan" />
-          Need film developed: hello@griotfilm.nl
+          hello@griotfilm.nl
         </span>
       </div>
-    </div>
+    </CosmicShell>
   );
 }

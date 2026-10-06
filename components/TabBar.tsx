@@ -6,9 +6,7 @@ const TAB_ACCENT: Record<Tab, string> = {
   home: "text-gold",
   services: "text-cyan",
   pricing: "text-gold",
-  process: "text-cyan",
-  track: "text-red",
-  contact: "text-gold",
+  order: "text-red",
 };
 
 export function TabBar() {

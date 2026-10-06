@@ -33,6 +33,7 @@ export function GriotBoxModel() {
   const autoPhaseDone = useRef(false);
   const shakeStart = useRef<number | null>(null);
   const revealStart = useRef<number | null>(null);
+  const spin = useRef(0);
 
   useEffect(() => {
     box.traverse((obj) => {
@@ -44,18 +45,14 @@ export function GriotBoxModel() {
     });
   }, [box]);
 
-  useFrame((state) => {
+  useFrame((state, delta) => {
     const t = state.clock.elapsedTime;
 
     if (group.current) {
-      // The model is a thin photographic relief, not a full volume — a slow
-      // wobble (rather than a full spin) keeps the printed face in view.
-      const wobble = Math.sin(t * 0.35) * 0.32;
+      spin.current += delta * 0.4;
       const targetX = -state.pointer.y * 0.12 + 0.05;
-      const targetZ = state.pointer.x * 0.06;
-      group.current.rotation.y = wobble + state.pointer.x * 0.1;
+      group.current.rotation.y = spin.current;
       group.current.rotation.x = THREE.MathUtils.lerp(group.current.rotation.x, targetX, 0.06);
-      group.current.rotation.z = THREE.MathUtils.lerp(group.current.rotation.z, targetZ, 0.06);
     }
 
     if (!autoPhaseDone.current) {

@@ -6,25 +6,22 @@ import { TabBar } from "./TabBar";
 import { HomePanel } from "./panels/HomePanel";
 import { ServicesPanel } from "./panels/ServicesPanel";
 import { PricingPanel } from "./panels/PricingPanel";
-import { ProcessPanel } from "./panels/ProcessPanel";
-import { TrackPanel } from "./panels/TrackPanel";
-import { ContactPanel } from "./panels/ContactPanel";
+import { OrderPanel } from "./panels/OrderPanel";
 
 const PANELS: Record<Tab, () => React.JSX.Element> = {
   home: HomePanel,
   services: ServicesPanel,
   pricing: PricingPanel,
-  process: ProcessPanel,
-  track: TrackPanel,
-  contact: ContactPanel,
+  order: OrderPanel,
 };
 
 export function OnePageApp() {
   const [active, setActive] = useState<Tab>("home");
+  const [preselect, setPreselect] = useState<string | null>(null);
   const Panel = PANELS[active];
 
   return (
-    <TabContext.Provider value={{ active, go: setActive }}>
+    <TabContext.Provider value={{ active, go: setActive, preselect, setPreselect }}>
       <div className="flex h-full min-h-full flex-col">
         <TabBar />
         <div key={active} className="screen-in min-h-0 flex-1">

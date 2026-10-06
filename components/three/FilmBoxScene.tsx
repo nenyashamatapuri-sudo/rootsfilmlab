@@ -19,7 +19,7 @@ export default function FilmBoxScene() {
       <Canvas
         shadows
         dpr={[1, 1.75]}
-        camera={{ position: [0, 0.2, 4.6], fov: 32 }}
+        camera={{ position: [0, 0.2, 3.6], fov: 32 }}
         gl={{ alpha: true }}
       >
         <ambientLight intensity={0.55} />

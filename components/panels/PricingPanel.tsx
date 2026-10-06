@@ -1,94 +1,80 @@
 "use client";
 
+import { CosmicShell } from "../CosmicShell";
 import { useTab } from "../TabContext";
-import { Squiggle } from "../Squiggle";
 
 const TIERS = [
   {
+    id: "develop-only",
     name: "Develop Only",
     price: "€6.00",
-    unit: "per roll",
-    features: ["C-41, B&W or E-6", "Cut & sleeved negatives", "Returned by post"],
+    features: ["C-41, B&W or E-6", "Returned by post"],
   },
   {
+    id: "develop-scan",
     name: "Develop + Scan",
     price: "€9.50",
-    unit: "per roll",
-    features: [
-      "Everything in Develop Only",
-      "2000dpi scans, dust & scratch pass",
-      "Delivered to your online library",
-    ],
+    features: ["2000dpi scans", "Online library"],
     featured: true,
   },
   {
+    id: "scan-only",
     name: "Scan Only",
     price: "€7.50",
-    unit: "per roll",
-    features: ["Send your own negatives", "High-res TIFF or JPEG", "Same library, same account"],
+    features: ["Your negatives", "High-res files"],
   },
 ];
 
 export function PricingPanel() {
-  const { go } = useTab();
+  const { go, setPreselect } = useTab();
 
   return (
-    <div className="relative flex h-full min-h-full flex-col justify-center overflow-y-auto bg-paper p-5 sm:p-10">
-      <div className="mx-auto w-full max-w-5xl">
-        <p className="font-mono text-[12px] uppercase tracking-wider text-red">Pricing</p>
-        <h2 className="stamp-shadow mt-2 font-display text-4xl leading-none sm:text-6xl">
-          SIMPLE, PER ROLL.
-        </h2>
-        <Squiggle className="mt-2 h-3 w-32 text-gold" />
-        <p className="mt-3 max-w-xl font-sans text-[14px] leading-relaxed text-ink/70">
-          No subscriptions, no minimum order. EU shipping costs are added at
-          checkout.
+    <CosmicShell>
+      <div className="mx-auto flex w-full max-w-3xl flex-1 flex-col justify-center px-6 py-10">
+        <p className="text-center font-mono text-[11px] uppercase tracking-[0.2em] text-paper/45">
+          Simple, per roll
         </p>
 
-        <div className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-3">
-          {TIERS.map((tier, i) => (
+        <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
+          {TIERS.map((tier) => (
             <div
-              key={tier.name}
-              style={{ transform: `rotate(${i === 1 ? 0 : i === 0 ? -1 : 1.2}deg)` }}
+              key={tier.id}
               className={
-                "flex flex-col gap-4 border-[3px] p-6 transition hover:rotate-0 " +
+                "flex flex-col items-center gap-3 rounded-lg border px-6 py-8 text-center backdrop-blur-sm " +
                 (tier.featured
-                  ? "border-ink bg-blue text-paper shadow-[8px_8px_0_var(--color-ink)]"
-                  : "border-ink bg-paper text-ink hover:shadow-[7px_7px_0_var(--color-ink)]")
+                  ? "border-gold bg-gold/10"
+                  : "border-paper/15 bg-paper/[0.03]")
               }
             >
-              <h3 className="font-mono text-[11px] uppercase tracking-wider opacity-70">
-                {tier.name}
-              </h3>
-              <div className="flex items-baseline gap-2">
-                <span className="font-display text-4xl leading-none">{tier.price}</span>
-                <span className="font-mono text-[11px] uppercase tracking-wide opacity-60">
-                  {tier.unit}
-                </span>
-              </div>
-              <ul className="flex flex-1 flex-col gap-1.5 font-sans text-[13px] leading-relaxed opacity-85">
+              <p className="font-mono text-[10px] uppercase tracking-wider text-paper/55">{tier.name}</p>
+              <p className="font-display text-3xl text-paper">{tier.price}</p>
+              <ul className="font-mono text-[11px] text-paper/60">
                 {tier.features.map((f) => (
-                  <li key={f} className="flex gap-2">
-                    <span className="text-red">◆</span>
-                    {f}
-                  </li>
+                  <li key={f}>{f}</li>
                 ))}
               </ul>
               <button
-                onClick={() => go("contact")}
+                onClick={() => {
+                  setPreselect(tier.id);
+                  go("order");
+                }}
                 className={
-                  "mt-1 border-2 px-5 py-2.5 text-center font-mono text-[12px] uppercase tracking-wider transition " +
+                  "mt-2 w-full border px-4 py-2 font-mono text-[11px] uppercase tracking-wider transition " +
                   (tier.featured
-                    ? "border-paper hover:bg-paper hover:text-ink"
-                    : "border-ink hover:bg-ink hover:text-paper")
+                    ? "border-gold text-gold hover:bg-gold hover:text-ink"
+                    : "border-paper/30 text-paper/80 hover:border-paper hover:text-paper")
                 }
               >
-                Start an order
+                Order
               </button>
             </div>
           ))}
         </div>
+
+        <p className="mt-6 text-center font-mono text-[10px] uppercase tracking-wider text-paper/35">
+          No subscriptions. EU shipping added at checkout.
+        </p>
       </div>
-    </div>
+    </CosmicShell>
   );
 }
