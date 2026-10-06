@@ -1,0 +1,139 @@
+"use client";
+
+import { useEffect, useMemo, useRef, useState } from "react";
+import { useFrame } from "@react-three/fiber";
+import { useGLTF } from "@react-three/drei";
+import * as THREE from "three";
+
+const MODEL_URL = "/models/griot-box.glb";
+
+const AUTO_SHAKE_START = 0.5;
+const AUTO_SHAKE_DURATION = 0.45;
+const AUTO_REVEAL_DURATION = 0.85;
+
+function easeOutBack(x: number) {
+  const c1 = 1.70158;
+  const c3 = c1 + 1;
+  return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2);
+}
+
+export function GriotBoxModel() {
+  const { scene } = useGLTF(MODEL_URL);
+
+  // The model is a single fused, photo-reconstructed mesh (no separate lid) —
+  // clone it once so repeated mounts don't share transforms.
+  const box = useMemo(() => scene.clone(true), [scene]);
+
+  const group = useRef<THREE.Group>(null);
+  const boxRef = useRef<THREE.Group>(null);
+  const canister = useRef<THREE.Group>(null);
+  const [revealed, setRevealed] = useState(false);
+  const progress = useRef(0);
+
+  const autoPhaseDone = useRef(false);
+  const shakeStart = useRef<number | null>(null);
+  const revealStart = useRef<number | null>(null);
+
+  useEffect(() => {
+    box.traverse((obj) => {
+      const mesh = obj as THREE.Mesh;
+      if ((mesh as THREE.Mesh).isMesh) {
+        mesh.castShadow = true;
+        mesh.receiveShadow = true;
+      }
+    });
+  }, [box]);
+
+  useFrame((state) => {
+    const t = state.clock.elapsedTime;
+
+    if (group.current) {
+      // The model is a thin photographic relief, not a full volume — a slow
+      // wobble (rather than a full spin) keeps the printed face in view.
+      const wobble = Math.sin(t * 0.35) * 0.32;
+      const targetX = -state.pointer.y * 0.12 + 0.05;
+      const targetZ = state.pointer.x * 0.06;
+      group.current.rotation.y = wobble + state.pointer.x * 0.1;
+      group.current.rotation.x = THREE.MathUtils.lerp(group.current.rotation.x, targetX, 0.06);
+      group.current.rotation.z = THREE.MathUtils.lerp(group.current.rotation.z, targetZ, 0.06);
+    }
+
+    if (!autoPhaseDone.current) {
+      if (shakeStart.current === null && t > AUTO_SHAKE_START) {
+        shakeStart.current = t;
+      }
+
+      if (shakeStart.current !== null && revealStart.current === null) {
+        const se = t - shakeStart.current;
+        if (se < AUTO_SHAKE_DURATION) {
+          if (boxRef.current) {
+            const k = 1 - se / AUTO_SHAKE_DURATION;
+            boxRef.current.rotation.z = Math.sin(se * 60) * 0.06 * k;
+          }
+        } else {
+          if (boxRef.current) boxRef.current.rotation.z = 0;
+          revealStart.current = t;
+        }
+      }
+
+      if (revealStart.current !== null) {
+        const raw = (t - revealStart.current) / AUTO_REVEAL_DURATION;
+        const clamped = Math.min(raw, 1);
+        const eased = easeOutBack(clamped);
+
+        if (canister.current) {
+          canister.current.visible = clamped > 0.1;
+          const s = THREE.MathUtils.lerp(0.5, 1, Math.min(eased, 1));
+          canister.current.scale.setScalar(Math.max(s, 0.01));
+          canister.current.position.y = THREE.MathUtils.lerp(0.75, 1.15, Math.min(eased, 1));
+        }
+        if (boxRef.current) {
+          const pop = 1 + Math.max(0, 1 - Math.abs(clamped - 0.35) * 3) * 0.06;
+          boxRef.current.scale.setScalar(pop);
+        }
+
+        if (clamped >= 1) {
+          autoPhaseDone.current = true;
+          progress.current = 1;
+          setRevealed(true);
+        }
+      }
+      return;
+    }
+
+    progress.current = THREE.MathUtils.lerp(progress.current, revealed ? 1 : 0, 0.1);
+    if (canister.current) {
+      canister.current.visible = progress.current > 0.08;
+      const s = THREE.MathUtils.lerp(0.6, 1, progress.current);
+      canister.current.scale.setScalar(s);
+      canister.current.position.y = THREE.MathUtils.lerp(0.75, 1.15, progress.current);
+    }
+  });
+
+  return (
+    <group
+      ref={group}
+      onClick={(e) => {
+        e.stopPropagation();
+        if (autoPhaseDone.current) setRevealed((r) => !r);
+      }}
+    >
+      <group ref={boxRef}>
+        <primitive object={box} />
+      </group>
+
+      <group ref={canister} visible={false} position={[0, 0.75, 0.25]}>
+        <mesh position={[0, 0.1, 0]} castShadow>
+          <cylinderGeometry args={[0.2, 0.2, 0.36, 24]} />
+          <meshStandardMaterial color="#0d0b08" roughness={0.5} metalness={0.2} />
+        </mesh>
+        <mesh position={[0, 0.3, 0]} castShadow>
+          <cylinderGeometry args={[0.14, 0.14, 0.06, 24]} />
+          <meshStandardMaterial color="#e8a33d" roughness={0.4} metalness={0.4} />
+        </mesh>
+      </group>
+    </group>
+  );
+}
+
+useGLTF.preload(MODEL_URL);

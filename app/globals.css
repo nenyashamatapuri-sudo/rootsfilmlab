@@ -1,17 +1,21 @@
 @import "tailwindcss";
 
 :root {
-  --color-paper: #ece0c4;
-  --color-paper-dim: #e0d2ab;
-  --color-ink: #120f0a;
-  --color-stage: #040302;
-  --color-red: #c92e13;
-  --color-gold: #e0a319;
-  --color-cyan: #1aa3ad;
-  --color-blue: #1a4fd6;
-  --color-pink: #e85d9c;
-  --color-line: rgba(18, 15, 10, 0.22);
-  --color-line-on-dark: rgba(236, 224, 196, 0.22);
+  /* Indigo Carnival — gold / magenta / deep indigo, on worn warm cream */
+  --color-paper: #f3e6c8;
+  --color-paper-dim: #e8d7b0;
+  --color-ink: #201409;
+  --color-stage: #0e0818;
+  --color-red: #c2285e;
+  --color-gold: #e8a33d;
+  --color-cyan: #8e6fd6;
+  --color-blue: #4b3fa0;
+  --color-pink: #e8738a;
+  --color-indigo: #241452;
+  --color-kraft: #c9ad7e;
+  --color-kraft-dark: #9c8257;
+  --color-line: rgba(32, 20, 9, 0.22);
+  --color-line-on-dark: rgba(243, 230, 200, 0.22);
 }
 
 @theme inline {
@@ -24,6 +28,9 @@
   --color-cyan: var(--color-cyan);
   --color-blue: var(--color-blue);
   --color-pink: var(--color-pink);
+  --color-indigo: var(--color-indigo);
+  --color-kraft: var(--color-kraft);
+  --color-kraft-dark: var(--color-kraft-dark);
   --color-line: var(--color-line);
   --color-line-on-dark: var(--color-line-on-dark);
 
@@ -162,8 +169,8 @@ body {
 /* Chromatic misprint offset for the hero headline */
 .misprint {
   text-shadow:
-    2.5px 0 0 rgba(201, 46, 19, 0.6),
-    -2.5px 0 0 rgba(26, 163, 173, 0.55);
+    2.5px 0 0 rgba(194, 40, 94, 0.6),
+    -2.5px 0 0 rgba(142, 111, 214, 0.55);
 }
 
 .ink-stamp {
@@ -260,6 +267,42 @@ body {
 
 .screen-in {
   animation: screen-in 0.32s ease-out both;
+}
+
+/* Wikipedia-style dictionary entry for the brand name */
+.griot-def {
+  max-width: 52ch;
+  font-family: var(--font-sans);
+}
+.griot-def .term {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin: 0 0 0.15rem;
+  line-height: 1.1;
+}
+.griot-def .term .ipa {
+  font-weight: 400;
+  font-size: 0.85rem;
+  opacity: 0.55;
+  margin-left: 0.5rem;
+  font-style: italic;
+}
+.griot-def .pos {
+  font-style: italic;
+  font-size: 0.72rem;
+  opacity: 0.6;
+  margin: 0 0 0.45rem;
+}
+.griot-def .def {
+  font-size: 0.82rem;
+  line-height: 1.5;
+  margin: 0;
+  opacity: 0.92;
+}
+
+/* Torn kraft-paper flap, peeking from behind the box art */
+.torn-flap {
+  filter: drop-shadow(3px 4px 3px rgba(0, 0, 0, 0.45));
 }
 
 @media (prefers-reduced-motion: reduce) {
