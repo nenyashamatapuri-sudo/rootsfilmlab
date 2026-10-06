@@ -5,8 +5,10 @@ import { CosmicShell } from "../CosmicShell";
 import { useTab } from "../TabContext";
 
 const OPTIONS = [
-  { id: "develop-scan", name: "Develop + Scan" },
   { id: "develop-only", name: "Develop Only" },
+  { id: "scan-lite", name: "Scan Lite" },
+  { id: "scan-medium", name: "Scan Medium" },
+  { id: "scan-xl", name: "Scan XL" },
   { id: "scan-only", name: "Scan Only" },
   { id: "prints", name: "Prints" },
   { id: "film-post", name: "Film, by Post" },

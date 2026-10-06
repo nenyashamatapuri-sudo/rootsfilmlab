@@ -3,26 +3,49 @@
 import { CosmicShell } from "../CosmicShell";
 import { useTab } from "../TabContext";
 
-const TIERS = [
+const ROWS = [
   {
     id: "develop-only",
     name: "Develop Only",
-    price: "€6.00",
-    features: ["C-41, B&W or E-6", "Returned by post"],
+    note: "only negatives · no scans",
+    format: "all formats",
+    c41: 5,
+    bw: 8,
+    e6: 10,
   },
   {
-    id: "develop-scan",
-    name: "Develop + Scan",
-    price: "€9.50",
-    features: ["2000dpi scans", "Online library"],
-    featured: true,
+    id: "scan-lite",
+    name: "Develop + Scan Lite",
+    note: "3000×2000 · jpg or tiff",
+    format: "35mm",
+    c41: 10,
+    bw: 13,
+    e6: 15,
   },
   {
-    id: "scan-only",
-    name: "Scan Only",
-    price: "€7.50",
-    features: ["Your negatives", "High-res files"],
+    id: "scan-medium",
+    name: "Develop + Scan Medium",
+    note: "4500×3000 · jpg or tiff",
+    format: "35mm/120",
+    c41: 13,
+    bw: 16,
+    e6: 18,
   },
+  {
+    id: "scan-xl",
+    name: "Develop + Scan XL",
+    note: "5300×3600 · jpg or tiff",
+    format: "35mm",
+    c41: 17,
+    bw: 20,
+    e6: 22,
+  },
+];
+
+const EXTRAS = [
+  { name: "Half-frame scans", price: "€3" },
+  { name: "Panorama scans", price: "€3" },
+  { name: "Borders scans", price: "Free" },
 ];
 
 export function PricingPanel() {
@@ -30,50 +53,62 @@ export function PricingPanel() {
 
   return (
     <CosmicShell>
-      <div className="mx-auto flex w-full max-w-3xl flex-1 flex-col justify-center px-6 py-10">
+      <div className="mx-auto flex w-full max-w-3xl flex-1 flex-col justify-center px-6 py-8">
         <p className="text-center font-mono text-[11px] uppercase tracking-[0.2em] text-paper/45">
-          Simple, per roll
+          Prices in euros, per roll
         </p>
 
-        <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
-          {TIERS.map((tier) => (
-            <div
-              key={tier.id}
-              className={
-                "flex flex-col items-center gap-3 rounded-lg border px-6 py-8 text-center backdrop-blur-sm " +
-                (tier.featured
-                  ? "border-gold bg-gold/10"
-                  : "border-paper/15 bg-paper/[0.03]")
-              }
-            >
-              <p className="font-mono text-[10px] uppercase tracking-wider text-paper/55">{tier.name}</p>
-              <p className="font-display text-3xl text-paper">{tier.price}</p>
-              <ul className="font-mono text-[11px] text-paper/60">
-                {tier.features.map((f) => (
-                  <li key={f}>{f}</li>
-                ))}
-              </ul>
+        <div className="mt-6 overflow-x-auto">
+          <div className="min-w-[560px]">
+            <div className="grid grid-cols-[2fr_1fr_0.7fr_0.9fr_0.7fr] gap-3 border-b border-paper/15 pb-2 font-mono text-[10px] uppercase tracking-wider text-paper/40">
+              <span>Option</span>
+              <span>Format</span>
+              <span className="text-right">C41</span>
+              <span className="text-right">BW</span>
+              <span className="text-right">E6</span>
+            </div>
+
+            {ROWS.map((row) => (
               <button
+                key={row.id}
                 onClick={() => {
-                  setPreselect(tier.id);
+                  setPreselect(row.id);
                   go("order");
                 }}
-                className={
-                  "mt-2 w-full border px-4 py-2 font-mono text-[11px] uppercase tracking-wider transition " +
-                  (tier.featured
-                    ? "border-gold text-gold hover:bg-gold hover:text-ink"
-                    : "border-paper/30 text-paper/80 hover:border-paper hover:text-paper")
-                }
+                className="grid w-full grid-cols-[2fr_1fr_0.7fr_0.9fr_0.7fr] items-center gap-3 border-b border-paper/10 py-4 text-left transition hover:bg-paper/[0.04]"
               >
-                Order
+                <span>
+                  <span className="block font-display text-base leading-tight text-paper">{row.name}</span>
+                  <span className="font-sans text-[11px] italic text-paper/45">{row.note}</span>
+                </span>
+                <span className="font-mono text-[12px] text-paper/60">{row.format}</span>
+                <span className="text-right font-display text-lg text-gold">€{row.c41}</span>
+                <span className="text-right font-display text-lg text-paper/80">€{row.bw}</span>
+                <span className="text-right font-display text-lg text-paper/80">€{row.e6}</span>
               </button>
-            </div>
-          ))}
-        </div>
+            ))}
 
-        <p className="mt-6 text-center font-mono text-[10px] uppercase tracking-wider text-paper/35">
-          No subscriptions. EU shipping added at checkout.
-        </p>
+            <div className="flex flex-wrap gap-x-6 gap-y-1 pt-4 font-mono text-[11px] text-paper/55">
+              <span>
+                <b className="text-paper">Push:</b> +€2/stop
+              </span>
+              <span>
+                <b className="text-paper">Sleeve:</b> +€0.50/roll
+              </span>
+              <span>
+                <b className="text-paper">Shipping:</b> flat €8.50
+              </span>
+            </div>
+
+            <div className="mt-5 flex flex-wrap gap-x-6 gap-y-1 border-t border-paper/10 pt-4 font-mono text-[11px] text-paper/55">
+              {EXTRAS.map((e) => (
+                <span key={e.name}>
+                  {e.name} <b className="text-gold">{e.price}</b>
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
     </CosmicShell>
   );
