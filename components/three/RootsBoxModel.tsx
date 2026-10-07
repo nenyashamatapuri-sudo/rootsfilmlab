@@ -7,14 +7,19 @@ import * as THREE from "three";
 
 const MODEL_URL = "/models/roots-box.glb";
 
-const AUTO_SHAKE_START = 0.5;
-const AUTO_SHAKE_DURATION = 0.45;
+const INTRO_HOLD = 0.12;
+const INTRO_DURATION = 1.3;
+const INTRO_SCALE_FROM = 2.6;
 const AUTO_REVEAL_DURATION = 0.85;
 
 function easeOutBack(x: number) {
   const c1 = 1.70158;
   const c3 = c1 + 1;
   return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2);
+}
+
+function easeOutCubic(x: number) {
+  return 1 - Math.pow(1 - x, 3);
 }
 
 export function RootsBoxModel() {
@@ -31,7 +36,7 @@ export function RootsBoxModel() {
   const progress = useRef(0);
 
   const autoPhaseDone = useRef(false);
-  const shakeStart = useRef<number | null>(null);
+  const introDone = useRef(false);
   const revealStart = useRef<number | null>(null);
   const spin = useRef(0);
 
@@ -56,20 +61,18 @@ export function RootsBoxModel() {
     }
 
     if (!autoPhaseDone.current) {
-      if (shakeStart.current === null && t > AUTO_SHAKE_START) {
-        shakeStart.current = t;
-      }
-
-      if (shakeStart.current !== null && revealStart.current === null) {
-        const se = t - shakeStart.current;
-        if (se < AUTO_SHAKE_DURATION) {
-          if (boxRef.current) {
-            const k = 1 - se / AUTO_SHAKE_DURATION;
-            boxRef.current.rotation.z = Math.sin(se * 60) * 0.06 * k;
-          }
+      if (!introDone.current && group.current) {
+        const elapsed = t - INTRO_HOLD;
+        if (elapsed <= 0) {
+          group.current.scale.setScalar(INTRO_SCALE_FROM);
         } else {
-          if (boxRef.current) boxRef.current.rotation.z = 0;
-          revealStart.current = t;
+          const raw = Math.min(elapsed / INTRO_DURATION, 1);
+          const eased = easeOutCubic(raw);
+          group.current.scale.setScalar(THREE.MathUtils.lerp(INTRO_SCALE_FROM, 1, eased));
+          if (raw >= 1) {
+            introDone.current = true;
+            revealStart.current = t;
+          }
         }
       }
 
