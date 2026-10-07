@@ -2,7 +2,7 @@
 
 import { Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
-import { GriotBoxModel } from "./GriotBoxModel";
+import { RootsBoxModel } from "./RootsBoxModel";
 
 function Loading() {
   return (
@@ -24,10 +24,10 @@ export default function FilmBoxScene() {
       >
         <ambientLight intensity={0.55} />
         <directionalLight position={[2, 3, 3]} intensity={1.3} color="#e8a33d" castShadow />
-        <directionalLight position={[-2, 0.5, -1.5]} intensity={0.5} color="#46c2c8" />
+        <directionalLight position={[-2, 0.5, -1.5]} intensity={0.5} color="#7fae5a" />
         <pointLight position={[0, 0.3, 2]} intensity={0.6} color="#c2285e" distance={6} />
         <Suspense fallback={<Loading />}>
-          <GriotBoxModel />
+          <RootsBoxModel />
         </Suspense>
       </Canvas>
     </div>

@@ -12,9 +12,9 @@ export function HomePanel() {
   return (
     <CosmicShell rocks>
       <p className="mx-auto mt-4 max-w-xs px-6 text-center font-sans text-[11px] italic leading-snug text-paper/55 sm:mt-6">
-        <span className="font-semibold not-italic text-paper/80">Griot</span>{" "}
-        <span className="not-italic text-paper/40">/ˈɡriːoʊ/</span> — a storyteller who
-        keeps memory alive.
+        <span className="font-semibold not-italic text-paper/80">Roots</span>{" "}
+        <span className="not-italic text-paper/40">/ruːts/</span> — the part of a story
+        that stays, no matter how far it travels.
       </p>
 
       <div className="relative flex flex-1 items-center justify-center">
@@ -51,8 +51,8 @@ export function HomePanel() {
           Click the box
         </span>
         <span className="pointer-events-auto flex items-center gap-2 rounded-full border border-paper/15 bg-ink/50 px-4 py-2 font-mono text-[10px] uppercase tracking-wider text-paper/60 backdrop-blur-sm">
-          <span className="h-1.5 w-1.5 rounded-full bg-cyan" />
-          hello@griotfilm.nl
+          <span className="h-1.5 w-1.5 rounded-full bg-moss" />
+          hello@rootsfilmlab.nl
         </span>
       </div>
     </CosmicShell>

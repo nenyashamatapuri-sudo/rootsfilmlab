@@ -22,7 +22,7 @@ export function OrderPanel() {
     setPicked((p) => (p.includes(id) ? p.filter((x) => x !== id) : [...p, id]));
 
   const names = OPTIONS.filter((o) => picked.includes(o.id)).map((o) => o.name);
-  const subject = encodeURIComponent("New Griot order");
+  const subject = encodeURIComponent("New Roots order");
   const body = encodeURIComponent(
     names.length ? `I'd like to order:\n— ${names.join("\n— ")}\n\nRolls: \nNotes: ` : "I'd like to order:\n\n"
   );
@@ -57,7 +57,7 @@ export function OrderPanel() {
 
         <div className="mt-9 flex flex-wrap items-center justify-center gap-4">
           <a
-            href={`mailto:hello@griotfilm.nl?subject=${subject}&body=${body}`}
+            href={`mailto:hello@rootsfilmlab.nl?subject=${subject}&body=${body}`}
             className="bg-gold px-7 py-3 font-mono text-[12px] uppercase tracking-[0.1em] text-ink transition hover:brightness-110"
           >
             Email your order

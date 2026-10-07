@@ -27,8 +27,8 @@ function RockShape({ size, flip }: { size: number; flip?: boolean }) {
     >
       <defs>
         <linearGradient id={gradId} x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor="var(--color-cyan)" />
-          <stop offset="45%" stopColor="var(--color-blue)" />
+          <stop offset="0%" stopColor="var(--color-moss)" />
+          <stop offset="45%" stopColor="var(--color-clay)" />
           <stop offset="75%" stopColor="var(--color-red)" />
           <stop offset="100%" stopColor="var(--color-gold)" />
         </linearGradient>
@@ -64,7 +64,7 @@ export function HoloRocks() {
             animationDelay: `${rock.delay}s`,
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             ["--r" as any]: `${rock.rotate}deg`,
-            filter: "drop-shadow(0 0 18px rgba(70,194,200,0.25))",
+            filter: "drop-shadow(0 0 18px rgba(127,174,90,0.25))",
           }}
         >
           <RockShape size={rock.size} flip={rock.flip} />

@@ -1,17 +1,17 @@
 @import "tailwindcss";
 
 :root {
-  /* pulled from the box's own texture — gold wordmark, chrome stripe */
+  /* paper and ink from the box's own texture; moss, clay and forest ground the Roots palette */
   --color-paper: #f3e6c8;
   --color-paper-dim: #e8d7b0;
   --color-ink: #201409;
   --color-stage: #0a0806;
   --color-red: #c2285e;
   --color-gold: #e8a33d;
-  --color-cyan: #46c2c8;
-  --color-blue: #4b3fa0;
+  --color-moss: #7fae5a;
+  --color-clay: #a85c35;
   --color-pink: #e8738a;
-  --color-indigo: #241452;
+  --color-forest: #1f3a24;
   --color-line: rgba(32, 20, 9, 0.22);
   --color-line-on-dark: rgba(243, 230, 200, 0.22);
 }
@@ -23,10 +23,10 @@
   --color-stage: var(--color-stage);
   --color-red: var(--color-red);
   --color-gold: var(--color-gold);
-  --color-cyan: var(--color-cyan);
-  --color-blue: var(--color-blue);
+  --color-moss: var(--color-moss);
+  --color-clay: var(--color-clay);
   --color-pink: var(--color-pink);
-  --color-indigo: var(--color-indigo);
+  --color-forest: var(--color-forest);
   --color-line: var(--color-line);
   --color-line-on-dark: var(--color-line-on-dark);
 
@@ -82,7 +82,7 @@ body {
   background:
     radial-gradient(ellipse 70% 50% at 50% 38%, rgba(232, 163, 61, 0.16), transparent 60%),
     radial-gradient(ellipse 60% 60% at 15% 85%, rgba(194, 40, 94, 0.1), transparent 65%),
-    radial-gradient(ellipse 50% 50% at 90% 15%, rgba(70, 194, 200, 0.08), transparent 60%),
+    radial-gradient(ellipse 50% 50% at 90% 15%, rgba(127, 174, 90, 0.08), transparent 60%),
     var(--color-stage);
 }
 

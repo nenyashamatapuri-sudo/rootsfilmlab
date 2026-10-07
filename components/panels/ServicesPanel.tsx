@@ -5,9 +5,9 @@ import { useTab } from "../TabContext";
 
 const SERVICES = [
   { id: "scan-lite", name: "Develop + Scan", price: "€10.00", accent: "border-gold text-gold" },
-  { id: "develop-only", name: "Develop Only", price: "€5.00", accent: "border-cyan text-cyan" },
+  { id: "develop-only", name: "Develop Only", price: "€5.00", accent: "border-moss text-moss" },
   { id: "scan-only", name: "Scan Only", price: "€7.50", accent: "border-red text-red" },
-  { id: "prints", name: "Prints", price: "€0.35", accent: "border-blue text-blue" },
+  { id: "prints", name: "Prints", price: "€0.35", accent: "border-clay text-clay" },
   { id: "film-post", name: "Film, by Post", price: "€8.00", accent: "border-pink text-pink" },
 ];
 

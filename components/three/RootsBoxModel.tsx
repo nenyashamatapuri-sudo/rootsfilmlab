@@ -5,7 +5,7 @@ import { useFrame } from "@react-three/fiber";
 import { useGLTF } from "@react-three/drei";
 import * as THREE from "three";
 
-const MODEL_URL = "/models/griot-box.glb";
+const MODEL_URL = "/models/roots-box.glb";
 
 const AUTO_SHAKE_START = 0.5;
 const AUTO_SHAKE_DURATION = 0.45;
@@ -17,7 +17,7 @@ function easeOutBack(x: number) {
   return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2);
 }
 
-export function GriotBoxModel() {
+export function RootsBoxModel() {
   const { scene } = useGLTF(MODEL_URL);
 
   // The model is a single fused, photo-reconstructed mesh (no separate lid) —
