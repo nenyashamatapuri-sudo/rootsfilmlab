@@ -8,21 +8,21 @@ export function HomePanel() {
   const { go } = useTab();
 
   return (
-    <CosmicShell light>
-      <p className="mx-auto mt-4 max-w-xs px-6 text-center font-sans text-[11px] italic leading-snug text-ink/55 sm:mt-6">
-        <span className="font-semibold not-italic text-ink/80">Roots</span>{" "}
-        <span className="not-italic text-ink/40">/ruːts/</span> — the part of a story
+    <CosmicShell rocks>
+      <p className="mx-auto mt-4 max-w-xs px-6 text-center font-sans text-[11px] italic leading-snug text-paper/55 sm:mt-6">
+        <span className="font-semibold not-italic text-paper/80">Roots</span>{" "}
+        <span className="not-italic text-paper/40">/ruːts/</span> — the part of a story
         that stays, no matter how far it travels.
       </p>
 
       <div className="relative flex flex-1 items-center justify-center overflow-hidden">
-        <p
-          className="pointer-events-none absolute inset-x-0 top-1/2 -translate-y-1/2 select-none text-center font-display uppercase leading-none tracking-tight text-red"
-          style={{ fontSize: "clamp(4.5rem, 25vw, 13rem)" }}
+        <div
+          className="pointer-events-none absolute inset-x-0 top-1/2 flex -translate-y-1/2 select-none flex-col items-center text-center font-display uppercase leading-[0.85] tracking-tight text-red"
           aria-hidden
         >
-          Roots
-        </p>
+          <span style={{ fontSize: "clamp(9rem, 50vw, 26rem)" }}>Roots</span>
+          <span style={{ fontSize: "clamp(5.4rem, 30vw, 15.6rem)" }}>Film Lab</span>
+        </div>
 
         {/* the real box, photographed off our own 3D render — tucked into the frame's corners */}
         <img
@@ -38,7 +38,7 @@ export function HomePanel() {
           className="pointer-events-none absolute bottom-2 right-2 z-[5] w-[30%] max-w-[170px] rotate-2 drop-shadow-[0_14px_28px_rgba(0,0,0,0.6)] sm:bottom-4 sm:right-4 sm:w-[20%]"
         />
 
-        <div className="relative z-10 h-[64vh] w-[76%] min-h-[360px] max-w-xl">
+        <div className="relative z-10 h-[64vh] w-full min-h-[360px] max-w-xl">
           <FilmBoxLazy />
         </div>
       </div>
@@ -52,18 +52,18 @@ export function HomePanel() {
         </button>
         <button
           onClick={() => go("pricing")}
-          className="border border-ink/30 px-7 py-3 font-mono text-[12px] uppercase tracking-[0.1em] text-ink/80 transition hover:border-ink hover:text-ink"
+          className="border border-paper/30 px-7 py-3 font-mono text-[12px] uppercase tracking-[0.1em] text-paper/80 transition hover:border-paper hover:text-paper"
         >
           See pricing
         </button>
       </div>
 
       <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 hidden items-center justify-between px-6 pb-5 sm:flex">
-        <span className="pointer-events-auto flex items-center gap-2 rounded-full border border-paper/15 bg-ink/85 px-4 py-2 font-mono text-[10px] uppercase tracking-wider text-paper/60 backdrop-blur-sm">
+        <span className="pointer-events-auto flex items-center gap-2 rounded-full border border-paper/15 bg-ink/50 px-4 py-2 font-mono text-[10px] uppercase tracking-wider text-paper/60 backdrop-blur-sm">
           <span className="h-1.5 w-1.5 rounded-full bg-gold" />
           Click the box
         </span>
-        <span className="pointer-events-auto flex items-center gap-2 rounded-full border border-paper/15 bg-ink/85 px-4 py-2 font-mono text-[10px] uppercase tracking-wider text-paper/60 backdrop-blur-sm">
+        <span className="pointer-events-auto flex items-center gap-2 rounded-full border border-paper/15 bg-ink/50 px-4 py-2 font-mono text-[10px] uppercase tracking-wider text-paper/60 backdrop-blur-sm">
           <span className="h-1.5 w-1.5 rounded-full bg-moss" />
           hello@rootsfilmlab.nl
         </span>
