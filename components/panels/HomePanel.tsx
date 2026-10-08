@@ -8,16 +8,16 @@ export function HomePanel() {
   const { go } = useTab();
 
   return (
-    <CosmicShell rocks>
-      <p className="mx-auto mt-4 max-w-xs px-6 text-center font-sans text-[11px] italic leading-snug text-paper/55 sm:mt-6">
-        <span className="font-semibold not-italic text-paper/80">Roots</span>{" "}
-        <span className="not-italic text-paper/40">/ruːts/</span> — the part of a story
+    <CosmicShell light>
+      <p className="mx-auto mt-4 max-w-xs px-6 text-center font-sans text-[11px] italic leading-snug text-ink/55 sm:mt-6">
+        <span className="font-semibold not-italic text-ink/80">Roots</span>{" "}
+        <span className="not-italic text-ink/40">/ruːts/</span> — the part of a story
         that stays, no matter how far it travels.
       </p>
 
       <div className="relative flex flex-1 items-center justify-center overflow-hidden">
         <p
-          className="misprint pointer-events-none absolute inset-x-0 top-1/2 -translate-y-1/2 select-none text-center font-display uppercase leading-none tracking-tight text-paper/90"
+          className="pointer-events-none absolute inset-x-0 top-1/2 -translate-y-1/2 select-none text-center font-display uppercase leading-none tracking-tight text-red"
           style={{ fontSize: "clamp(4.5rem, 25vw, 13rem)" }}
           aria-hidden
         >
@@ -52,18 +52,18 @@ export function HomePanel() {
         </button>
         <button
           onClick={() => go("pricing")}
-          className="border border-paper/30 px-7 py-3 font-mono text-[12px] uppercase tracking-[0.1em] text-paper/80 transition hover:border-paper hover:text-paper"
+          className="border border-ink/30 px-7 py-3 font-mono text-[12px] uppercase tracking-[0.1em] text-ink/80 transition hover:border-ink hover:text-ink"
         >
           See pricing
         </button>
       </div>
 
       <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 hidden items-center justify-between px-6 pb-5 sm:flex">
-        <span className="pointer-events-auto flex items-center gap-2 rounded-full border border-paper/15 bg-ink/50 px-4 py-2 font-mono text-[10px] uppercase tracking-wider text-paper/60 backdrop-blur-sm">
+        <span className="pointer-events-auto flex items-center gap-2 rounded-full border border-paper/15 bg-ink/85 px-4 py-2 font-mono text-[10px] uppercase tracking-wider text-paper/60 backdrop-blur-sm">
           <span className="h-1.5 w-1.5 rounded-full bg-gold" />
           Click the box
         </span>
-        <span className="pointer-events-auto flex items-center gap-2 rounded-full border border-paper/15 bg-ink/50 px-4 py-2 font-mono text-[10px] uppercase tracking-wider text-paper/60 backdrop-blur-sm">
+        <span className="pointer-events-auto flex items-center gap-2 rounded-full border border-paper/15 bg-ink/85 px-4 py-2 font-mono text-[10px] uppercase tracking-wider text-paper/60 backdrop-blur-sm">
           <span className="h-1.5 w-1.5 rounded-full bg-moss" />
           hello@rootsfilmlab.nl
         </span>
