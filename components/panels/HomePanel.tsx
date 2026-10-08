@@ -52,18 +52,18 @@ export function HomePanel() {
         </button>
         <button
           onClick={() => go("pricing")}
-          className="border border-paper/30 px-7 py-3 font-mono text-[12px] uppercase tracking-[0.1em] text-paper/80 transition hover:border-paper hover:text-paper"
+          className="border border-paper/30 bg-ink/70 px-7 py-3 font-mono text-[12px] uppercase tracking-[0.1em] text-paper backdrop-blur-sm transition hover:border-paper hover:bg-ink/85"
         >
           See pricing
         </button>
       </div>
 
       <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 hidden items-center justify-between px-6 pb-5 sm:flex">
-        <span className="pointer-events-auto flex items-center gap-2 rounded-full border border-paper/15 bg-ink/50 px-4 py-2 font-mono text-[10px] uppercase tracking-wider text-paper/60 backdrop-blur-sm">
+        <span className="pointer-events-auto flex items-center gap-2 rounded-full border border-paper/15 bg-ink/80 px-4 py-2 font-mono text-[10px] uppercase tracking-wider text-paper/80 backdrop-blur-sm">
           <span className="h-1.5 w-1.5 rounded-full bg-gold" />
           Click the box
         </span>
-        <span className="pointer-events-auto flex items-center gap-2 rounded-full border border-paper/15 bg-ink/50 px-4 py-2 font-mono text-[10px] uppercase tracking-wider text-paper/60 backdrop-blur-sm">
+        <span className="pointer-events-auto flex items-center gap-2 rounded-full border border-paper/15 bg-ink/80 px-4 py-2 font-mono text-[10px] uppercase tracking-wider text-paper/80 backdrop-blur-sm">
           <span className="h-1.5 w-1.5 rounded-full bg-moss" />
           hello@rootsfilmlab.nl
         </span>
