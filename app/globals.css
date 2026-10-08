@@ -1,19 +1,19 @@
 @import "tailwindcss";
 
 :root {
-  /* paper and ink from the box's own texture; moss, clay and forest ground the Roots palette */
-  --color-paper: #f3e6c8;
-  --color-paper-dim: #e8d7b0;
-  --color-ink: #201409;
-  --color-stage: #0a0806;
-  --color-red: #c2285e;
-  --color-gold: #e8a33d;
-  --color-moss: #7fae5a;
-  --color-clay: #a85c35;
-  --color-pink: #e8738a;
-  --color-forest: #1f3a24;
-  --color-line: rgba(32, 20, 9, 0.22);
-  --color-line-on-dark: rgba(243, 230, 200, 0.22);
+  /* dark red, black and white — a stark editorial pass; final tuning still to come */
+  --color-paper: #f4f3ef;
+  --color-paper-dim: #cac8c3;
+  --color-ink: #121110;
+  --color-stage: #0a0a0a;
+  --color-red: #7a1420;
+  --color-gold: #9c1f28;
+  --color-moss: #55534f;
+  --color-clay: #8a8780;
+  --color-pink: #b23340;
+  --color-forest: #161514;
+  --color-line: rgba(18, 17, 16, 0.22);
+  --color-line-on-dark: rgba(244, 243, 239, 0.22);
 }
 
 @theme inline {
@@ -56,8 +56,8 @@ body {
 /* Chromatic misprint offset for the hero headline */
 .misprint {
   text-shadow:
-    2.5px 0 0 rgba(194, 40, 94, 0.6),
-    -2.5px 0 0 rgba(70, 194, 200, 0.55);
+    2.5px 0 0 rgba(122, 20, 32, 0.65),
+    -2.5px 0 0 rgba(244, 243, 239, 0.5);
 }
 
 /* App-screen swap transition */
@@ -80,9 +80,9 @@ body {
 
 .cosmos {
   background:
-    radial-gradient(ellipse 70% 50% at 50% 38%, rgba(232, 163, 61, 0.16), transparent 60%),
-    radial-gradient(ellipse 60% 60% at 15% 85%, rgba(194, 40, 94, 0.1), transparent 65%),
-    radial-gradient(ellipse 50% 50% at 90% 15%, rgba(127, 174, 90, 0.08), transparent 60%),
+    radial-gradient(ellipse 70% 50% at 50% 38%, rgba(122, 20, 32, 0.2), transparent 60%),
+    radial-gradient(ellipse 60% 60% at 15% 85%, rgba(154, 31, 40, 0.12), transparent 65%),
+    radial-gradient(ellipse 50% 50% at 90% 15%, rgba(80, 78, 76, 0.1), transparent 60%),
     var(--color-stage);
 }
 
@@ -91,16 +91,16 @@ body {
   inset: 0;
   pointer-events: none;
   background-image:
-    radial-gradient(1.5px 1.5px at 12% 22%, rgba(243, 230, 200, 0.9), transparent),
-    radial-gradient(1px 1px at 28% 68%, rgba(243, 230, 200, 0.7), transparent),
-    radial-gradient(1.5px 1.5px at 44% 12%, rgba(243, 230, 200, 0.85), transparent),
-    radial-gradient(1px 1px at 58% 78%, rgba(243, 230, 200, 0.6), transparent),
-    radial-gradient(1.5px 1.5px at 72% 32%, rgba(243, 230, 200, 0.9), transparent),
-    radial-gradient(1px 1px at 85% 60%, rgba(243, 230, 200, 0.6), transparent),
-    radial-gradient(1.5px 1.5px at 93% 20%, rgba(243, 230, 200, 0.8), transparent),
-    radial-gradient(1px 1px at 6% 85%, rgba(243, 230, 200, 0.65), transparent),
-    radial-gradient(1.5px 1.5px at 36% 90%, rgba(243, 230, 200, 0.7), transparent),
-    radial-gradient(1px 1px at 65% 50%, rgba(243, 230, 200, 0.55), transparent);
+    radial-gradient(1.5px 1.5px at 12% 22%, rgba(244, 243, 239, 0.9), transparent),
+    radial-gradient(1px 1px at 28% 68%, rgba(244, 243, 239, 0.7), transparent),
+    radial-gradient(1.5px 1.5px at 44% 12%, rgba(244, 243, 239, 0.85), transparent),
+    radial-gradient(1px 1px at 58% 78%, rgba(244, 243, 239, 0.6), transparent),
+    radial-gradient(1.5px 1.5px at 72% 32%, rgba(244, 243, 239, 0.9), transparent),
+    radial-gradient(1px 1px at 85% 60%, rgba(244, 243, 239, 0.6), transparent),
+    radial-gradient(1.5px 1.5px at 93% 20%, rgba(244, 243, 239, 0.8), transparent),
+    radial-gradient(1px 1px at 6% 85%, rgba(244, 243, 239, 0.65), transparent),
+    radial-gradient(1.5px 1.5px at 36% 90%, rgba(244, 243, 239, 0.7), transparent),
+    radial-gradient(1px 1px at 65% 50%, rgba(244, 243, 239, 0.55), transparent);
   background-size: 100% 100%;
 }
 

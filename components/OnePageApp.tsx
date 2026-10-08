@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { TabContext, type Tab } from "./TabContext";
 import { TabBar } from "./TabBar";
+import { RunningHead } from "./RunningHead";
 import { HomePanel } from "./panels/HomePanel";
 import { ServicesPanel } from "./panels/ServicesPanel";
 import { PricingPanel } from "./panels/PricingPanel";
@@ -24,6 +25,7 @@ export function OnePageApp() {
     <TabContext.Provider value={{ active, go: setActive, preselect, setPreselect }}>
       <div className="flex h-full min-h-full flex-col">
         <TabBar />
+        <RunningHead />
         <div key={active} className="screen-in min-h-0 flex-1">
           <Panel />
         </div>

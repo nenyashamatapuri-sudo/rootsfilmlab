@@ -44,7 +44,7 @@ export function OrderPanel() {
                 className={
                   "rounded-full border px-5 py-2.5 font-mono text-[12px] uppercase tracking-wide transition " +
                   (isOn
-                    ? "border-gold bg-gold text-ink"
+                    ? "border-gold bg-gold text-paper"
                     : "border-paper/25 text-paper/70 hover:border-paper/60 hover:text-paper")
                 }
               >
@@ -58,7 +58,7 @@ export function OrderPanel() {
         <div className="mt-9 flex flex-wrap items-center justify-center gap-4">
           <a
             href={`mailto:hello@rootsfilmlab.nl?subject=${subject}&body=${body}`}
-            className="bg-gold px-7 py-3 font-mono text-[12px] uppercase tracking-[0.1em] text-ink transition hover:brightness-110"
+            className="bg-gold px-7 py-3 font-mono text-[12px] uppercase tracking-[0.1em] text-paper transition hover:brightness-110"
           >
             Email your order
           </a>

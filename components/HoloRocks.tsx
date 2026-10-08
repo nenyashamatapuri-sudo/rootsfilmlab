@@ -64,7 +64,7 @@ export function HoloRocks() {
             animationDelay: `${rock.delay}s`,
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             ["--r" as any]: `${rock.rotate}deg`,
-            filter: "drop-shadow(0 0 18px rgba(127,174,90,0.25))",
+            filter: "drop-shadow(0 0 18px rgba(122,20,32,0.3))",
           }}
         >
           <RockShape size={rock.size} flip={rock.flip} />
