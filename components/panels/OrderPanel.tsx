@@ -28,9 +28,9 @@ export function OrderPanel() {
   );
 
   return (
-    <CosmicShell>
+    <CosmicShell light>
       <div className="mx-auto flex w-full max-w-2xl flex-1 flex-col justify-center px-6 py-10">
-        <p className="text-center font-mono text-[11px] uppercase tracking-[0.2em] text-paper/45">
+        <p className="text-center font-mono text-[11px] uppercase tracking-[0.2em] text-ink/45">
           What do you want developed?
         </p>
 
@@ -44,8 +44,8 @@ export function OrderPanel() {
                 className={
                   "rounded-full border px-5 py-2.5 font-mono text-[12px] uppercase tracking-wide transition " +
                   (isOn
-                    ? "border-gold bg-gold text-paper"
-                    : "border-paper/25 text-paper/70 hover:border-paper/60 hover:text-paper")
+                    ? "border-gold bg-gold text-ink"
+                    : "border-ink/25 text-ink/70 hover:border-ink/60 hover:text-ink")
                 }
               >
                 {isOn ? "✓ " : ""}
@@ -58,19 +58,19 @@ export function OrderPanel() {
         <div className="mt-9 flex flex-wrap items-center justify-center gap-4">
           <a
             href={`mailto:hello@rootsfilmlab.nl?subject=${subject}&body=${body}`}
-            className="bg-gold px-7 py-3 font-mono text-[12px] uppercase tracking-[0.1em] text-paper transition hover:brightness-110"
+            className="bg-gold px-7 py-3 font-mono text-[12px] uppercase tracking-[0.1em] text-ink transition hover:brightness-110"
           >
             Email your order
           </a>
           <a
             href="#"
-            className="border border-paper/30 px-7 py-3 font-mono text-[12px] uppercase tracking-[0.1em] text-paper/80 transition hover:border-paper hover:text-paper"
+            className="border border-ink/30 px-7 py-3 font-mono text-[12px] uppercase tracking-[0.1em] text-ink/80 transition hover:border-ink hover:text-ink"
           >
             WhatsApp us
           </a>
         </div>
 
-        <p className="mt-8 text-center font-mono text-[10px] uppercase tracking-wider text-paper/35">
+        <p className="mt-8 text-center font-mono text-[10px] uppercase tracking-wider text-ink/35">
           Mail to our Amsterdam address, or drop off — details on confirmation.
         </p>
       </div>

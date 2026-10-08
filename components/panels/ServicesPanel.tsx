@@ -15,9 +15,9 @@ export function ServicesPanel() {
   const { go, setPreselect } = useTab();
 
   return (
-    <CosmicShell>
+    <CosmicShell light>
       <div className="mx-auto flex w-full max-w-4xl flex-1 flex-col justify-center px-6 py-10">
-        <p className="text-center font-mono text-[11px] uppercase tracking-[0.2em] text-paper/45">
+        <p className="text-center font-mono text-[11px] uppercase tracking-[0.2em] text-ink/45">
           What we develop
         </p>
 
@@ -29,15 +29,15 @@ export function ServicesPanel() {
                 setPreselect(s.id);
                 go("order");
               }}
-              className={`group flex flex-col items-center gap-2 rounded-lg border border-paper/15 bg-paper/[0.03] px-4 py-6 text-center backdrop-blur-sm transition hover:border-current hover:bg-paper/[0.06] ${s.accent}`}
+              className={`group flex flex-col items-center gap-2 rounded-lg border border-ink/15 bg-ink/[0.02] px-4 py-6 text-center transition hover:border-current hover:bg-ink/[0.05] ${s.accent}`}
             >
-              <span className="font-display text-sm tracking-wide text-paper">{s.name}</span>
+              <span className="font-display text-sm tracking-wide text-ink">{s.name}</span>
               <span className="font-mono text-xs opacity-80">from {s.price}</span>
             </button>
           ))}
         </div>
 
-        <p className="mt-8 text-center font-mono text-[10px] uppercase tracking-wider text-paper/35">
+        <p className="mt-8 text-center font-mono text-[10px] uppercase tracking-wider text-ink/35">
           Mix and match — one box, any combination.
         </p>
       </div>

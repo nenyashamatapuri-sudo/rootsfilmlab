@@ -46,7 +46,7 @@ export function HomePanel() {
       <div className="relative z-10 mx-auto mb-6 flex flex-wrap items-center justify-center gap-4">
         <button
           onClick={() => go("order")}
-          className="bg-gold px-7 py-3 font-mono text-[12px] uppercase tracking-[0.1em] text-paper transition hover:brightness-110"
+          className="bg-gold px-7 py-3 font-mono text-[12px] uppercase tracking-[0.1em] text-ink transition hover:brightness-110"
         >
           Start an order
         </button>

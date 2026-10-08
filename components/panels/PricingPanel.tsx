@@ -52,15 +52,15 @@ export function PricingPanel() {
   const { go, setPreselect } = useTab();
 
   return (
-    <CosmicShell>
+    <CosmicShell light>
       <div className="mx-auto flex w-full max-w-3xl flex-1 flex-col justify-center px-6 py-8">
-        <p className="text-center font-mono text-[11px] uppercase tracking-[0.2em] text-paper/45">
+        <p className="text-center font-mono text-[11px] uppercase tracking-[0.2em] text-ink/45">
           Prices in euros, per roll
         </p>
 
         <div className="mt-6 overflow-x-auto">
           <div className="min-w-[560px]">
-            <div className="grid grid-cols-[2fr_1fr_0.7fr_0.9fr_0.7fr] gap-3 border-b border-paper/15 pb-2 font-mono text-[10px] uppercase tracking-wider text-paper/40">
+            <div className="grid grid-cols-[2fr_1fr_0.7fr_0.9fr_0.7fr] gap-3 border-b border-ink/15 pb-2 font-mono text-[10px] uppercase tracking-wider text-ink/40">
               <span>Option</span>
               <span>Format</span>
               <span className="text-right">C41</span>
@@ -75,32 +75,32 @@ export function PricingPanel() {
                   setPreselect(row.id);
                   go("order");
                 }}
-                className="grid w-full grid-cols-[2fr_1fr_0.7fr_0.9fr_0.7fr] items-center gap-3 border-b border-paper/10 py-4 text-left transition hover:bg-paper/[0.04]"
+                className="grid w-full grid-cols-[2fr_1fr_0.7fr_0.9fr_0.7fr] items-center gap-3 border-b border-ink/10 py-4 text-left transition hover:bg-ink/[0.03]"
               >
                 <span>
-                  <span className="block font-display text-base leading-tight text-paper">{row.name}</span>
-                  <span className="font-sans text-[11px] italic text-paper/45">{row.note}</span>
+                  <span className="block font-display text-base leading-tight text-ink">{row.name}</span>
+                  <span className="font-sans text-[11px] italic text-ink/45">{row.note}</span>
                 </span>
-                <span className="font-mono text-[12px] text-paper/60">{row.format}</span>
-                <span className="text-right font-display text-lg text-gold">€{row.c41}</span>
-                <span className="text-right font-display text-lg text-paper/80">€{row.bw}</span>
-                <span className="text-right font-display text-lg text-paper/80">€{row.e6}</span>
+                <span className="font-mono text-[12px] text-ink/60">{row.format}</span>
+                <span className="text-right font-display text-lg text-red">€{row.c41}</span>
+                <span className="text-right font-display text-lg text-ink/80">€{row.bw}</span>
+                <span className="text-right font-display text-lg text-ink/80">€{row.e6}</span>
               </button>
             ))}
 
-            <div className="flex flex-wrap gap-x-6 gap-y-1 pt-4 font-mono text-[11px] text-paper/55">
+            <div className="flex flex-wrap gap-x-6 gap-y-1 pt-4 font-mono text-[11px] text-ink/55">
               <span>
-                <b className="text-paper">Push:</b> +€2/stop
+                <b className="text-ink">Push:</b> +€2/stop
               </span>
               <span>
-                <b className="text-paper">Sleeve:</b> +€0.50/roll
+                <b className="text-ink">Sleeve:</b> +€0.50/roll
               </span>
               <span>
-                <b className="text-paper">Shipping:</b> flat €8.50
+                <b className="text-ink">Shipping:</b> flat €8.50
               </span>
             </div>
 
-            <div className="mt-5 flex flex-wrap gap-x-6 gap-y-1 border-t border-paper/10 pt-4 font-mono text-[11px] text-paper/55">
+            <div className="mt-5 flex flex-wrap gap-x-6 gap-y-1 border-t border-ink/10 pt-4 font-mono text-[11px] text-ink/55">
               {EXTRAS.map((e) => (
                 <span key={e.name}>
                   {e.name} <b className="text-gold">{e.price}</b>
