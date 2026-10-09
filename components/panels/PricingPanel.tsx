@@ -1,6 +1,5 @@
 "use client";
 
-import RootsVisionLazy from "../three/RootsVisionLazy";
 import { CosmicShell } from "../CosmicShell";
 import { useTab } from "../TabContext";
 
@@ -60,14 +59,7 @@ export function PricingPanel() {
   const { go, setPreselect } = useTab();
 
   return (
-    <CosmicShell
-      light
-      below={
-        <div className="mx-auto h-56 w-full max-w-sm shrink-0 sm:h-64">
-          <RootsVisionLazy />
-        </div>
-      }
-    >
+    <CosmicShell light>
       <div className="mx-auto flex w-full max-w-4xl flex-1 flex-col justify-center px-6 py-8">
         <p className="text-center font-mono text-[11px] uppercase tracking-[0.2em] text-ink/45">
           What we develop
