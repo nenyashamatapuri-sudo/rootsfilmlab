@@ -1,5 +1,6 @@
 "use client";
 
+import RootsVisionLazy from "../three/RootsVisionLazy";
 import { CosmicShell } from "../CosmicShell";
 import { useTab } from "../TabContext";
 
@@ -39,6 +40,10 @@ export function ServicesPanel() {
         <p className="mt-8 text-center font-mono text-[10px] uppercase tracking-wider text-ink/35">
           Mix and match — one box, any combination.
         </p>
+
+        <div className="mx-auto mt-6 h-56 w-full max-w-sm sm:h-64">
+          <RootsVisionLazy />
+        </div>
       </div>
     </CosmicShell>
   );
