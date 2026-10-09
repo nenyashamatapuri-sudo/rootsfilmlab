@@ -7,11 +7,13 @@ import { RunningHead } from "./RunningHead";
 import { HomePanel } from "./panels/HomePanel";
 import { PricingPanel } from "./panels/PricingPanel";
 import { OrderPanel } from "./panels/OrderPanel";
+import { ContactPanel } from "./panels/ContactPanel";
 
 const PANELS: Record<Tab, () => React.JSX.Element> = {
   home: HomePanel,
   pricing: PricingPanel,
   order: OrderPanel,
+  contact: ContactPanel,
 };
 
 export function OnePageApp() {

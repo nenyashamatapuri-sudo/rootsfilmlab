@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import RootsVisionLazy from "../three/RootsVisionLazy";
 import { CosmicShell } from "../CosmicShell";
 import { useTab } from "../TabContext";
 
@@ -211,7 +212,14 @@ export function OrderPanel() {
   const shopifyUrl = buildShopifyCheckoutUrl(shopifyLines);
 
   return (
-    <CosmicShell light>
+    <CosmicShell
+      light
+      below={
+        <div className="mx-auto h-56 w-full max-w-sm shrink-0 sm:h-64">
+          <RootsVisionLazy />
+        </div>
+      }
+    >
       <div className="mx-auto flex w-full max-w-xl flex-1 flex-col justify-center px-6 py-10">
         {stepId !== "rolls" && (
           <div className="mb-5 flex items-center justify-center gap-3 font-mono text-[10px] uppercase tracking-wider text-ink/40">
