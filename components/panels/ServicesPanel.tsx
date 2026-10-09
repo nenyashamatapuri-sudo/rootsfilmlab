@@ -15,7 +15,14 @@ export function ServicesPanel() {
   const { go, setPreselect } = useTab();
 
   return (
-    <CosmicShell light>
+    <CosmicShell
+      light
+      below={
+        <div className="mx-auto h-56 w-full max-w-sm shrink-0 sm:h-64">
+          <RootsVisionLazy />
+        </div>
+      }
+    >
       <div className="mx-auto flex w-full max-w-4xl flex-1 flex-col justify-center px-6 py-10">
         <p className="text-center font-mono text-[11px] uppercase tracking-[0.2em] text-ink/45">
           What we develop
@@ -40,10 +47,6 @@ export function ServicesPanel() {
         <p className="mt-8 text-center font-mono text-[10px] uppercase tracking-wider text-ink/35">
           Mix and match — one box, any combination.
         </p>
-
-        <div className="mx-auto mt-6 h-56 w-full max-w-sm sm:h-64">
-          <RootsVisionLazy />
-        </div>
       </div>
     </CosmicShell>
   );
