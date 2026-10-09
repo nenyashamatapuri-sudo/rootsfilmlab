@@ -11,7 +11,6 @@ const ROWS = [
     format: "all formats",
     c41: 5,
     bw: 8,
-    e6: 10,
   },
   {
     id: "scan-small",
@@ -20,7 +19,6 @@ const ROWS = [
     format: "35mm",
     c41: 13,
     bw: 16,
-    e6: 18,
   },
   {
     id: "scan-medium",
@@ -29,7 +27,6 @@ const ROWS = [
     format: "35mm",
     c41: 16,
     bw: 19,
-    e6: 21,
   },
   {
     id: "scan-large",
@@ -38,7 +35,6 @@ const ROWS = [
     format: "35mm",
     c41: 19,
     bw: 22,
-    e6: 24,
   },
   {
     id: "scan-120",
@@ -47,15 +43,10 @@ const ROWS = [
     format: "120",
     c41: 16,
     bw: 19,
-    e6: 21,
   },
 ];
 
-const EXTRAS = [
-  { name: "Half-frame scans", price: "€3" },
-  { name: "Panorama scans", price: "€3" },
-  { name: "Borders scans", price: "Free" },
-];
+const EXTRAS = [{ name: "Borders scans", price: "Free" }];
 
 export function PricingPanel() {
   const { go, setPreselect } = useTab();
@@ -68,13 +59,12 @@ export function PricingPanel() {
         </p>
 
         <div className="mt-6 overflow-x-auto">
-          <div className="min-w-[560px]">
-            <div className="grid grid-cols-[2fr_1fr_0.7fr_0.9fr_0.7fr] gap-3 border-b border-ink/15 pb-2 font-mono text-[10px] uppercase tracking-wider text-ink/40">
+          <div className="min-w-[460px]">
+            <div className="grid grid-cols-[2fr_1fr_0.8fr_0.8fr] gap-3 border-b border-ink/15 pb-2 font-mono text-[10px] uppercase tracking-wider text-ink/40">
               <span>Option</span>
               <span>Format</span>
               <span className="text-right">C41</span>
               <span className="text-right">BW</span>
-              <span className="text-right">E6</span>
             </div>
 
             {ROWS.map((row) => (
@@ -84,7 +74,7 @@ export function PricingPanel() {
                   setPreselect(row.id);
                   go("order");
                 }}
-                className="grid w-full grid-cols-[2fr_1fr_0.7fr_0.9fr_0.7fr] items-center gap-3 border-b border-ink/10 py-4 text-left transition hover:bg-ink/[0.03]"
+                className="grid w-full grid-cols-[2fr_1fr_0.8fr_0.8fr] items-center gap-3 border-b border-ink/10 py-4 text-left transition hover:bg-ink/[0.03]"
               >
                 <span>
                   <span className="block font-display text-base leading-tight text-ink">{row.name}</span>
@@ -93,7 +83,6 @@ export function PricingPanel() {
                 <span className="font-mono text-[12px] text-ink/60">{row.format}</span>
                 <span className="text-right font-display text-lg text-red">€{row.c41}</span>
                 <span className="text-right font-display text-lg text-ink/80">€{row.bw}</span>
-                <span className="text-right font-display text-lg text-ink/80">€{row.e6}</span>
               </button>
             ))}
 

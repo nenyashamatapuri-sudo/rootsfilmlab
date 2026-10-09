@@ -7,9 +7,27 @@ import { useTab } from "../TabContext";
 type Core = "develop-only" | "develop-scan" | "scan-only";
 type Format = "35mm" | "120";
 type ScanSize = "small" | "medium" | "large";
-type Process = "c41" | "bw" | "e6";
+type Process = "c41" | "bw";
 type Delivery = "dropoff" | "post";
-type StepId = "core" | "format" | "scanSize" | "process" | "rolls" | "addons" | "delivery" | "summary";
+
+type Batch = {
+  id: number;
+  format: Format;
+  scanSize: ScanSize | null;
+  process: Process | null;
+  rolls: number;
+};
+
+type StepId =
+  | "core"
+  | "batchFormat"
+  | "batchScanSize"
+  | "batchProcess"
+  | "batchRolls"
+  | "batchList"
+  | "addons"
+  | "delivery"
+  | "summary";
 
 const CORE_CHOICES: { id: Core; name: string; hint: string }[] = [
   { id: "develop-only", name: "Develop Only", hint: "just the negatives, no scans" },
@@ -31,7 +49,6 @@ const SCAN_SIZE_CHOICES: { id: ScanSize; name: string; hint: string }[] = [
 const PROCESS_CHOICES: { id: Process; name: string }[] = [
   { id: "c41", name: "Colour · C41" },
   { id: "bw", name: "Black & White" },
-  { id: "e6", name: "Slide · E6" },
 ];
 
 const DELIVERY_CHOICES: { id: Delivery; name: string; hint: string }[] = [
@@ -40,35 +57,37 @@ const DELIVERY_CHOICES: { id: Delivery; name: string; hint: string }[] = [
 ];
 
 const PRICE_TABLE: Record<string, Record<Process, number>> = {
-  "develop-only": { c41: 5, bw: 8, e6: 10 },
-  "scan-only": { c41: 7.5, bw: 7.5, e6: 7.5 },
-  "develop-scan:35mm:small": { c41: 13, bw: 16, e6: 18 },
-  "develop-scan:35mm:medium": { c41: 16, bw: 19, e6: 21 },
-  "develop-scan:35mm:large": { c41: 19, bw: 22, e6: 24 },
-  "develop-scan:120": { c41: 16, bw: 19, e6: 21 },
+  "develop-only": { c41: 5, bw: 8 },
+  "scan-only": { c41: 7.5, bw: 7.5 },
+  "develop-scan:35mm:small": { c41: 13, bw: 16 },
+  "develop-scan:35mm:medium": { c41: 16, bw: 19 },
+  "develop-scan:35mm:large": { c41: 19, bw: 22 },
+  "develop-scan:120": { c41: 16, bw: 19 },
 };
 
-function unitPrice(core: Core, format: Format | null, scanSize: ScanSize | null, process: Process | null) {
-  if (!process) return null;
-  if (core === "develop-only") return PRICE_TABLE["develop-only"][process];
-  if (core === "scan-only") return PRICE_TABLE["scan-only"][process];
-  if (format === "120") return PRICE_TABLE["develop-scan:120"][process];
-  if (format === "35mm" && scanSize) return PRICE_TABLE[`develop-scan:35mm:${scanSize}`][process];
-  return null;
+function unitPrice(core: Core, format: Format, scanSize: ScanSize | null, process: Process | null) {
+  const p = process ?? "c41";
+  if (core === "develop-only") return PRICE_TABLE["develop-only"][p];
+  if (core === "scan-only") return PRICE_TABLE["scan-only"][p];
+  if (format === "120") return PRICE_TABLE["develop-scan:120"][p];
+  if (scanSize) return PRICE_TABLE[`develop-scan:35mm:${scanSize}`][p];
+  return 0;
 }
 
-// Each answer narrows what's asked next — picking "Develop Only" means the
-// scan-size and process-for-scanning questions never show up, picking "120"
-// skips scan size entirely since that format only has one scan tier.
-function stepsFor(core: Core | null, format: Format | null): StepId[] {
-  const steps: StepId[] = ["core"];
-  if (!core) return steps;
-  steps.push("format");
-  if (!format) return steps;
-  if (core === "develop-scan" && format === "35mm") steps.push("scanSize");
-  if (core !== "scan-only") steps.push("process");
-  steps.push("rolls", "addons", "delivery", "summary");
-  return steps;
+// What's left to ask before a batch (one roll-type entry) is complete — skips
+// scan size for 120 (only one tier) and skips process for Scan Only (flat
+// price either way), so a simple roll never has to answer questions that
+// don't change anything about it.
+function nextDraftStep(
+  core: Core,
+  format: Format | null,
+  scanSize: ScanSize | null,
+  process: Process | null
+): StepId {
+  if (!format) return "batchFormat";
+  if (core === "develop-scan" && format === "35mm" && !scanSize) return "batchScanSize";
+  if (core !== "scan-only" && !process) return "batchProcess";
+  return "batchRolls";
 }
 
 function fromPreselect(id: string | null) {
@@ -86,15 +105,25 @@ function fromPreselect(id: string | null) {
     case "scan-120":
       return { core: "develop-scan" as Core, format: "120" as Format, scanSize: null };
     default:
-      return { core: null, format: null, scanSize: null };
+      return { core: null as Core | null, format: null as Format | null, scanSize: null as ScanSize | null };
   }
 }
+
+function batchLabel(core: Core, b: Batch) {
+  const bits: string[] = [b.format];
+  if (b.scanSize) bits.push(b.scanSize);
+  if (b.process) bits.push(b.process === "c41" ? "colour" : "black & white");
+  return `${b.rolls} roll${b.rolls === 1 ? "" : "s"} · ${bits.join(" · ")}`;
+}
+
+let batchCounter = 0;
 
 export function OrderPanel() {
   const { preselect } = useTab();
   const initial = fromPreselect(preselect);
 
   const [core, setCore] = useState<Core | null>(initial.core);
+  const [batches, setBatches] = useState<Batch[]>([]);
   const [format, setFormat] = useState<Format | null>(initial.format);
   const [scanSize, setScanSize] = useState<ScanSize | null>(initial.scanSize);
   const [process, setProcess] = useState<Process | null>(null);
@@ -104,40 +133,50 @@ export function OrderPanel() {
   const [printsQty, setPrintsQty] = useState(24);
   const [delivery, setDelivery] = useState<Delivery | null>(null);
 
-  const steps = stepsFor(core, format);
-  const initialStepIndex = steps.findIndex((s) => {
-    if (s === "core") return core === null;
-    if (s === "format") return format === null;
-    if (s === "scanSize") return scanSize === null;
-    if (s === "process") return process === null;
-    return s === "rolls"; // first thing left unanswered once the branching is settled
-  });
-  const [stepId, setStepId] = useState<StepId>(steps[initialStepIndex === -1 ? 0 : initialStepIndex]);
+  const [history, setHistory] = useState<StepId[]>([]);
+  const [stepId, setStepId] = useState<StepId>(() =>
+    initial.core ? nextDraftStep(initial.core, initial.format, initial.scanSize, null) : "core"
+  );
 
-  const advance = (nextSteps: StepId[], from: StepId) => {
-    const i = nextSteps.indexOf(from);
-    setStepId(nextSteps[Math.min(i + 1, nextSteps.length - 1)]);
+  const goto = (next: StepId) => {
+    setHistory((h) => [...h, stepId]);
+    setStepId(next);
   };
   const back = () => {
-    const i = steps.indexOf(stepId);
-    if (i > 0) setStepId(steps[i - 1]);
+    setHistory((h) => {
+      if (h.length === 0) return h;
+      setStepId(h[h.length - 1]);
+      return h.slice(0, -1);
+    });
   };
 
-  const unit = core ? unitPrice(core, format, scanSize, process) : null;
-  const sleeveTotal = sleeve ? rolls * 0.5 : 0;
+  const resetDraft = () => {
+    setFormat(null);
+    setScanSize(null);
+    setProcess(null);
+    setRolls(1);
+  };
+
+  const addBatch = () => {
+    if (!core || !format) return;
+    batchCounter += 1;
+    setBatches((b) => [...b, { id: batchCounter, format, scanSize, process, rolls }]);
+    resetDraft();
+    goto("batchList");
+  };
+
+  const totalRolls = batches.reduce((s, b) => s + b.rolls, 0);
+  const batchesTotal = core ? batches.reduce((s, b) => s + unitPrice(core, b.format, b.scanSize, b.process) * b.rolls, 0) : 0;
+  const sleeveTotal = sleeve ? totalRolls * 0.5 : 0;
   const printsTotal = printsOn ? printsQty * 0.35 : 0;
   const deliveryTotal = delivery === "post" ? 8.5 : 0;
-  const rollsTotal = unit !== null ? unit * rolls : 0;
-  const total = rollsTotal + sleeveTotal + printsTotal + deliveryTotal;
+  const total = batchesTotal + sleeveTotal + printsTotal + deliveryTotal;
 
   const coreLabel = CORE_CHOICES.find((c) => c.id === core)?.name;
-  const processLabel = PROCESS_CHOICES.find((p) => p.id === process)?.name;
   const deliveryLabel = DELIVERY_CHOICES.find((d) => d.id === delivery)?.name;
 
   const summaryLines = [
-    coreLabel && `${coreLabel}${format ? ` · ${format}` : ""}${scanSize ? ` · ${scanSize}` : ""}`,
-    processLabel && `Process: ${processLabel}`,
-    `Rolls: ${rolls}`,
+    ...batches.map((b) => (core ? batchLabel(core, b) : "")),
     sleeve && "Add sleeves (+€0.50/roll)",
     printsOn && `Prints × ${printsQty}`,
     deliveryLabel && `Delivery: ${deliveryLabel}`,
@@ -145,20 +184,24 @@ export function OrderPanel() {
 
   const subject = encodeURIComponent("New Roots order");
   const body = encodeURIComponent(
-    `I'd like to order:\n— ${summaryLines.join("\n— ")}\n\nEstimated total: €${total.toFixed(2)}\n\nNotes: `
+    `I'd like to order (${coreLabel}):\n— ${summaryLines.join("\n— ")}\n\nEstimated total: €${total.toFixed(2)}\n\nNotes: `
   );
 
-  const crumb = [coreLabel, format, scanSize, processLabel].filter(Boolean).join(" · ");
+  const draftCrumb = [coreLabel, format, scanSize, process && (process === "c41" ? "colour" : "black & white")]
+    .filter(Boolean)
+    .join(" · ");
 
   return (
     <CosmicShell light>
       <div className="mx-auto flex w-full max-w-xl flex-1 flex-col justify-center px-6 py-10">
-        {stepId !== "core" && (
+        {history.length > 0 && (
           <div className="mb-5 flex items-center justify-center gap-3 font-mono text-[10px] uppercase tracking-wider text-ink/40">
             <button onClick={back} className="underline-offset-2 hover:text-ink hover:underline">
               ← Back
             </button>
-            {crumb && <span className="truncate text-ink/55">{crumb}</span>}
+            {stepId !== "batchList" && stepId !== "summary" && draftCrumb && (
+              <span className="truncate text-ink/55">{draftCrumb}</span>
+            )}
           </div>
         )}
 
@@ -171,10 +214,7 @@ export function OrderPanel() {
                   active={core === c.id}
                   onClick={() => {
                     setCore(c.id);
-                    setFormat(null);
-                    setScanSize(null);
-                    setProcess(null);
-                    advance(stepsFor(c.id, null), "core");
+                    goto("batchFormat");
                   }}
                 >
                   {c.name}
@@ -185,8 +225,8 @@ export function OrderPanel() {
           </Question>
         )}
 
-        {stepId === "format" && core && (
-          <Question title="What format is it?">
+        {stepId === "batchFormat" && core && (
+          <Question title={batches.length ? "Next roll — what format?" : "What format is it?"}>
             <PillRow>
               {FORMAT_CHOICES.map((f) => (
                 <Pill
@@ -194,8 +234,7 @@ export function OrderPanel() {
                   active={format === f.id}
                   onClick={() => {
                     setFormat(f.id);
-                    setScanSize(null);
-                    advance(stepsFor(core, f.id), "format");
+                    goto(nextDraftStep(core, f.id, null, process));
                   }}
                 >
                   {f.name}
@@ -205,7 +244,7 @@ export function OrderPanel() {
           </Question>
         )}
 
-        {stepId === "scanSize" && (
+        {stepId === "batchScanSize" && core && format && (
           <Question title="What scan size?">
             <PillRow>
               {SCAN_SIZE_CHOICES.map((s) => (
@@ -214,7 +253,7 @@ export function OrderPanel() {
                   active={scanSize === s.id}
                   onClick={() => {
                     setScanSize(s.id);
-                    advance(steps, "scanSize");
+                    goto(nextDraftStep(core, format, s.id, process));
                   }}
                 >
                   {s.name}
@@ -225,7 +264,7 @@ export function OrderPanel() {
           </Question>
         )}
 
-        {stepId === "process" && (
+        {stepId === "batchProcess" && core && format && (
           <Question title="What's on the roll?">
             <PillRow>
               {PROCESS_CHOICES.map((p) => (
@@ -234,7 +273,7 @@ export function OrderPanel() {
                   active={process === p.id}
                   onClick={() => {
                     setProcess(p.id);
-                    advance(steps, "process");
+                    goto(nextDraftStep(core, format, scanSize, p.id));
                   }}
                 >
                   {p.name}
@@ -244,8 +283,8 @@ export function OrderPanel() {
           </Question>
         )}
 
-        {stepId === "rolls" && (
-          <Question title="How many rolls?">
+        {stepId === "batchRolls" && (
+          <Question title="How many rolls like this?">
             <div className="flex items-center gap-5">
               <button
                 onClick={() => setRolls((r) => Math.max(1, r - 1))}
@@ -261,8 +300,39 @@ export function OrderPanel() {
                 +
               </button>
             </div>
-            <NextButton onClick={() => advance(steps, "rolls")} />
+            <NextButton onClick={addBatch}>Add to order →</NextButton>
           </Question>
+        )}
+
+        {stepId === "batchList" && core && (
+          <div className="flex flex-col items-center gap-6">
+            <p className="text-center font-mono text-[11px] uppercase tracking-[0.2em] text-ink/45">
+              Your rolls so far
+            </p>
+            <div className="w-full max-w-sm divide-y divide-ink/10 border-y border-ink/10">
+              {batches.map((b) => (
+                <div key={b.id} className="flex items-center justify-between gap-3 py-2.5">
+                  <span className="font-sans text-sm text-ink/80">{batchLabel(core, b)}</span>
+                  <button
+                    onClick={() => setBatches((bs) => bs.filter((x) => x.id !== b.id))}
+                    aria-label="Remove"
+                    className="font-mono text-xs text-ink/40 hover:text-red"
+                  >
+                    ✕
+                  </button>
+                </div>
+              ))}
+            </div>
+            <div className="flex flex-wrap justify-center gap-3">
+              <button
+                onClick={() => goto("batchFormat")}
+                className="rounded-2xl border border-ink/25 px-5 py-2.5 font-mono text-[12px] uppercase tracking-wide text-ink/70 transition hover:border-ink/60 hover:text-ink"
+              >
+                + Add another roll type
+              </button>
+              <NextButton onClick={() => goto("addons")}>Continue →</NextButton>
+            </div>
+          </div>
         )}
 
         {stepId === "addons" && (
@@ -295,7 +365,7 @@ export function OrderPanel() {
                 </button>
               </div>
             )}
-            <NextButton onClick={() => advance(steps, "addons")} />
+            <NextButton onClick={() => goto("delivery")}>Continue →</NextButton>
           </Question>
         )}
 
@@ -308,7 +378,7 @@ export function OrderPanel() {
                   active={delivery === d.id}
                   onClick={() => {
                     setDelivery(d.id);
-                    advance(steps, "delivery");
+                    goto("summary");
                   }}
                 >
                   {d.name}
@@ -321,7 +391,9 @@ export function OrderPanel() {
 
         {stepId === "summary" && (
           <div className="flex flex-col items-center">
-            <p className="text-center font-mono text-[11px] uppercase tracking-[0.2em] text-ink/45">Your order</p>
+            <p className="text-center font-mono text-[11px] uppercase tracking-[0.2em] text-ink/45">
+              {coreLabel} — your order
+            </p>
             <div className="mt-5 w-full max-w-sm divide-y divide-ink/10 border-y border-ink/10">
               {summaryLines.map((line) => (
                 <p key={line} className="py-2.5 text-center font-sans text-sm text-ink/80">
@@ -369,13 +441,13 @@ function PillRow({ children }: { children: React.ReactNode }) {
   return <div className="flex flex-wrap justify-center gap-2.5">{children}</div>;
 }
 
-function NextButton({ onClick }: { onClick: () => void }) {
+function NextButton({ onClick, children }: { onClick: () => void; children: React.ReactNode }) {
   return (
     <button
       onClick={onClick}
       className="bg-gold px-8 py-2.5 font-mono text-[12px] uppercase tracking-[0.1em] text-ink transition hover:brightness-110"
     >
-      Continue →
+      {children}
     </button>
   );
 }
