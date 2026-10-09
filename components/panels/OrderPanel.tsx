@@ -4,51 +4,30 @@ import { useState } from "react";
 import { CosmicShell } from "../CosmicShell";
 import { useTab } from "../TabContext";
 
-type Core = "develop-only" | "develop-scan" | "scan-only";
+type RollType = "c41" | "bw" | "scan-only";
 type Format = "35mm" | "120";
-type ScanSize = "small" | "medium" | "large";
-type Process = "c41" | "bw";
+type ScanTier = "develop-only" | "small" | "medium" | "large";
 type Delivery = "dropoff" | "post";
+type Counts = Record<RollType, Record<Format, number>>;
+type StepId = "rolls" | "scanTier" | "addons" | "delivery" | "summary";
 
-type Batch = {
-  id: number;
-  format: Format;
-  scanSize: ScanSize | null;
-  process: Process | null;
-  rolls: number;
+const ZERO_COUNTS: Counts = {
+  c41: { "35mm": 0, "120": 0 },
+  bw: { "35mm": 0, "120": 0 },
+  "scan-only": { "35mm": 0, "120": 0 },
 };
 
-type StepId =
-  | "core"
-  | "batchFormat"
-  | "batchScanSize"
-  | "batchProcess"
-  | "batchRolls"
-  | "batchList"
-  | "addons"
-  | "delivery"
-  | "summary";
-
-const CORE_CHOICES: { id: Core; name: string; hint: string }[] = [
-  { id: "develop-only", name: "Develop Only", hint: "just the negatives, no scans" },
-  { id: "develop-scan", name: "Develop + Scan", hint: "negatives and digital files" },
-  { id: "scan-only", name: "Scan Only", hint: "film you've already had developed" },
+const ROLL_TYPES: { id: RollType; name: string; hint: string }[] = [
+  { id: "c41", name: "Colour · C41", hint: "standard colour negative film" },
+  { id: "bw", name: "Black & White", hint: "black & white negative film" },
+  { id: "scan-only", name: "Already developed", hint: "just scan the negatives" },
 ];
 
-const FORMAT_CHOICES: { id: Format; name: string }[] = [
-  { id: "35mm", name: "35mm" },
-  { id: "120", name: "120" },
-];
-
-const SCAN_SIZE_CHOICES: { id: ScanSize; name: string; hint: string }[] = [
-  { id: "small", name: "Small", hint: "3000×2000" },
-  { id: "medium", name: "Medium", hint: "4500×3000" },
-  { id: "large", name: "Large", hint: "5400×3600" },
-];
-
-const PROCESS_CHOICES: { id: Process; name: string }[] = [
-  { id: "c41", name: "Colour · C41" },
-  { id: "bw", name: "Black & White" },
+const SCAN_TIER_CHOICES: { id: ScanTier; name: string; hint: string }[] = [
+  { id: "develop-only", name: "Develop Only", hint: "negatives, no scans" },
+  { id: "small", name: "Scan Small", hint: "3000×2000" },
+  { id: "medium", name: "Scan Medium", hint: "4500×3000" },
+  { id: "large", name: "Scan Large", hint: "5400×3600" },
 ];
 
 const DELIVERY_CHOICES: { id: Delivery; name: string; hint: string }[] = [
@@ -56,127 +35,111 @@ const DELIVERY_CHOICES: { id: Delivery; name: string; hint: string }[] = [
   { id: "post", name: "Send it by post", hint: "+€8.50 return shipping" },
 ];
 
-const PRICE_TABLE: Record<string, Record<Process, number>> = {
+const PRICE_TABLE: Record<string, Record<"c41" | "bw", number>> = {
   "develop-only": { c41: 5, bw: 8 },
-  "scan-only": { c41: 7.5, bw: 7.5 },
   "develop-scan:35mm:small": { c41: 13, bw: 16 },
   "develop-scan:35mm:medium": { c41: 16, bw: 19 },
   "develop-scan:35mm:large": { c41: 19, bw: 22 },
   "develop-scan:120": { c41: 16, bw: 19 },
 };
 
-function unitPrice(core: Core, format: Format, scanSize: ScanSize | null, process: Process | null) {
-  const p = process ?? "c41";
-  if (core === "develop-only") return PRICE_TABLE["develop-only"][p];
-  if (core === "scan-only") return PRICE_TABLE["scan-only"][p];
-  if (format === "120") return PRICE_TABLE["develop-scan:120"][p];
-  if (scanSize) return PRICE_TABLE[`develop-scan:35mm:${scanSize}`][p];
-  return 0;
+function priceFor(rollType: RollType, format: Format, scanTier: ScanTier | null) {
+  if (rollType === "scan-only") return 7.5;
+  if (!scanTier || scanTier === "develop-only") return PRICE_TABLE["develop-only"][rollType];
+  if (format === "120") return PRICE_TABLE["develop-scan:120"][rollType];
+  return PRICE_TABLE[`develop-scan:35mm:${scanTier}`][rollType];
 }
 
-// What's left to ask before a batch (one roll-type entry) is complete — skips
-// scan size for 120 (only one tier) and skips process for Scan Only (flat
-// price either way), so a simple roll never has to answer questions that
-// don't change anything about it.
-function nextDraftStep(
-  core: Core,
-  format: Format | null,
-  scanSize: ScanSize | null,
-  process: Process | null
-): StepId {
-  if (!format) return "batchFormat";
-  if (core === "develop-scan" && format === "35mm" && !scanSize) return "batchScanSize";
-  if (core !== "scan-only" && !process) return "batchProcess";
-  return "batchRolls";
-}
-
-function fromPreselect(id: string | null) {
+function fromPreselect(id: string | null): { scanTier: ScanTier | null; openScanOnly: boolean } {
   switch (id) {
     case "develop-only":
-      return { core: "develop-only" as Core, format: null, scanSize: null };
-    case "scan-only":
-      return { core: "scan-only" as Core, format: null, scanSize: null };
+      return { scanTier: "develop-only", openScanOnly: false };
     case "scan-small":
-      return { core: "develop-scan" as Core, format: "35mm" as Format, scanSize: "small" as ScanSize };
+      return { scanTier: "small", openScanOnly: false };
     case "scan-medium":
-      return { core: "develop-scan" as Core, format: "35mm" as Format, scanSize: "medium" as ScanSize };
+      return { scanTier: "medium", openScanOnly: false };
     case "scan-large":
-      return { core: "develop-scan" as Core, format: "35mm" as Format, scanSize: "large" as ScanSize };
-    case "scan-120":
-      return { core: "develop-scan" as Core, format: "120" as Format, scanSize: null };
+      return { scanTier: "large", openScanOnly: false };
+    case "scan-only":
+      return { scanTier: null, openScanOnly: true };
     default:
-      return { core: null as Core | null, format: null as Format | null, scanSize: null as ScanSize | null };
+      return { scanTier: null, openScanOnly: false };
   }
 }
-
-function batchLabel(core: Core, b: Batch) {
-  const bits: string[] = [b.format];
-  if (b.scanSize) bits.push(b.scanSize);
-  if (b.process) bits.push(b.process === "c41" ? "colour" : "black & white");
-  return `${b.rolls} roll${b.rolls === 1 ? "" : "s"} · ${bits.join(" · ")}`;
-}
-
-let batchCounter = 0;
 
 export function OrderPanel() {
   const { preselect } = useTab();
   const initial = fromPreselect(preselect);
 
-  const [core, setCore] = useState<Core | null>(initial.core);
-  const [batches, setBatches] = useState<Batch[]>([]);
-  const [format, setFormat] = useState<Format | null>(initial.format);
-  const [scanSize, setScanSize] = useState<ScanSize | null>(initial.scanSize);
-  const [process, setProcess] = useState<Process | null>(null);
-  const [rolls, setRolls] = useState(1);
+  const [open, setOpen] = useState<Record<RollType, boolean>>({
+    c41: false,
+    bw: false,
+    "scan-only": initial.openScanOnly,
+  });
+  const [counts, setCounts] = useState<Counts>(ZERO_COUNTS);
+  const [scanTier, setScanTier] = useState<ScanTier | null>(initial.scanTier);
   const [sleeve, setSleeve] = useState(false);
   const [printsOn, setPrintsOn] = useState(preselect === "prints");
   const [printsQty, setPrintsQty] = useState(24);
   const [delivery, setDelivery] = useState<Delivery | null>(null);
+  const [stepId, setStepId] = useState<StepId>("rolls");
 
-  const [history, setHistory] = useState<StepId[]>([]);
-  const [stepId, setStepId] = useState<StepId>(() =>
-    initial.core ? nextDraftStep(initial.core, initial.format, initial.scanSize, null) : "core"
-  );
+  const setCount = (type: RollType, format: Format, value: number) =>
+    setCounts((c) => ({ ...c, [type]: { ...c[type], [format]: Math.max(0, value) } }));
 
-  const goto = (next: StepId) => {
-    setHistory((h) => [...h, stepId]);
-    setStepId(next);
+  const toggle = (type: RollType) =>
+    setOpen((o) => {
+      const next = !o[type];
+      if (!next) setCounts((c) => ({ ...c, [type]: { "35mm": 0, "120": 0 } }));
+      return { ...o, [type]: next };
+    });
+
+  const developRolls = counts.c41["35mm"] + counts.c41["120"] + counts.bw["35mm"] + counts.bw["120"];
+  const scanOnlyRolls = counts["scan-only"]["35mm"] + counts["scan-only"]["120"];
+  const totalRolls = developRolls + scanOnlyRolls;
+
+  const needsScanTier = developRolls > 0;
+
+  const steps: StepId[] = ["rolls", ...(needsScanTier ? (["scanTier"] as StepId[]) : []), "addons", "delivery", "summary"];
+  const goNext = () => {
+    const i = steps.indexOf(stepId);
+    setStepId(steps[Math.min(i + 1, steps.length - 1)]);
   };
   const back = () => {
-    setHistory((h) => {
-      if (h.length === 0) return h;
-      setStepId(h[h.length - 1]);
-      return h.slice(0, -1);
-    });
+    const i = steps.indexOf(stepId);
+    if (i > 0) setStepId(steps[i - 1]);
   };
 
-  const resetDraft = () => {
-    setFormat(null);
-    setScanSize(null);
-    setProcess(null);
-    setRolls(1);
-  };
-
-  const addBatch = () => {
-    if (!core || !format) return;
-    batchCounter += 1;
-    setBatches((b) => [...b, { id: batchCounter, format, scanSize, process, rolls }]);
-    resetDraft();
-    goto("batchList");
-  };
-
-  const totalRolls = batches.reduce((s, b) => s + b.rolls, 0);
-  const batchesTotal = core ? batches.reduce((s, b) => s + unitPrice(core, b.format, b.scanSize, b.process) * b.rolls, 0) : 0;
+  const rollsTotal = (["c41", "bw", "scan-only"] as RollType[]).reduce(
+    (sum, type) =>
+      sum +
+      (["35mm", "120"] as Format[]).reduce(
+        (s, format) => s + priceFor(type, format, scanTier) * counts[type][format],
+        0
+      ),
+    0
+  );
   const sleeveTotal = sleeve ? totalRolls * 0.5 : 0;
   const printsTotal = printsOn ? printsQty * 0.35 : 0;
   const deliveryTotal = delivery === "post" ? 8.5 : 0;
-  const total = batchesTotal + sleeveTotal + printsTotal + deliveryTotal;
+  const total = rollsTotal + sleeveTotal + printsTotal + deliveryTotal;
 
-  const coreLabel = CORE_CHOICES.find((c) => c.id === core)?.name;
+  const scanTierLabel = SCAN_TIER_CHOICES.find((s) => s.id === scanTier)?.name;
   const deliveryLabel = DELIVERY_CHOICES.find((d) => d.id === delivery)?.name;
 
+  const rollLines = (["c41", "bw", "scan-only"] as RollType[]).flatMap((type) =>
+    (["35mm", "120"] as Format[])
+      .filter((format) => counts[type][format] > 0)
+      .map((format) => {
+        const n = counts[type][format];
+        const typeName = ROLL_TYPES.find((r) => r.id === type)!.name;
+        const tier = type !== "scan-only" && scanTierLabel ? ` · ${scanTierLabel}` : "";
+        return `${n} roll${n === 1 ? "" : "s"} · ${typeName} · ${format}${tier}`;
+      })
+  );
+
   const summaryLines = [
-    ...batches.map((b) => (core ? batchLabel(core, b) : "")),
+    ...rollLines,
     sleeve && "Add sleeves (+€0.50/roll)",
     printsOn && `Prints × ${printsQty}`,
     deliveryLabel && `Delivery: ${deliveryLabel}`,
@@ -184,76 +147,95 @@ export function OrderPanel() {
 
   const subject = encodeURIComponent("New Roots order");
   const body = encodeURIComponent(
-    `I'd like to order (${coreLabel}):\n— ${summaryLines.join("\n— ")}\n\nEstimated total: €${total.toFixed(2)}\n\nNotes: `
+    `I'd like to order:\n— ${summaryLines.join("\n— ")}\n\nEstimated total: €${total.toFixed(2)}\n\nNotes: `
   );
-
-  const draftCrumb = [coreLabel, format, scanSize, process && (process === "c41" ? "colour" : "black & white")]
-    .filter(Boolean)
-    .join(" · ");
 
   return (
     <CosmicShell light>
       <div className="mx-auto flex w-full max-w-xl flex-1 flex-col justify-center px-6 py-10">
-        {history.length > 0 && (
+        {stepId !== "rolls" && (
           <div className="mb-5 flex items-center justify-center gap-3 font-mono text-[10px] uppercase tracking-wider text-ink/40">
             <button onClick={back} className="underline-offset-2 hover:text-ink hover:underline">
               ← Back
             </button>
-            {stepId !== "batchList" && stepId !== "summary" && draftCrumb && (
-              <span className="truncate text-ink/55">{draftCrumb}</span>
-            )}
           </div>
         )}
 
-        {stepId === "core" && (
-          <Question title="What do you want developed?">
-            <PillRow>
-              {CORE_CHOICES.map((c) => (
-                <Pill
-                  key={c.id}
-                  active={core === c.id}
-                  onClick={() => {
-                    setCore(c.id);
-                    goto("batchFormat");
-                  }}
-                >
-                  {c.name}
-                  <span className="block font-sans text-[11px] italic normal-case opacity-60">{c.hint}</span>
-                </Pill>
+        {stepId === "rolls" && (
+          <div className="flex flex-col items-center gap-6">
+            <p className="text-center font-mono text-[11px] uppercase tracking-[0.2em] text-ink/45">
+              What&apos;s on your rolls?
+            </p>
+            <div className="w-full max-w-md space-y-2.5">
+              {ROLL_TYPES.map((rt) => (
+                <div key={rt.id} className="overflow-hidden rounded-2xl border border-ink/15">
+                  <button
+                    onClick={() => toggle(rt.id)}
+                    className={
+                      "flex w-full items-center justify-between px-5 py-3.5 text-left font-mono text-[12px] uppercase tracking-wide transition " +
+                      (open[rt.id] ? "bg-gold text-ink" : "text-ink/70 hover:bg-ink/[0.03] hover:text-ink")
+                    }
+                  >
+                    <span>
+                      {open[rt.id] ? "✓ " : ""}
+                      {rt.name}
+                      <span className="block font-sans text-[11px] italic normal-case opacity-60">{rt.hint}</span>
+                    </span>
+                    <span className="font-display text-lg">{open[rt.id] ? "–" : "+"}</span>
+                  </button>
+
+                  {open[rt.id] && (
+                    <div className="flex flex-col gap-3 border-t border-ink/10 bg-ink/[0.02] px-5 py-4 sm:flex-row sm:justify-around">
+                      {(["35mm", "120"] as Format[]).map((format) => (
+                        <div key={format} className="flex items-center justify-between gap-3 sm:flex-col sm:gap-2">
+                          <span className="font-mono text-[11px] uppercase tracking-wider text-ink/50">
+                            {format}
+                          </span>
+                          <div className="flex items-center gap-3">
+                            <button
+                              onClick={() => setCount(rt.id, format, counts[rt.id][format] - 1)}
+                              className="h-8 w-8 rounded-full border border-ink/25 font-display text-base text-ink transition hover:border-ink"
+                            >
+                              –
+                            </button>
+                            <span className="w-6 text-center font-display text-lg text-ink">
+                              {counts[rt.id][format]}
+                            </span>
+                            <button
+                              onClick={() => setCount(rt.id, format, counts[rt.id][format] + 1)}
+                              className="h-8 w-8 rounded-full border border-ink/25 font-display text-base text-ink transition hover:border-ink"
+                            >
+                              +
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
               ))}
-            </PillRow>
-          </Question>
+            </div>
+
+            <button
+              onClick={goNext}
+              disabled={totalRolls === 0}
+              className="bg-gold px-8 py-2.5 font-mono text-[12px] uppercase tracking-[0.1em] text-ink transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-30"
+            >
+              Continue →
+            </button>
+          </div>
         )}
 
-        {stepId === "batchFormat" && core && (
-          <Question title={batches.length ? "Next roll — what format?" : "What format is it?"}>
+        {stepId === "scanTier" && (
+          <Question title="How do you want it scanned?">
             <PillRow>
-              {FORMAT_CHOICES.map((f) => (
-                <Pill
-                  key={f.id}
-                  active={format === f.id}
-                  onClick={() => {
-                    setFormat(f.id);
-                    goto(nextDraftStep(core, f.id, null, process));
-                  }}
-                >
-                  {f.name}
-                </Pill>
-              ))}
-            </PillRow>
-          </Question>
-        )}
-
-        {stepId === "batchScanSize" && core && format && (
-          <Question title="What scan size?">
-            <PillRow>
-              {SCAN_SIZE_CHOICES.map((s) => (
+              {SCAN_TIER_CHOICES.map((s) => (
                 <Pill
                   key={s.id}
-                  active={scanSize === s.id}
+                  active={scanTier === s.id}
                   onClick={() => {
-                    setScanSize(s.id);
-                    goto(nextDraftStep(core, format, s.id, process));
+                    setScanTier(s.id);
+                    goNext();
                   }}
                 >
                   {s.name}
@@ -262,77 +244,6 @@ export function OrderPanel() {
               ))}
             </PillRow>
           </Question>
-        )}
-
-        {stepId === "batchProcess" && core && format && (
-          <Question title="What's on the roll?">
-            <PillRow>
-              {PROCESS_CHOICES.map((p) => (
-                <Pill
-                  key={p.id}
-                  active={process === p.id}
-                  onClick={() => {
-                    setProcess(p.id);
-                    goto(nextDraftStep(core, format, scanSize, p.id));
-                  }}
-                >
-                  {p.name}
-                </Pill>
-              ))}
-            </PillRow>
-          </Question>
-        )}
-
-        {stepId === "batchRolls" && (
-          <Question title="How many rolls like this?">
-            <div className="flex items-center gap-5">
-              <button
-                onClick={() => setRolls((r) => Math.max(1, r - 1))}
-                className="h-11 w-11 rounded-full border border-ink/25 font-display text-xl text-ink transition hover:border-ink"
-              >
-                –
-              </button>
-              <span className="w-12 text-center font-display text-3xl text-ink">{rolls}</span>
-              <button
-                onClick={() => setRolls((r) => r + 1)}
-                className="h-11 w-11 rounded-full border border-ink/25 font-display text-xl text-ink transition hover:border-ink"
-              >
-                +
-              </button>
-            </div>
-            <NextButton onClick={addBatch}>Add to order →</NextButton>
-          </Question>
-        )}
-
-        {stepId === "batchList" && core && (
-          <div className="flex flex-col items-center gap-6">
-            <p className="text-center font-mono text-[11px] uppercase tracking-[0.2em] text-ink/45">
-              Your rolls so far
-            </p>
-            <div className="w-full max-w-sm divide-y divide-ink/10 border-y border-ink/10">
-              {batches.map((b) => (
-                <div key={b.id} className="flex items-center justify-between gap-3 py-2.5">
-                  <span className="font-sans text-sm text-ink/80">{batchLabel(core, b)}</span>
-                  <button
-                    onClick={() => setBatches((bs) => bs.filter((x) => x.id !== b.id))}
-                    aria-label="Remove"
-                    className="font-mono text-xs text-ink/40 hover:text-red"
-                  >
-                    ✕
-                  </button>
-                </div>
-              ))}
-            </div>
-            <div className="flex flex-wrap justify-center gap-3">
-              <button
-                onClick={() => goto("batchFormat")}
-                className="rounded-2xl border border-ink/25 px-5 py-2.5 font-mono text-[12px] uppercase tracking-wide text-ink/70 transition hover:border-ink/60 hover:text-ink"
-              >
-                + Add another roll type
-              </button>
-              <NextButton onClick={() => goto("addons")}>Continue →</NextButton>
-            </div>
-          </div>
         )}
 
         {stepId === "addons" && (
@@ -365,7 +276,7 @@ export function OrderPanel() {
                 </button>
               </div>
             )}
-            <NextButton onClick={() => goto("delivery")}>Continue →</NextButton>
+            <NextButton onClick={goNext} />
           </Question>
         )}
 
@@ -378,7 +289,7 @@ export function OrderPanel() {
                   active={delivery === d.id}
                   onClick={() => {
                     setDelivery(d.id);
-                    goto("summary");
+                    goNext();
                   }}
                 >
                   {d.name}
@@ -391,9 +302,7 @@ export function OrderPanel() {
 
         {stepId === "summary" && (
           <div className="flex flex-col items-center">
-            <p className="text-center font-mono text-[11px] uppercase tracking-[0.2em] text-ink/45">
-              {coreLabel} — your order
-            </p>
+            <p className="text-center font-mono text-[11px] uppercase tracking-[0.2em] text-ink/45">Your order</p>
             <div className="mt-5 w-full max-w-sm divide-y divide-ink/10 border-y border-ink/10">
               {summaryLines.map((line) => (
                 <p key={line} className="py-2.5 text-center font-sans text-sm text-ink/80">
@@ -441,13 +350,13 @@ function PillRow({ children }: { children: React.ReactNode }) {
   return <div className="flex flex-wrap justify-center gap-2.5">{children}</div>;
 }
 
-function NextButton({ onClick, children }: { onClick: () => void; children: React.ReactNode }) {
+function NextButton({ onClick }: { onClick: () => void }) {
   return (
     <button
       onClick={onClick}
       className="bg-gold px-8 py-2.5 font-mono text-[12px] uppercase tracking-[0.1em] text-ink transition hover:brightness-110"
     >
-      {children}
+      Continue →
     </button>
   );
 }
