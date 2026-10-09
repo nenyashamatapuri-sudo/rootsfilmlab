@@ -76,7 +76,7 @@ body {
   animation: screen-in 0.32s ease-out both;
 }
 
-/* ---- Duotone: a black-to-white grain gradient, the site's base atmosphere ---- */
+/* ---- Duotone: black-to-white on Home, black-to-red everywhere else ---- */
 
 .duotone {
   position: relative;
@@ -92,22 +92,38 @@ body {
   );
 }
 
-/* ---- Grain: a fixed film-grain overlay sitting on top of the whole app ---- */
+.duotone-red {
+  position: relative;
+  background: linear-gradient(
+    165deg,
+    var(--color-stage) 0%,
+    var(--color-stage) 18%,
+    var(--color-ink) 32%,
+    var(--color-moss) 52%,
+    var(--color-red) 72%,
+    var(--color-red) 100%
+  );
+}
+
+/* ---- Grain: a fixed, two-frequency film-grain overlay over the whole app ---- */
 
 .grain-overlay {
   position: fixed;
   inset: 0;
   z-index: 60;
   pointer-events: none;
-  opacity: 0.45;
+  opacity: 0.6;
   mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-size: 180px 180px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch' result='t'/%3E%3CfeComponentTransfer%3E%3CfeFuncR type='linear' slope='2.4' intercept='-0.7'/%3E%3CfeFuncG type='linear' slope='2.4' intercept='-0.7'/%3E%3CfeFuncB type='linear' slope='2.4' intercept='-0.7'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='c'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.018' numOctaves='2' stitchTiles='stitch' result='t'/%3E%3CfeComponentTransfer%3E%3CfeFuncR type='linear' slope='2.6' intercept='-0.8'/%3E%3CfeFuncG type='linear' slope='2.6' intercept='-0.8'/%3E%3CfeFuncB type='linear' slope='2.6' intercept='-0.8'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23c)'/%3E%3C/svg%3E");
+  background-size:
+    160px 160px,
+    560px 560px;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .grain-overlay {
-    opacity: 0.3;
+    opacity: 0.4;
   }
 }
 

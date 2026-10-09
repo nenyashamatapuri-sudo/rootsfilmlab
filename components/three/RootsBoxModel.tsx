@@ -5,7 +5,7 @@ import { useFrame } from "@react-three/fiber";
 import { useGLTF } from "@react-three/drei";
 import * as THREE from "three";
 
-const MODEL_URL = "/models/roots-box.glb";
+const MODEL_URL = "/models/vintage-chrome-box.glb";
 
 const INTRO_HOLD = 0.12;
 const INTRO_DURATION = 1.3;

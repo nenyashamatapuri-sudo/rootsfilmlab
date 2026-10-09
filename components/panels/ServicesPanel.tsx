@@ -8,7 +8,6 @@ const SERVICES = [
   { id: "develop-only", name: "Develop Only", price: "€5.00", accent: "border-moss text-moss" },
   { id: "scan-only", name: "Scan Only", price: "€7.50", accent: "border-red text-red" },
   { id: "prints", name: "Prints", price: "€0.35", accent: "border-clay text-clay" },
-  { id: "film-post", name: "Film, by Post", price: "€8.00", accent: "border-pink text-pink" },
 ];
 
 export function ServicesPanel() {
@@ -21,7 +20,7 @@ export function ServicesPanel() {
           What we develop
         </p>
 
-        <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
+        <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
           {SERVICES.map((s) => (
             <button
               key={s.id}

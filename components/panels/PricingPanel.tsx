@@ -99,9 +99,6 @@ export function PricingPanel() {
 
             <div className="flex flex-wrap gap-x-6 gap-y-1 pt-4 font-mono text-[11px] text-ink/55">
               <span>
-                <b className="text-ink">Push:</b> +€2/stop
-              </span>
-              <span>
                 <b className="text-ink">Sleeve:</b> +€0.50/roll
               </span>
               <span>
