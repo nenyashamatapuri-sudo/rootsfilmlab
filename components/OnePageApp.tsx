@@ -5,13 +5,11 @@ import { TabContext, type Tab } from "./TabContext";
 import { TabBar } from "./TabBar";
 import { RunningHead } from "./RunningHead";
 import { HomePanel } from "./panels/HomePanel";
-import { ServicesPanel } from "./panels/ServicesPanel";
 import { PricingPanel } from "./panels/PricingPanel";
 import { OrderPanel } from "./panels/OrderPanel";
 
 const PANELS: Record<Tab, () => React.JSX.Element> = {
   home: HomePanel,
-  services: ServicesPanel,
   pricing: PricingPanel,
   order: OrderPanel,
 };

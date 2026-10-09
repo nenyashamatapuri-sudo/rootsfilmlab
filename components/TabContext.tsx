@@ -2,12 +2,11 @@
 
 import { createContext, useContext } from "react";
 
-export const TABS = ["home", "services", "pricing", "order"] as const;
+export const TABS = ["home", "pricing", "order"] as const;
 export type Tab = (typeof TABS)[number];
 
 export const TAB_LABELS: Record<Tab, string> = {
   home: "Home",
-  services: "Services",
   pricing: "Pricing",
   order: "Order",
 };
