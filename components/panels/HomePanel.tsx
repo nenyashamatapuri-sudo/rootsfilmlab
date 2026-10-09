@@ -38,7 +38,7 @@ export function HomePanel() {
           className="pointer-events-none absolute bottom-2 right-2 z-[5] w-[30%] max-w-[170px] rotate-2 drop-shadow-[0_14px_28px_rgba(0,0,0,0.6)] sm:bottom-4 sm:right-4 sm:w-[20%]"
         />
 
-        <div className="relative z-10 h-[64vh] w-full min-h-[360px] max-w-xl">
+        <div className="relative z-10 h-[70vh] w-full min-h-[380px] max-w-xl">
           <FilmBoxLazy />
         </div>
       </div>
@@ -58,11 +58,7 @@ export function HomePanel() {
         </button>
       </div>
 
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 hidden items-center justify-between px-6 pb-5 sm:flex">
-        <span className="pointer-events-auto flex items-center gap-2 rounded-full border border-paper/15 bg-ink/80 px-4 py-2 font-mono text-[10px] uppercase tracking-wider text-paper/80 backdrop-blur-sm">
-          <span className="h-1.5 w-1.5 rounded-full bg-gold" />
-          Click the box
-        </span>
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 hidden items-center justify-end px-6 pb-5 sm:flex">
         <span className="pointer-events-auto flex items-center gap-2 rounded-full border border-paper/15 bg-ink/80 px-4 py-2 font-mono text-[10px] uppercase tracking-wider text-paper/80 backdrop-blur-sm">
           <span className="h-1.5 w-1.5 rounded-full bg-moss" />
           hello@rootsfilmlab.nl

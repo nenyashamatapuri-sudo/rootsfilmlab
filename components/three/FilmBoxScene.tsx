@@ -2,6 +2,7 @@
 
 import { Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
+import { Environment } from "@react-three/drei";
 import { RootsBoxModel } from "./RootsBoxModel";
 
 function Loading() {
@@ -19,13 +20,15 @@ export default function FilmBoxScene() {
       <Canvas
         shadows
         dpr={[1, 1.75]}
-        camera={{ position: [0, 0.2, 3.6], fov: 32 }}
+        camera={{ position: [0, 0.15, 4.4], fov: 34 }}
         gl={{ alpha: true }}
       >
-        <ambientLight intensity={0.55} />
-        <directionalLight position={[2, 3, 3]} intensity={1.3} color="#e8a33d" castShadow />
-        <directionalLight position={[-2, 0.5, -1.5]} intensity={0.5} color="#7fae5a" />
-        <pointLight position={[0, 0.3, 2]} intensity={0.6} color="#c2285e" distance={6} />
+        <ambientLight intensity={0.35} />
+        <directionalLight position={[2.5, 3.5, 3]} intensity={1.8} color="#e8a33d" castShadow />
+        <directionalLight position={[-2.5, 1, -2]} intensity={0.8} color="#7fae5a" />
+        <pointLight position={[0, 0.5, 2.8]} intensity={0.9} color="#c2285e" distance={7} />
+        <pointLight position={[1.6, 1.6, 1.8]} intensity={0.7} color="#ffffff" distance={6} />
+        <Environment preset="studio" environmentIntensity={0.9} />
         <Suspense fallback={<Loading />}>
           <RootsBoxModel />
         </Suspense>
