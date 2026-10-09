@@ -75,31 +75,26 @@ function fromPreselect(id: string | null): { scanTier: ScanTier | null; openScan
 }
 
 // ---- Shopify checkout prep -------------------------------------------------
-// Fill these in once the real store exists and this goes live:
-//  - SHOPIFY_STORE_DOMAIN: the store's myshopify.com domain.
-//  - SHOPIFY_VARIANTS: one Shopify product-variant ID per priced line below,
-//    keyed the same way PRICE_TABLE is (plus "scan-only" and the add-ons).
-// With both filled in, buildShopifyCheckoutUrl() returns a real cart
-// permalink (https://shopify.dev/docs/api/ajax/reference/cart#cart-permalink)
-// that adds every line item and sends the customer straight into Shopify's
-// own checkout — no backend or API key needed for this redirect flow. Until
-// then the order button below falls back to emailing us the same breakdown.
-const SHOPIFY_STORE_DOMAIN = ""; // e.g. "roots-film-lab.myshopify.com"
+// buildShopifyCheckoutUrl() returns a real cart permalink
+// (https://shopify.dev/docs/api/ajax/reference/cart#cart-permalink) that adds
+// every line item and sends the customer straight into Shopify's own
+// checkout — no backend or API key needed for this redirect flow.
+const SHOPIFY_STORE_DOMAIN = "uqfjz0-cz.myshopify.com";
 const SHOPIFY_VARIANTS: Partial<Record<string, string>> = {
-  "develop-only:c41": "",
-  "develop-only:bw": "",
-  "develop-scan:35mm:small:c41": "",
-  "develop-scan:35mm:small:bw": "",
-  "develop-scan:35mm:medium:c41": "",
-  "develop-scan:35mm:medium:bw": "",
-  "develop-scan:35mm:large:c41": "",
-  "develop-scan:35mm:large:bw": "",
-  "develop-scan:120:c41": "",
-  "develop-scan:120:bw": "",
-  "scan-only": "",
-  "addon:sleeve": "",
-  "addon:prints": "",
-  "addon:post": "",
+  "develop-only:c41": "61147241021774",
+  "develop-only:bw": "61147241054542",
+  "develop-scan:35mm:small:c41": "61147241087310",
+  "develop-scan:35mm:small:bw": "61147241120078",
+  "develop-scan:35mm:medium:c41": "61147241152846",
+  "develop-scan:35mm:medium:bw": "61147241185614",
+  "develop-scan:35mm:large:c41": "61147241218382",
+  "develop-scan:35mm:large:bw": "61147241251150",
+  "develop-scan:120:c41": "61147241283918",
+  "develop-scan:120:bw": "61147241316686",
+  "scan-only": "61147246625102",
+  "addon:sleeve": "61147250262350",
+  "addon:prints": "61147251278158",
+  "addon:post": "61147252654414",
 };
 
 function shopifyLineKey(type: RollType, format: Format, scanTier: ScanTier | null) {
