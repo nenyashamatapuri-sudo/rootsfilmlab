@@ -24,6 +24,7 @@ export function OnePageApp() {
   return (
     <TabContext.Provider value={{ active, go: setActive, preselect, setPreselect }}>
       <div className="flex h-full min-h-full flex-col">
+        <div className="grain-overlay" aria-hidden />
         <TabBar />
         <RunningHead />
         <div key={active} className="screen-in min-h-0 flex-1">
