@@ -2,9 +2,32 @@
 
 import { CosmicShell } from "../CosmicShell";
 
+function RootsBackdrop() {
+  return (
+    <div
+      className="pointer-events-none absolute inset-0 z-0 flex items-center justify-center overflow-hidden"
+      aria-hidden
+    >
+      <span
+        className="rotate-90 select-none whitespace-nowrap font-display uppercase leading-none tracking-tight sm:rotate-0"
+        style={{
+          fontSize: "clamp(8rem, 45vw, 32rem)",
+          backgroundImage:
+            "linear-gradient(180deg, var(--color-paper) 0%, var(--color-paper) 30%, var(--color-red) 85%, var(--color-red) 100%)",
+          WebkitBackgroundClip: "text",
+          backgroundClip: "text",
+          color: "transparent",
+        }}
+      >
+        Roots
+      </span>
+    </div>
+  );
+}
+
 export function ContactPanel() {
   return (
-    <CosmicShell light>
+    <CosmicShell light backdrop={<RootsBackdrop />}>
       <div className="mx-auto flex w-full max-w-xl flex-1 flex-col items-center justify-center px-6 py-10 text-center">
         <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-ink/45">Get in touch</p>
         <p className="mt-4 max-w-sm font-sans text-sm italic text-ink/60">
