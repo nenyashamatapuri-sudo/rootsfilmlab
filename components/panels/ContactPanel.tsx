@@ -29,8 +29,8 @@ export function ContactPanel() {
   return (
     <CosmicShell light backdrop={<RootsBackdrop />}>
       <div className="mx-auto flex w-full max-w-xl flex-1 flex-col items-center justify-center px-6 py-10 text-center">
-        <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-ink/45">Get in touch</p>
-        <p className="mt-4 max-w-sm font-sans text-sm italic text-ink/60">
+        <p className="font-mono text-xs font-semibold uppercase tracking-[0.2em] text-red">Get in touch</p>
+        <p className="mt-4 max-w-sm font-sans text-base text-ink/80">
           Questions about an order, a roll gone astray, or just want to say hello — we&apos;re a quick
           message away.
         </p>
@@ -51,7 +51,7 @@ export function ContactPanel() {
           </a>
         </div>
 
-        <p className="mt-6 font-mono text-[10px] uppercase tracking-wider text-ink/35">
+        <p className="mt-6 font-mono text-xs font-semibold uppercase tracking-wider text-red">
           Amsterdam, NL — we reply within a day.
         </p>
       </div>

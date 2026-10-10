@@ -93,7 +93,6 @@ const SHOPIFY_VARIANTS: Partial<Record<string, string>> = {
   "develop-scan:120:bw": "61147241316686",
   "scan-only": "61147246625102",
   "addon:sleeve": "61147250262350",
-  "addon:prints": "61147251278158",
   "addon:post": "61147252654414",
 };
 
@@ -128,8 +127,6 @@ export function OrderPanel() {
   const [counts, setCounts] = useState<Counts>(ZERO_COUNTS);
   const [scanTier, setScanTier] = useState<ScanTier | null>(initial.scanTier);
   const [sleeve, setSleeve] = useState(false);
-  const [printsOn, setPrintsOn] = useState(preselect === "prints");
-  const [printsQty, setPrintsQty] = useState(24);
   const [delivery, setDelivery] = useState<Delivery | null>(null);
   const [stepId, setStepId] = useState<StepId>("rolls");
 
@@ -175,13 +172,11 @@ export function OrderPanel() {
   );
 
   const sleeveTotal = sleeve ? totalRolls * 0.5 : 0;
-  const printsTotal = printsOn ? printsQty * 0.35 : 0;
   const deliveryTotal = delivery === "post" ? 8.5 : 0;
   const deliveryLabel = DELIVERY_CHOICES.find((d) => d.id === delivery)?.name;
 
   const addonLines: LineItem[] = [
     sleeve && { label: "Sleeve the negatives", price: sleeveTotal },
-    printsOn && { label: `Prints × ${printsQty}`, price: printsTotal },
     deliveryLabel && { label: `Delivery: ${deliveryLabel}`, price: deliveryTotal },
   ].filter(Boolean) as LineItem[];
 
@@ -201,7 +196,6 @@ export function OrderPanel() {
         .map((format) => ({ variantKey: shopifyLineKey(type, format, scanTier), qty: counts[type][format] }))
     ),
     ...(sleeve ? [{ variantKey: "addon:sleeve", qty: totalRolls }] : []),
-    ...(printsOn ? [{ variantKey: "addon:prints", qty: printsQty }] : []),
     ...(delivery === "post" ? [{ variantKey: "addon:post", qty: 1 }] : []),
   ];
   const shopifyUrl = buildShopifyCheckoutUrl(shopifyLines);
@@ -210,14 +204,14 @@ export function OrderPanel() {
     <CosmicShell
       light
       below={
-        <div className="mx-auto h-56 w-full max-w-sm shrink-0 sm:h-64">
+        <div className="mx-auto h-40 w-full max-w-xs shrink-0 sm:h-48 lg:h-72 lg:w-56 xl:w-64">
           <RootsVisionLazy />
         </div>
       }
     >
       <div className="mx-auto flex w-full max-w-xl flex-1 flex-col justify-center px-6 py-10">
         {stepId !== "rolls" && (
-          <div className="mb-5 flex items-center justify-center gap-3 font-mono text-[10px] uppercase tracking-wider text-ink/40">
+          <div className="mb-5 flex items-center justify-center gap-3 font-mono text-xs font-semibold uppercase tracking-wider text-red">
             <button onClick={back} className="underline-offset-2 hover:text-ink hover:underline">
               ← Back
             </button>
@@ -226,7 +220,7 @@ export function OrderPanel() {
 
         {stepId === "rolls" && (
           <div className="flex flex-col items-center gap-6">
-            <p className="text-center font-mono text-[11px] uppercase tracking-[0.2em] text-ink/45">
+            <p className="text-center font-mono text-xs font-semibold uppercase tracking-[0.2em] text-red">
               What&apos;s on your rolls?
             </p>
             <div className="w-full max-w-md space-y-2.5">
@@ -242,10 +236,12 @@ export function OrderPanel() {
                     <span>
                       {open[rt.id] ? "✓ " : ""}
                       {rt.name}
-                      <span className="block font-sans text-[11px] italic normal-case opacity-60">{rt.hint}</span>
+                      <span className="block font-sans text-[13px] font-medium normal-case text-red/90">
+                        {rt.hint}
+                      </span>
                     </span>
                     <span className="flex items-center gap-3">
-                      <span className="font-mono text-[10px] normal-case tracking-normal opacity-70">
+                      <span className="font-mono text-xs font-semibold normal-case tracking-normal opacity-90">
                         {baseHint(rt.id)}
                       </span>
                       <span className="font-display text-lg">{open[rt.id] ? "–" : "+"}</span>
@@ -256,7 +252,7 @@ export function OrderPanel() {
                     <div className="flex flex-col gap-3 border-t border-ink/10 bg-ink/[0.02] px-5 py-4 sm:flex-row sm:justify-around">
                       {(["35mm", "120"] as Format[]).map((format) => (
                         <div key={format} className="flex items-center justify-between gap-3 sm:flex-col sm:gap-2">
-                          <span className="font-mono text-[11px] uppercase tracking-wider text-ink/50">
+                          <span className="font-mono text-xs font-bold uppercase tracking-wider text-ink/80">
                             {format}
                           </span>
                           <div className="flex items-center gap-3">
@@ -284,7 +280,7 @@ export function OrderPanel() {
               ))}
             </div>
             {needsScanTier && (
-              <p className="max-w-sm text-center font-mono text-[10px] uppercase tracking-wider text-ink/35">
+              <p className="max-w-sm text-center font-mono text-xs font-semibold uppercase tracking-wider text-red">
                 Exact price for Colour/B&amp;W rolls depends on the scan option, chosen next.
               </p>
             )}
@@ -320,7 +316,7 @@ export function OrderPanel() {
                     }}
                   >
                     {s.name}
-                    <span className="block font-sans text-[11px] italic normal-case opacity-60">
+                    <span className="block font-sans text-[13px] font-medium normal-case text-red/90">
                       {s.hint} · {caption}
                     </span>
                   </Pill>
@@ -335,31 +331,9 @@ export function OrderPanel() {
             <div className="flex flex-wrap justify-center gap-2.5">
               <Pill active={sleeve} onClick={() => setSleeve((v) => !v)}>
                 Sleeve the negatives
-                <span className="block font-sans text-[11px] italic normal-case opacity-60">+€0.50/roll</span>
-              </Pill>
-              <Pill active={printsOn} onClick={() => setPrintsOn((v) => !v)}>
-                Prints
-                <span className="block font-sans text-[11px] italic normal-case opacity-60">€0.35 each</span>
+                <span className="block font-sans text-[13px] font-medium normal-case text-red/90">+€0.50/roll</span>
               </Pill>
             </div>
-            {printsOn && (
-              <div className="flex items-center gap-4">
-                <span className="font-mono text-[11px] uppercase tracking-wider text-ink/50">How many?</span>
-                <button
-                  onClick={() => setPrintsQty((q) => Math.max(1, q - 1))}
-                  className="h-9 w-9 rounded-full border border-ink/25 font-display text-lg text-ink transition hover:border-ink"
-                >
-                  –
-                </button>
-                <span className="w-10 text-center font-display text-xl text-ink">{printsQty}</span>
-                <button
-                  onClick={() => setPrintsQty((q) => q + 1)}
-                  className="h-9 w-9 rounded-full border border-ink/25 font-display text-lg text-ink transition hover:border-ink"
-                >
-                  +
-                </button>
-              </div>
-            )}
             <NextButton onClick={goNext} />
           </Question>
         )}
@@ -377,7 +351,7 @@ export function OrderPanel() {
                   }}
                 >
                   {d.name}
-                  <span className="block font-sans text-[11px] italic normal-case opacity-60">{d.hint}</span>
+                  <span className="block font-sans text-[13px] font-medium normal-case text-red/90">{d.hint}</span>
                 </Pill>
               ))}
             </PillRow>
@@ -386,7 +360,9 @@ export function OrderPanel() {
 
         {stepId === "summary" && (
           <div className="flex flex-col items-center">
-            <p className="text-center font-mono text-[11px] uppercase tracking-[0.2em] text-ink/45">Your order</p>
+            <p className="text-center font-mono text-xs font-semibold uppercase tracking-[0.2em] text-red">
+              Your order
+            </p>
             <div className="mt-5 w-full max-w-sm divide-y divide-ink/10 border-y border-ink/10">
               {summaryItems.map((item) => (
                 <div key={item.label} className="flex items-center justify-between gap-4 py-2.5">
@@ -396,7 +372,7 @@ export function OrderPanel() {
               ))}
             </div>
             <p className="mt-5 font-display text-4xl text-red">€{total.toFixed(2)}</p>
-            <p className="mt-1 font-mono text-[10px] uppercase tracking-wider text-ink/40">Estimated total</p>
+            <p className="mt-1 font-mono text-xs font-bold uppercase tracking-wider text-ink/70">Estimated total</p>
 
             <div className="mt-7 flex w-full max-w-sm flex-col items-center gap-3">
               <a
@@ -410,19 +386,19 @@ export function OrderPanel() {
               <div className="flex flex-wrap items-center justify-center gap-4">
                 <a
                   href={mailtoHref}
-                  className="border border-ink/30 px-6 py-2.5 font-mono text-[11px] uppercase tracking-[0.1em] text-ink/80 transition hover:border-ink hover:text-ink"
+                  className="border border-ink/30 px-6 py-2.5 font-mono text-xs font-bold uppercase tracking-[0.1em] text-ink transition hover:border-ink hover:text-ink"
                 >
                   Email this order
                 </a>
                 <a
                   href="#"
-                  className="border border-ink/30 px-6 py-2.5 font-mono text-[11px] uppercase tracking-[0.1em] text-ink/80 transition hover:border-ink hover:text-ink"
+                  className="border border-ink/30 px-6 py-2.5 font-mono text-xs font-bold uppercase tracking-[0.1em] text-ink transition hover:border-ink hover:text-ink"
                 >
                   WhatsApp us
                 </a>
               </div>
             </div>
-            <p className="mt-6 text-center font-mono text-[10px] uppercase tracking-wider text-ink/35">
+            <p className="mt-6 text-center font-mono text-xs font-semibold uppercase tracking-wider text-red">
               {shopifyUrl
                 ? "Order & Pay hands this straight to Shopify checkout."
                 : "Shopify checkout isn't connected yet — Order & Pay emails us this exact breakdown for now."}
@@ -437,7 +413,7 @@ export function OrderPanel() {
 function Question({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div className="flex flex-col items-center gap-6">
-      <p className="text-center font-mono text-[11px] uppercase tracking-[0.2em] text-ink/45">{title}</p>
+      <p className="text-center font-mono text-xs font-semibold uppercase tracking-[0.2em] text-red">{title}</p>
       {children}
     </div>
   );

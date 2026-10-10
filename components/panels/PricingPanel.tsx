@@ -7,7 +7,6 @@ const SERVICES = [
   { id: "scan-small", name: "Develop + Scan", price: "€13.00", accent: "border-gold text-gold" },
   { id: "develop-only", name: "Develop Only", price: "€5.00", accent: "border-moss text-moss" },
   { id: "scan-only", name: "Scan Only", price: "€7.50", accent: "border-red text-red" },
-  { id: "prints", name: "Prints", price: "€0.35", accent: "border-clay text-clay" },
 ];
 
 const ROWS = [
@@ -60,12 +59,12 @@ export function PricingPanel() {
 
   return (
     <CosmicShell light>
-      <div className="mx-auto flex w-full max-w-4xl flex-1 flex-col justify-center px-6 py-8">
-        <p className="text-center font-mono text-[11px] uppercase tracking-[0.2em] text-ink/45">
+      <div className="mx-auto flex w-full max-w-4xl flex-1 flex-col justify-center px-6 py-6">
+        <p className="text-center font-mono text-xs font-semibold uppercase tracking-[0.2em] text-red">
           What we develop
         </p>
 
-        <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
+        <div className="mt-5 grid grid-cols-3 gap-3">
           {SERVICES.map((s) => (
             <button
               key={s.id}
@@ -73,25 +72,25 @@ export function PricingPanel() {
                 setPreselect(s.id);
                 go("order");
               }}
-              className={`group flex flex-col items-center gap-2 rounded-lg border border-ink/15 bg-ink/[0.02] px-4 py-6 text-center transition hover:border-current hover:bg-ink/[0.05] ${s.accent}`}
+              className={`group flex flex-col items-center gap-2 rounded-lg border border-ink/15 bg-ink/[0.02] px-4 py-5 text-center transition hover:border-current hover:bg-ink/[0.05] ${s.accent}`}
             >
               <span className="font-display text-sm tracking-wide text-ink">{s.name}</span>
-              <span className="font-mono text-xs opacity-80">from {s.price}</span>
+              <span className="font-mono text-xs font-bold opacity-90">from {s.price}</span>
             </button>
           ))}
         </div>
 
-        <p className="mt-6 text-center font-mono text-[10px] uppercase tracking-wider text-ink/35">
+        <p className="mt-4 text-center font-mono text-xs font-semibold uppercase tracking-wider text-red">
           Mix and match — one box, any combination.
         </p>
 
-        <p className="mt-10 text-center font-mono text-[11px] uppercase tracking-[0.2em] text-ink/45">
+        <p className="mt-6 text-center font-mono text-xs font-semibold uppercase tracking-[0.2em] text-red">
           Prices in euros, per roll
         </p>
 
-        <div className="mx-auto mt-6 w-full max-w-3xl overflow-x-auto">
+        <div className="mx-auto mt-4 w-full max-w-3xl overflow-x-auto">
           <div className="min-w-[460px]">
-            <div className="grid grid-cols-[2fr_1fr_0.8fr_0.8fr] gap-3 border-b border-ink/15 pb-2 font-mono text-[10px] uppercase tracking-wider text-ink/40">
+            <div className="grid grid-cols-[2fr_1fr_0.8fr_0.8fr] gap-3 border-b border-ink/15 pb-2 font-mono text-xs font-bold uppercase tracking-wider text-ink/70">
               <span>Option</span>
               <span>Format</span>
               <span className="text-right">C41</span>
@@ -105,19 +104,19 @@ export function PricingPanel() {
                   setPreselect(row.id);
                   go("order");
                 }}
-                className="grid w-full grid-cols-[2fr_1fr_0.8fr_0.8fr] items-center gap-3 border-b border-ink/10 py-4 text-left transition hover:bg-ink/[0.03]"
+                className="grid w-full grid-cols-[2fr_1fr_0.8fr_0.8fr] items-center gap-3 border-b border-ink/10 py-3 text-left transition hover:bg-ink/[0.03]"
               >
                 <span>
                   <span className="block font-display text-base leading-tight text-ink">{row.name}</span>
-                  <span className="font-sans text-[11px] italic text-ink/45">{row.note}</span>
+                  <span className="font-sans text-[13px] font-medium text-red/90">{row.note}</span>
                 </span>
-                <span className="font-mono text-[12px] text-ink/60">{row.format}</span>
+                <span className="font-mono text-[13px] font-semibold text-ink/80">{row.format}</span>
                 <span className="text-right font-display text-lg text-red">€{row.c41}</span>
                 <span className="text-right font-display text-lg text-ink/80">€{row.bw}</span>
               </button>
             ))}
 
-            <div className="flex flex-wrap gap-x-6 gap-y-1 pt-4 font-mono text-[11px] text-ink/55">
+            <div className="flex flex-wrap gap-x-6 gap-y-1 pt-4 font-mono text-[13px] font-semibold text-ink/80">
               <span>
                 <b className="text-ink">Sleeve:</b> +€0.50/roll
               </span>
@@ -126,7 +125,7 @@ export function PricingPanel() {
               </span>
             </div>
 
-            <div className="mt-5 flex flex-wrap gap-x-6 gap-y-1 border-t border-ink/10 pt-4 font-mono text-[11px] text-ink/55">
+            <div className="mt-3 flex flex-wrap gap-x-6 gap-y-1 border-t border-ink/10 pt-3 font-mono text-[13px] font-semibold text-ink/80">
               {EXTRAS.map((e) => (
                 <span key={e.name}>
                   {e.name} <b className="text-gold">{e.price}</b>
