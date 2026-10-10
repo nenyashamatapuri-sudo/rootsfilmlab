@@ -20,11 +20,20 @@ export function CosmicShell({
       <div className="duotone-red relative flex h-full min-h-full flex-col overflow-hidden">
         {rocks && <HoloRocks />}
         {backdrop}
-        <div className="relative z-10 flex min-h-0 flex-1 flex-col items-center justify-center gap-4 p-4 sm:p-6 lg:flex-row lg:gap-8 lg:p-10">
-          {below && <div className="order-2 shrink-0 lg:order-1">{below}</div>}
-          <div className="order-1 flex min-h-0 w-full max-w-4xl flex-col overflow-y-auto rounded-2xl border border-ink/10 bg-paper text-ink shadow-[0_30px_80px_rgba(0,0,0,0.5)] lg:order-2">
+        <div className="relative z-10 flex min-h-0 flex-1 flex-col items-center justify-center gap-4 p-4 sm:p-6 lg:grid lg:grid-cols-[1fr_auto_1fr] lg:gap-8 lg:p-10">
+          {below && (
+            <div className="order-2 flex shrink-0 justify-center lg:order-none lg:col-start-1 lg:justify-end">
+              {below}
+            </div>
+          )}
+          <div className="order-1 flex min-h-0 w-full max-w-4xl flex-col overflow-y-auto rounded-2xl border border-ink/10 bg-paper text-ink shadow-[0_30px_80px_rgba(0,0,0,0.5)] lg:order-none lg:col-start-2">
             {children}
           </div>
+          {below && (
+            <div className="hidden shrink-0 justify-start lg:order-none lg:col-start-3 lg:flex">
+              {below}
+            </div>
+          )}
         </div>
       </div>
     );
