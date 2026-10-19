@@ -42,13 +42,26 @@ export function ContactPanel() {
           >
             hello@rootsfilmlab.nl
           </a>
-          {/* TODO: point this at the real WhatsApp Business link once it exists */}
           <a
-            href="#"
+            href="https://wa.me/31652061168"
+            target="_blank"
+            rel="noopener noreferrer"
             className="border border-ink/30 px-7 py-3 font-mono text-[12px] uppercase tracking-[0.1em] text-ink/80 transition hover:border-ink hover:text-ink"
           >
             WhatsApp us
           </a>
+        </div>
+
+        <div className="mt-8 flex flex-col items-center gap-1">
+          <p className="font-mono text-xs font-semibold uppercase tracking-[0.2em] text-red">Drop-off</p>
+          <p className="font-sans text-base text-ink/80">Herengracht 258, Amsterdam</p>
+          <p className="font-mono text-xs font-semibold uppercase tracking-wider text-red">Monday–Friday</p>
+          <p className="mt-2 font-sans text-sm text-ink/60">
+            Text us before you come:{" "}
+            <a href="tel:+31652061168" className="underline hover:text-ink">
+              +31 6 52061168
+            </a>
+          </p>
         </div>
 
         <p className="mt-6 font-mono text-xs font-semibold uppercase tracking-wider text-red">

@@ -33,9 +33,12 @@ const SCAN_TIER_CHOICES: { id: ScanTier; name: string; hint: string }[] = [
 ];
 
 const DELIVERY_CHOICES: { id: Delivery; name: string; hint: string }[] = [
-  { id: "dropoff", name: "Drop it off", hint: "Amsterdam address, free" },
+  { id: "dropoff", name: "Drop it off", hint: "Herengracht 258 · Mon–Fri" },
   { id: "post", name: "Send it by post", hint: "+€8.50 return shipping" },
 ];
+
+const DROPOFF_PHONE_DISPLAY = "+31 6 52061168";
+const DROPOFF_PHONE_TEL = "+31652061168";
 
 const PRICE_TABLE: Record<string, Record<"c41" | "bw", number>> = {
   "develop-only": { c41: 5, bw: 8 },
@@ -355,6 +358,9 @@ export function OrderPanel() {
                 </Pill>
               ))}
             </PillRow>
+            <p className="max-w-sm text-center font-mono text-sm font-bold uppercase tracking-wider text-ink">
+              Dropping off? Text us first: {DROPOFF_PHONE_DISPLAY}
+            </p>
           </Question>
         )}
 
@@ -391,7 +397,9 @@ export function OrderPanel() {
                   Email this order
                 </a>
                 <a
-                  href="#"
+                  href={`https://wa.me/${DROPOFF_PHONE_TEL.replace(/[^0-9]/g, "")}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="border border-ink/30 px-6 py-2.5 font-mono text-xs font-bold uppercase tracking-[0.1em] text-ink transition hover:border-ink hover:text-ink"
                 >
                   WhatsApp us
