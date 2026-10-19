@@ -2,6 +2,9 @@
 
 import { CosmicShell } from "../CosmicShell";
 
+const DROPOFF_MAPS_URL =
+  "https://www.google.com/maps/place/Herengracht+258,+1016+BV+Amsterdam/@52.3715194,4.8839781,1278m/data=!3m2!1e3!4b1!4m6!3m5!1s0x47c609c3919d0c4d:0x8b83401282f3ec1c!8m2!3d52.3715162!4d4.886553!16s%2Fg%2F11rgfzdzcv?entry=ttu&g_ep=EgoyMDI2MTAxMy4wIKXMDSoASAFQAw%3D%3D";
+
 function RootsBackdrop() {
   return (
     <div
@@ -54,7 +57,14 @@ export function ContactPanel() {
 
         <div className="mt-8 flex flex-col items-center gap-1">
           <p className="font-mono text-xs font-semibold uppercase tracking-[0.2em] text-red">Drop-off</p>
-          <p className="font-sans text-base text-ink/80">Herengracht 258, Amsterdam</p>
+          <a
+            href={DROPOFF_MAPS_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-sans text-base text-ink/80 underline hover:text-ink"
+          >
+            Herengracht 258, Amsterdam
+          </a>
           <p className="font-mono text-xs font-semibold uppercase tracking-wider text-red">Monday–Friday</p>
           <p className="mt-2 font-sans text-sm text-ink/60">
             Text us before you come:{" "}

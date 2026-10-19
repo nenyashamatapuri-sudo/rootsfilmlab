@@ -9,6 +9,9 @@ const TAB_ACCENT: Record<Tab, string> = {
   contact: "text-moss",
 };
 
+const DROPOFF_MAPS_URL =
+  "https://www.google.com/maps/place/Herengracht+258,+1016+BV+Amsterdam/@52.3715194,4.8839781,1278m/data=!3m2!1e3!4b1!4m6!3m5!1s0x47c609c3919d0c4d:0x8b83401282f3ec1c!8m2!3d52.3715162!4d4.886553!16s%2Fg%2F11rgfzdzcv?entry=ttu&g_ep=EgoyMDI2MTAxMy4wIKXMDSoASAFQAw%3D%3D";
+
 export function TabBar() {
   const { active, go } = useTab();
 
@@ -29,6 +32,15 @@ export function TabBar() {
             Roots
           </span>
         </button>
+
+        <a
+          href={DROPOFF_MAPS_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="hidden shrink-0 whitespace-nowrap font-mono text-[10px] uppercase tracking-[0.18em] text-paper/55 transition hover:text-paper md:block"
+        >
+          Herengracht 258, Amsterdam
+        </a>
 
         <nav className="flex shrink-0 items-center gap-5 overflow-x-auto font-mono text-[10px] uppercase tracking-[0.18em] sm:gap-7 sm:text-[11px]">
           {TABS.map((tab) => {
