@@ -6,21 +6,26 @@ import { useTab } from "../TabContext";
 const STEPS = [
   {
     n: "01",
+    name: "Order & pay online",
+    detail: "Start your order and pay on the website — we don't take payment in store.",
+  },
+  {
+    n: "02",
     name: "Drop it off",
     detail: "Bring your rolls to Herengracht 258, or send them by post — Mon–Fri, 10am–6pm.",
   },
   {
-    n: "02",
+    n: "03",
     name: "Develop",
     detail: "Every roll runs through our Noritsu V30 processor — C41 and black & white, the same chemistry, roll after roll.",
   },
   {
-    n: "03",
+    n: "04",
     name: "Scan",
     detail: "We scan on a Fuji Frontier SP3000 and SP-500 — the machines pro labs trust for sharp, accurate scans.",
   },
   {
-    n: "04",
+    n: "05",
     name: "Deliver",
     detail: "Scans land in your inbox within days. Negatives mailed back, or ready for pickup.",
   },
@@ -36,12 +41,12 @@ export function ProcessPanel() {
 
   return (
     <CosmicShell light>
-      <div className="mx-auto flex w-full max-w-3xl flex-1 flex-col justify-center px-6 py-6">
+      <div className="mx-auto flex w-full max-w-4xl flex-1 flex-col justify-center px-6 py-6">
         <p className="text-center font-mono text-sm font-bold uppercase tracking-[0.2em] text-ink">
           How it works
         </p>
 
-        <div className="mt-5 grid gap-3 sm:grid-cols-2">
+        <div className="mt-5 grid gap-3 sm:grid-cols-3">
           {STEPS.map((s) => (
             <div
               key={s.n}
