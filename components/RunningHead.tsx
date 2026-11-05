@@ -21,7 +21,7 @@ export function RunningHead() {
         rel="noopener noreferrer"
         className="hidden truncate transition hover:text-paper/80 sm:inline"
       >
-        Roots Film Lab — Amsterdam, NL · Herengracht 258
+        Roots Film Lab — Amsterdam, NL · Herengracht 258 · Mon–Fri, 10am–6pm
       </a>
       <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full border border-paper/25 text-[9px] text-paper/70">
         {String(total).padStart(2, "0")}

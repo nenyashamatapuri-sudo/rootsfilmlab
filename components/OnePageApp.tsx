@@ -37,7 +37,7 @@ export function OnePageApp() {
         </div>
         <footer className="shrink-0 border-t border-paper/10 bg-ink px-4 py-2 text-center font-mono text-[9px] uppercase tracking-[0.15em] text-paper/35 sm:px-6">
           <a href={DROPOFF_MAPS_URL} target="_blank" rel="noopener noreferrer" className="transition hover:text-paper/60">
-            Roots Film Lab — Amsterdam, NL · Herengracht 258
+            Roots Film Lab — Amsterdam, NL · Herengracht 258 · Mon–Fri, 10am–6pm
           </a>
           {" "}· Est. 2026.
         </footer>

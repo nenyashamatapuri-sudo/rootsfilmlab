@@ -38,9 +38,9 @@ export function TabBar() {
           href={DROPOFF_MAPS_URL}
           target="_blank"
           rel="noopener noreferrer"
-          className="hidden shrink-0 whitespace-nowrap font-mono text-[10px] uppercase tracking-[0.18em] text-paper/55 transition hover:text-paper md:block"
+          className="hidden shrink-0 whitespace-nowrap font-mono text-[10px] uppercase tracking-[0.18em] text-paper/55 transition hover:text-paper lg:block"
         >
-          Herengracht 258, Amsterdam
+          Herengracht 258 · Mon–Fri, 10am–6pm
         </a>
 
         <nav className="flex shrink-0 items-center gap-5 overflow-x-auto font-mono text-[10px] uppercase tracking-[0.18em] sm:gap-7 sm:text-[11px]">
