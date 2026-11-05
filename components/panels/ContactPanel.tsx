@@ -65,7 +65,7 @@ export function ContactPanel() {
           >
             Herengracht 258, Amsterdam
           </a>
-          <p className="font-mono text-xs font-semibold uppercase tracking-wider text-red">Monday–Friday</p>
+          <p className="font-mono text-xs font-semibold uppercase tracking-wider text-red">Monday–Friday, 10am–6pm</p>
           <p className="mt-2 font-sans text-sm text-ink/60">
             Text us before you come:{" "}
             <a href="tel:+31652061168" className="underline hover:text-ink">

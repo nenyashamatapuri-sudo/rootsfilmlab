@@ -33,7 +33,7 @@ const SCAN_TIER_CHOICES: { id: ScanTier; name: string; hint: string }[] = [
 ];
 
 const DELIVERY_CHOICES: { id: Delivery; name: string; hint: string }[] = [
-  { id: "dropoff", name: "Drop it off", hint: "Herengracht 258 · Mon–Fri" },
+  { id: "dropoff", name: "Drop it off", hint: "Herengracht 258 · Mon–Fri, 10am–6pm" },
   { id: "post", name: "Send it by post", hint: "+€8.50 return shipping" },
 ];
 

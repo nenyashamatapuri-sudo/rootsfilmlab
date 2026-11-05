@@ -5,6 +5,7 @@ import { TABS, TAB_LABELS, useTab, type Tab } from "./TabContext";
 const TAB_ACCENT: Record<Tab, string> = {
   home: "text-gold",
   pricing: "text-gold",
+  process: "text-gold",
   order: "text-red",
   contact: "text-moss",
 };

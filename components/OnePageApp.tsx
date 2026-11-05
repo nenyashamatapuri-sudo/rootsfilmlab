@@ -6,6 +6,7 @@ import { TabBar } from "./TabBar";
 import { RunningHead } from "./RunningHead";
 import { HomePanel } from "./panels/HomePanel";
 import { PricingPanel } from "./panels/PricingPanel";
+import { ProcessPanel } from "./panels/ProcessPanel";
 import { OrderPanel } from "./panels/OrderPanel";
 import { ContactPanel } from "./panels/ContactPanel";
 
@@ -15,6 +16,7 @@ const DROPOFF_MAPS_URL =
 const PANELS: Record<Tab, () => React.JSX.Element> = {
   home: HomePanel,
   pricing: PricingPanel,
+  process: ProcessPanel,
   order: OrderPanel,
   contact: ContactPanel,
 };
