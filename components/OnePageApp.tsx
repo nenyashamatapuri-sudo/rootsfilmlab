@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { TabContext, type Tab } from "./TabContext";
 import { TabBar } from "./TabBar";
 import { RunningHead } from "./RunningHead";
@@ -9,6 +9,7 @@ import { PricingPanel } from "./panels/PricingPanel";
 import { ProcessPanel } from "./panels/ProcessPanel";
 import { OrderPanel } from "./panels/OrderPanel";
 import { ContactPanel } from "./panels/ContactPanel";
+import { pixelEvent } from "../lib/metaPixel";
 
 const DROPOFF_MAPS_URL =
   "https://www.google.com/maps/place/Herengracht+258,+1016+BV+Amsterdam/@52.3715194,4.8839781,1278m/data=!3m2!1e3!4b1!4m6!3m5!1s0x47c609c3919d0c4d:0x8b83401282f3ec1c!8m2!3d52.3715162!4d4.886553!16s%2Fg%2F11rgfzdzcv?entry=ttu&g_ep=EgoyMDI2MTAxMy4wIKXMDSoASAFQAw%3D%3D";
@@ -25,6 +26,15 @@ export function OnePageApp() {
   const [active, setActive] = useState<Tab>("home");
   const [preselect, setPreselect] = useState<string | null>(null);
   const Panel = PANELS[active];
+
+  const skipFirstPageView = useRef(true);
+  useEffect(() => {
+    if (skipFirstPageView.current) {
+      skipFirstPageView.current = false;
+      return;
+    }
+    pixelEvent("PageView");
+  }, [active]);
 
   return (
     <TabContext.Provider value={{ active, go: setActive, preselect, setPreselect }}>

@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import RootsVisionLazy from "../three/RootsVisionLazy";
 import { CosmicShell } from "../CosmicShell";
 import { useTab } from "../TabContext";
+import { pixelEvent } from "../../lib/metaPixel";
 
 type RollType = "c41" | "bw" | "scan-only";
 type Format = "35mm" | "120";
@@ -185,6 +186,18 @@ export function OrderPanel() {
 
   const summaryItems = [...rollLines, ...addonLines];
   const total = summaryItems.reduce((sum, item) => sum + item.price, 0);
+
+  useEffect(() => {
+    if (stepId === "summary" && total > 0) {
+      pixelEvent("InitiateCheckout", {
+        value: total,
+        currency: "EUR",
+        num_items: totalRolls,
+        content_name: "Roll developing order",
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [stepId]);
 
   const subject = encodeURIComponent("New Roots order");
   const body = encodeURIComponent(

@@ -9,7 +9,12 @@ export function HomePanel() {
 
   return (
     <CosmicShell rocks>
-      <p className="mx-auto mt-4 max-w-xs px-6 text-center font-sans text-[11px] italic leading-snug text-paper/55 sm:mt-6">
+      <div className="relative z-10 mx-auto mt-4 flex max-w-xs items-center justify-center gap-2 rounded-full border border-gold/40 bg-ink/70 px-4 py-1.5 text-center font-mono text-[10px] uppercase tracking-wider text-paper backdrop-blur-sm sm:mt-6">
+        <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-gold" />
+        Roll a Week — tag @rootsfilmlab, win a year of free developing
+      </div>
+
+      <p className="mx-auto mt-3 max-w-xs px-6 text-center font-sans text-[11px] italic leading-snug text-paper/55">
         <span className="font-semibold not-italic text-paper/80">Roots</span>{" "}
         <span className="not-italic text-paper/40">/ruːts/</span> — the part of a story
         that stays, no matter how far it travels.
