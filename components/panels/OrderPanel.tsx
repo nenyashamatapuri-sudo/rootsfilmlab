@@ -11,7 +11,7 @@ type Format = "35mm" | "120";
 type ScanTier = "develop-only" | "small" | "medium" | "large";
 type Delivery = "dropoff" | "post";
 type Counts = Record<RollType, Record<Format, number>>;
-type StepId = "rolls" | "scanTier" | "addons" | "delivery" | "summary";
+type StepId = "rolls" | "scanTier" | "addons" | "details" | "delivery" | "summary";
 type LineItem = { label: string; price: number };
 
 const ZERO_COUNTS: Counts = {
@@ -107,7 +107,10 @@ function shopifyLineKey(type: RollType, format: Format, scanTier: ScanTier | nul
   return `develop-scan:35mm:${scanTier}:${type}`;
 }
 
-function buildShopifyCheckoutUrl(lines: { variantKey: string; qty: number }[]) {
+function buildShopifyCheckoutUrl(
+  lines: { variantKey: string; qty: number }[],
+  opts: { email?: string; note?: string } = {}
+) {
   if (!SHOPIFY_STORE_DOMAIN) return null;
   const parts = lines
     .map(({ variantKey, qty }) => {
@@ -116,8 +119,15 @@ function buildShopifyCheckoutUrl(lines: { variantKey: string; qty: number }[]) {
     })
     .filter((p): p is string => Boolean(p));
   if (parts.length === 0) return null;
-  return `https://${SHOPIFY_STORE_DOMAIN}/cart/${parts.join(",")}`;
+  const base = `https://${SHOPIFY_STORE_DOMAIN}/cart/${parts.join(",")}`;
+  const params = new URLSearchParams();
+  if (opts.email) params.set("checkout[email]", opts.email);
+  if (opts.note) params.set("note", opts.note);
+  const qs = params.toString();
+  return qs ? `${base}?${qs}` : base;
 }
+
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export function OrderPanel() {
   const { preselect } = useTab();
@@ -131,6 +141,8 @@ export function OrderPanel() {
   const [counts, setCounts] = useState<Counts>(ZERO_COUNTS);
   const [scanTier, setScanTier] = useState<ScanTier | null>(initial.scanTier);
   const [sleeve, setSleeve] = useState(false);
+  const [keepBorders, setKeepBorders] = useState(false);
+  const [email, setEmail] = useState("");
   const [delivery, setDelivery] = useState<Delivery | null>(null);
   const [stepId, setStepId] = useState<StepId>("rolls");
 
@@ -150,7 +162,14 @@ export function OrderPanel() {
 
   const needsScanTier = developRolls > 0;
 
-  const steps: StepId[] = ["rolls", ...(needsScanTier ? (["scanTier"] as StepId[]) : []), "addons", "delivery", "summary"];
+  const steps: StepId[] = [
+    "rolls",
+    ...(needsScanTier ? (["scanTier"] as StepId[]) : []),
+    "addons",
+    "details",
+    "delivery",
+    "summary",
+  ];
   const goNext = () => {
     const i = steps.indexOf(stepId);
     setStepId(steps[Math.min(i + 1, steps.length - 1)]);
@@ -199,9 +218,11 @@ export function OrderPanel() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [stepId]);
 
+  const bordersLabel = keepBorders ? "Keep black borders (full frame)" : "No borders";
+
   const subject = encodeURIComponent("New Roots order");
   const body = encodeURIComponent(
-    `I'd like to order:\n${summaryItems.map((i) => `— ${i.label} — €${i.price.toFixed(2)}`).join("\n")}\n\nEstimated total: €${total.toFixed(2)}\n\nNotes: `
+    `I'd like to order:\n${summaryItems.map((i) => `— ${i.label} — €${i.price.toFixed(2)}`).join("\n")}\n\nEstimated total: €${total.toFixed(2)}\n\nSend scans to: ${email}\nBorders: ${bordersLabel}\n\nNotes: `
   );
   const mailtoHref = `mailto:hello@rootsfilmlab.nl?subject=${subject}&body=${body}`;
 
@@ -214,7 +235,10 @@ export function OrderPanel() {
     ...(sleeve ? [{ variantKey: "addon:sleeve", qty: totalRolls }] : []),
     ...(delivery === "post" ? [{ variantKey: "addon:post", qty: 1 }] : []),
   ];
-  const shopifyUrl = buildShopifyCheckoutUrl(shopifyLines);
+  const shopifyUrl = buildShopifyCheckoutUrl(shopifyLines, {
+    email,
+    note: `Send scans to: ${email} · Borders: ${bordersLabel}`,
+  });
 
   return (
     <CosmicShell
@@ -349,8 +373,32 @@ export function OrderPanel() {
                 Sleeve the negatives
                 <span className="block font-sans text-sm font-medium normal-case text-ink">+€0.50/roll</span>
               </Pill>
+              <Pill active={keepBorders} onClick={() => setKeepBorders((v) => !v)}>
+                Keep black borders
+                <span className="block font-sans text-sm font-medium normal-case text-ink">Free · full frame</span>
+              </Pill>
             </div>
             <NextButton onClick={goNext} />
+          </Question>
+        )}
+
+        {stepId === "details" && (
+          <Question title="Where should we send your scans?">
+            <div className="flex w-full max-w-sm flex-col items-center gap-2.5">
+              <input
+                type="email"
+                inputMode="email"
+                autoComplete="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="you@email.com"
+                className="w-full rounded-xl border border-ink/25 bg-transparent px-4 py-3 text-center font-sans text-base text-ink placeholder:text-ink/35 focus:border-ink focus:outline-none"
+              />
+              <p className="max-w-xs text-center font-mono text-sm font-medium text-ink/60">
+                We&apos;ll send your scans here as soon as they&apos;re ready.
+              </p>
+            </div>
+            <NextButton onClick={goNext} disabled={!EMAIL_RE.test(email)} />
           </Question>
         )}
 
@@ -382,6 +430,12 @@ export function OrderPanel() {
             <p className="text-center font-mono text-sm font-bold uppercase tracking-[0.2em] text-ink">
               Your order
             </p>
+            <div className="mt-3 flex flex-col items-center gap-1 font-sans text-sm text-ink/70">
+              <p>
+                Scans to <span className="font-semibold text-ink">{email}</span>
+              </p>
+              <p>{bordersLabel}</p>
+            </div>
             <div className="mt-5 w-full max-w-sm divide-y divide-ink/10 border-y border-ink/10">
               {summaryItems.map((item) => (
                 <div key={item.label} className="flex items-center justify-between gap-4 py-2.5">
@@ -444,11 +498,12 @@ function PillRow({ children }: { children: React.ReactNode }) {
   return <div className="flex flex-wrap justify-center gap-2.5">{children}</div>;
 }
 
-function NextButton({ onClick }: { onClick: () => void }) {
+function NextButton({ onClick, disabled }: { onClick: () => void; disabled?: boolean }) {
   return (
     <button
       onClick={onClick}
-      className="bg-gold px-8 py-2.5 font-mono text-[12px] uppercase tracking-[0.1em] text-ink transition hover:brightness-110"
+      disabled={disabled}
+      className="bg-gold px-8 py-2.5 font-mono text-[12px] uppercase tracking-[0.1em] text-ink transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-30"
     >
       Continue →
     </button>
