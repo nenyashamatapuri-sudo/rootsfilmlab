@@ -224,7 +224,7 @@ export function OrderPanel() {
   const body = encodeURIComponent(
     `I'd like to order:\n${summaryItems.map((i) => `— ${i.label} — €${i.price.toFixed(2)}`).join("\n")}\n\nEstimated total: €${total.toFixed(2)}\n\nSend scans to: ${email}\nBorders: ${bordersLabel}\n\nNotes: `
   );
-  const mailtoHref = `mailto:hello@rootsfilmlab.nl?subject=${subject}&body=${body}`;
+  const mailtoHref = `mailto:hello@rootsfilmlab.com?subject=${subject}&body=${body}`;
 
   const shopifyLines = [
     ...(["c41", "bw", "scan-only"] as RollType[]).flatMap((type) =>

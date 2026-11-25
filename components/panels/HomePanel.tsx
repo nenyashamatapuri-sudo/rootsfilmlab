@@ -66,7 +66,7 @@ export function HomePanel() {
       <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 hidden items-center justify-end px-6 pb-5 sm:flex">
         <span className="pointer-events-auto flex items-center gap-2 rounded-full border border-paper/15 bg-ink/80 px-4 py-2 font-mono text-[10px] uppercase tracking-wider text-paper/80 backdrop-blur-sm">
           <span className="h-1.5 w-1.5 rounded-full bg-moss" />
-          hello@rootsfilmlab.nl
+          hello@rootsfilmlab.com
         </span>
       </div>
     </CosmicShell>

@@ -40,10 +40,10 @@ export function ContactPanel() {
 
         <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
           <a
-            href="mailto:hello@rootsfilmlab.nl"
+            href="mailto:hello@rootsfilmlab.com"
             className="bg-gold px-7 py-3 font-mono text-[12px] uppercase tracking-[0.1em] text-ink transition hover:brightness-110"
           >
-            hello@rootsfilmlab.nl
+            hello@rootsfilmlab.com
           </a>
           <a
             href="https://wa.me/31652061168"
